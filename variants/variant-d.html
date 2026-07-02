@@ -497,6 +497,19 @@ section { padding: 6rem 0 0; }
 .m-card .mt { font-family: var(--mono); font-size: 0.72rem; color: var(--fog-dim); margin-top: auto; }
 
 /* ---------- footer ---------- */
+/* ---------- notes ---------- */
+.notes-lede { color: var(--fog-dim); max-width: 56ch; margin-bottom: 1.6rem; }
+.note-row { display: grid; grid-template-columns: 9.5rem 1fr; gap: 1.4rem; padding: 1.15rem 0; border-top: 1px solid var(--line); align-items: baseline; }
+.note-row:last-of-type { border-bottom: 1px solid var(--line); }
+.note-row .d { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em; color: var(--fog-dim); }
+.note-row h3 { font-size: 1.15rem; font-weight: 500; letter-spacing: -0.01em; }
+.note-row h3 a { color: #eaf5ec; text-decoration: none; transition: color 0.25s ease; }
+.note-row h3 a:hover { color: var(--glow); }
+.note-row .ex { margin-top: 0.3rem; font-size: 0.95rem; color: var(--fog-dim); max-width: 62ch; }
+.notes-all { display: inline-block; margin-top: 1.5rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--glow-dim); text-decoration: none; }
+.notes-all:hover { color: var(--glow); }
+@media (max-width: 640px) { .note-row { grid-template-columns: 1fr; gap: 0.2rem; } }
+
 footer { margin-top: 6rem; border-top: 1px solid var(--line); background: var(--pine); position: relative; z-index: 2; }
 .foot-inner { max-width: 1240px; margin: 0 auto; padding: 3.4rem 2.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.6rem; }
 footer .fm { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 600; letter-spacing: -0.02em; color: #eaf5ec; }
@@ -537,7 +550,7 @@ footer .fc a:hover { text-decoration: underline; }
     <li><a href="#talks">Talks</a></li>
     <li><a href="#roles">Roles</a></li>
     <li><a href="#media">Media</a></li>
-    <li><a href="/notes.html">Notes</a></li>
+    <li><a href="#notes">Notes</a></li>
   </ul>
 </nav>
 
@@ -672,6 +685,15 @@ footer .fc a:hover { text-decoration: underline; }
   <div class="wrap">
     <div class="sec-head reveal"><span class="tag">08</span><h2>Media</h2><span class="line"></span></div>
     <div class="media-grid" id="media-grid"></div>
+  </div>
+</section>
+
+<section id="notes">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="tag">09</span><h2>Notes</h2><span class="line"></span></div>
+    <p class="notes-lede reveal">Short, dated entries — announcements, quick thoughts and work in progress.</p>
+    <div id="notes-list"></div>
+    <a class="notes-all reveal" href="/notes.html">All notes →</a>
   </div>
 </section>
 
@@ -889,6 +911,19 @@ document.getElementById("media-grid").innerHTML = media.media.map(m => {
     </div>
   </a>`;
 }).join("");
+
+/* notes — latest three; the section stays quiet if notes.json is missing */
+try {
+  const { notes } = await (await fetch("/data/notes.json")).json();
+  document.getElementById("notes-list").innerHTML = notes.slice(0, 3).map(n => `
+    <div class="note-row reveal">
+      <span class="d">${new Date(n.date + "T00:00:00").toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}</span>
+      <div>
+        <h3><a href="/notes.html#${n.slug}">${n.title}</a></h3>
+        ${n.excerpt ? `<p class="ex">${n.excerpt}</p>` : ""}
+      </div>
+    </div>`).join("");
+} catch { document.getElementById("notes").style.display = "none"; }
 
 /* reveals */
 const io = new IntersectionObserver(es => {
