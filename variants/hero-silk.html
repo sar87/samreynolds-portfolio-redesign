@@ -42,7 +42,7 @@ h1 .g{color:var(--glow);}h1 .thin{font-weight:200;font-style:italic;}
     <p class="sub">Working towards the responsible integration of AI into conservation research, practice and decision-making.</p>
     <div class="identity"><span class="idn">Sam Reynolds</span> · <span class="idrole">Assistant Research Professor</span><span class="idaffil">Conservation Research Institute · University of Cambridge</span></div>
   </div>
-  <p class="hint">drag your cursor — comb the silk</p>
+  <p class="hint">drag to comb the silk — hold still and it swirls</p>
 </header>
 <script type="module">
 const canvas=document.getElementById('anim'),ctx=canvas.getContext('2d');
@@ -91,9 +91,9 @@ function frame(){
     const dx=p.x-mouse.x,dy=p.y-mouse.y,d2=dx*dx+dy*dy;
     if(d2<R2){
       const f=1-d2/R2,fw=f*f,d=Math.sqrt(d2)+.001;
-      vx+=mvx*fw*1.1-dy/d*f*0.5;                       /* comb: strong drag along cursor motion */
-      vy+=mvy*fw*1.1+dx/d*f*0.5;
-      bright=f*(0.25+mspeed*0.75);                     /* flares brighter the faster you comb */
+      vx+=mvx*fw*1.1+(-dy/d*1.7-dx/d*0.45)*fw;         /* comb + slight whirlpool: orbit with gentle inward pull */
+      vy+=mvy*fw*1.1+( dx/d*1.7-dy/d*0.45)*fw;
+      bright=f*(0.3+mspeed*0.7);                       /* flares brighter the faster you comb */
     }
     const px=p.x,py=p.y;
     p.x+=vx*0.9;p.y+=vy*0.9;
