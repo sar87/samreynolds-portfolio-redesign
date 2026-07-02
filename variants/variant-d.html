@@ -82,35 +82,41 @@ body::before {
 }
 .hero .kicker::before { content: ""; width: 40px; height: 1px; background: var(--glow-dim); }
 .hero h1 {
-  font-size: clamp(2.8rem, 7.6vw, 6.4rem);
+  font-size: clamp(3rem, 8.4vw, 6.8rem);
   font-weight: 600;
-  line-height: 1.0;
-  letter-spacing: -0.03em;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
   color: #eaf5ec;
-  max-width: 16ch;
 }
 .hero h1 .g { color: var(--glow); }
-.hero h1 .thin { font-weight: 200; font-style: italic; }
+.hero .tagline {
+  margin-top: 1.3rem;
+  max-width: 22ch;
+  font-size: clamp(1.5rem, 3vw, 2.35rem);
+  font-weight: 300; line-height: 1.18; letter-spacing: -0.01em;
+  color: #cfe0d4;
+}
+.hero .tagline .g { color: var(--glow); }
+.hero .tagline .thin { font-weight: 200; font-style: italic; }
 .hero .sub {
-  margin-top: 1.8rem;
-  max-width: 52ch;
+  margin-top: 1.6rem;
+  max-width: 54ch;
   font-size: clamp(1rem, 1.4vw, 1.2rem);
   color: var(--fog);
 }
 .hero .identity {
-  margin-top: 2.4rem; padding-top: 1.5rem;
+  margin-top: 1.9rem; padding-top: 1.4rem;
   border-top: 1px solid var(--line);
   max-width: 54ch;
 }
-.hero .identity .idn { font-size: 1.2rem; font-weight: 600; color: #eaf5ec; letter-spacing: -0.01em; }
-.hero .identity .idrole { font-size: 1.2rem; font-weight: 300; color: var(--glow); }
+.hero .identity .idrole { font-size: 1.1rem; font-weight: 400; color: var(--glow); }
 .hero .identity .idaffil {
   display: block; margin-top: 0.4rem;
   font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--fog-dim);
 }
-.hero .kicker, .hero h1, .hero .sub, .hero .identity { opacity: 0; transform: translateY(20px); animation: up 1s cubic-bezier(0.22,1,0.36,1) forwards; }
-.hero h1 { animation-delay: 0.12s; } .hero .sub { animation-delay: 0.26s; } .hero .identity { animation-delay: 0.4s; }
+.hero .kicker, .hero h1, .hero .tagline, .hero .sub, .hero .identity { opacity: 0; transform: translateY(20px); animation: up 1s cubic-bezier(0.22,1,0.36,1) forwards; }
+.hero h1 { animation-delay: 0.12s; } .hero .tagline { animation-delay: 0.24s; } .hero .sub { animation-delay: 0.36s; } .hero .identity { animation-delay: 0.48s; }
 @keyframes up { to { opacity: 1; transform: none; } }
 .hero .down {
   position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
@@ -538,10 +544,11 @@ footer .fc a:hover { text-decoration: underline; }
   <canvas id="hero-anim"></canvas>
   <div class="hero-inner">
     <p class="kicker">AI · Conservation · Ecology</p>
-    <h1>Teaching machines to read <span class="g">every word</span> ever written <span class="thin">about nature.</span></h1>
-    <p class="sub">I develop AI systems that gather and synthesise the world's conservation evidence — so that decisions about nature are informed by everything we know.</p>
+    <h1>Sam Reynolds<span class="g">.</span></h1>
+    <p class="tagline">Teaching machines to read <span class="g">every word</span> ever written <span class="thin">about nature.</span></p>
+    <p class="sub">Working towards the responsible integration of AI into conservation research and decision-making — so that the tools shaping nature's future are transparent, trustworthy and grounded in evidence.</p>
     <div class="identity">
-      <span class="idn">Sam Reynolds</span> · <span class="idrole">Assistant Research Professor</span>
+      <span class="idrole">Assistant Research Professor</span>
       <span class="idaffil">Conservation Research Institute · University of Cambridge</span>
     </div>
   </div>
