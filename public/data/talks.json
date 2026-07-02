@@ -1,6 +1,114 @@
 {
   "talks": [
     {
+      "id": "aria-workshop-plenary-2026",
+      "title": "Using AI to understand Nature",
+      "venue": "ARIA Workshop Plenary, Cambridge",
+      "date": "2026-01-07"
+    },
+    {
+      "id": "conservation-evidence-conference-2026",
+      "title": "Using AI to understand what works in Conservation",
+      "venue": "Conservation Evidence Conference, Cambridge",
+      "date": "2026-01-08"
+    },
+    {
+      "id": "cambridge-mst-ai-ethics-2026",
+      "title": "Panel discussion on AI, ethics and society",
+      "venue": "Cambridge MSt in AI Ethics & Society, Cambridge",
+      "date": "2026-01-09"
+    },
+    {
+      "id": "nz-terrestrial-ecology-forum-2026",
+      "title": "Conservation, Evidence and AI",
+      "venue": "New Zealand Terrestrial Ecology Forum, Online",
+      "date": "2026-02-18"
+    },
+    {
+      "id": "defra-evidence-community-conference-2026",
+      "title": "AI and Rapid Evidence Reviews (workshop for ~200 people)",
+      "venue": "DEFRA Evidence Community Conference, The Oval, London",
+      "date": "2026-03-12"
+    },
+    {
+      "id": "springer-nature-summit-2026",
+      "title": "Developing AI technologies to streamline evidence collation",
+      "venue": "Springer Nature UK & Ireland Summit, Birmingham",
+      "date": "2026-03-18"
+    },
+    {
+      "id": "digital-statecraft-academy-2026",
+      "title": "The inevitable rise of Large Language Models in government decision making",
+      "venue": "Digital Statecraft Academy, Cambridge",
+      "date": "2026-04-22"
+    },
+    {
+      "id": "natural-england-2026",
+      "title": "Using AI in evidence reviews & supporting casework",
+      "venue": "Natural England, Online",
+      "date": "2026-04-23"
+    },
+    {
+      "id": "aslo-sil-2026",
+      "title": "AI-assisted Living Evidence Databases for understanding what works in conservation",
+      "venue": "ASLO-SIL, Montreal, Canada",
+      "date": "2026-05-14"
+    },
+    {
+      "id": "ucl-pedagogical-tools-2026",
+      "title": "AI use in pedagogical tools",
+      "venue": "University College London, London",
+      "date": "2026-05-28"
+    },
+    {
+      "id": "cambridge-data-driven-discovery-2026",
+      "title": "Climate Grant Writing Panel",
+      "venue": "Cambridge Centre for Data Driven Discovery, Cambridge",
+      "date": "2026-06-02"
+    },
+    {
+      "id": "earthshot-prize-team-2026",
+      "title": "Conservation Evidence: AI for evidence synthesis and decision making",
+      "venue": "Earthshot Prize Team, Cambridge",
+      "date": "2026-06-04"
+    },
+    {
+      "id": "world-biodiversity-forum-2026",
+      "title": "AI for reviewing conservation evidence",
+      "venue": "World Biodiversity Forum, Davos, Switzerland",
+      "date": "2026-06-14"
+    },
+    {
+      "id": "desnz-lunch-learn-2026",
+      "title": "AI for evidence synthesis and policy decision making",
+      "venue": "DESNZ Lunch and Learn Seminar, London",
+      "date": "2026-06-29"
+    },
+    {
+      "id": "houses-of-parliament-2026",
+      "title": "The Conservation Copilot and AI in decision making",
+      "venue": "Houses of Parliament, London",
+      "date": "2026-06-29"
+    },
+    {
+      "id": "conservation-connect-2026",
+      "title": "AI in conservation decision making and evidence synthesis",
+      "venue": "Conservation Connect, Online",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "defra-data-information-festival-2026",
+      "title": "AI and Rapid Evidence Reviews",
+      "venue": "DEFRA Group Data and Information Festival, London",
+      "date": "2026-09-07"
+    },
+    {
+      "id": "cambridge-sustainability-leadership-2026",
+      "title": "Sustainability Leadership Seminar",
+      "venue": "Cambridge University Masters in Sustainability Leadership, Cambridge",
+      "date": "2026-12-15"
+    },
+    {
       "id": "wildlife-trust-keynote-2025",
       "title": "Key messages for the Wildlife Trust from the AI Horizon Scan",
       "venue": "Wildlife Trust Annual Meeting, Cambridge",

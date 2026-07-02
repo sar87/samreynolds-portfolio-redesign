@@ -1,0 +1,121 @@
+{
+  "awards": [
+    {
+      "id": "cci-catalyst-grant-2026",
+      "year": 2026,
+      "title": "CCI Catalyst Grant",
+      "funder": "Cambridge Conservation Initiative",
+      "amount": "£20,000",
+      "description": "The practical application of AI for conservation organisations: navigating opportunities, costs, and trade-offs.",
+      "status": "awarded"
+    },
+    {
+      "id": "aicam-aidea-sprint-2025",
+      "year": 2025,
+      "title": "ai@CAM AI-dea Sprint Project",
+      "funder": "ai@CAM",
+      "amount": "£25,000",
+      "description": "Six-month project to build an agentic natural language interface for Conservation Evidence.",
+      "status": "awarded"
+    },
+    {
+      "id": "macarthur-foundation-2025",
+      "year": 2025,
+      "title": "MacArthur Foundation Donation",
+      "funder": "MacArthur Foundation",
+      "amount": "$1,000,000",
+      "description": "Donation to create a Traceable AI Pipeline for Conservation and Education.",
+      "status": "awarded"
+    },
+    {
+      "id": "hans-wilsdorf-fondation-2024",
+      "year": 2024,
+      "title": "Hans Wilsdorf Fondation Grant",
+      "funder": "Hans Wilsdorf Fondation",
+      "amount": "£450,000",
+      "description": "Two-year grant to create the Conservation Evidence AI Pipeline.",
+      "status": "awarded"
+    },
+    {
+      "id": "cci-collaborative-ginko-2024",
+      "year": 2024,
+      "title": "CCI Collaborative Grant",
+      "funder": "Ginko Foundation",
+      "amount": "£75,000",
+      "description": "Grant to create an invasive species management platform.",
+      "status": "awarded"
+    },
+    {
+      "id": "aicam-aideas-award-2024",
+      "year": 2024,
+      "title": "ai@CAM AI-deas Award",
+      "funder": "ai@CAM",
+      "amount": "£150,000",
+      "description": "Two-year grant to create the AI for Climate and Nature group.",
+      "status": "awarded"
+    },
+    {
+      "id": "bbsrc-iaa-pump-priming-2022",
+      "year": 2022,
+      "title": "BBSRC Impact Accelerator Pump Priming Award",
+      "funder": "BBSRC",
+      "amount": "£15,000",
+      "description": "Grant linked to the success of my previous Impact Accelerator award.",
+      "status": "awarded"
+    },
+    {
+      "id": "bbsrc-iaa-2021",
+      "year": 2021,
+      "title": "BBSRC Impact Accelerator Award",
+      "funder": "BBSRC",
+      "amount": "£40,000",
+      "description": "Grant linked to my PhD research.",
+      "status": "awarded"
+    },
+    {
+      "id": "bbsrc-dtp-studentship-2016",
+      "year": 2016,
+      "title": "BBSRC DTP Studentship",
+      "funder": "BBSRC",
+      "amount": "~£100,000",
+      "description": "Funded PhD place at the University of Cambridge.",
+      "status": "awarded"
+    },
+    {
+      "id": "masters-course-prize-2013",
+      "year": 2013,
+      "title": "Masters Course Prize",
+      "funder": "University of Warwick",
+      "amount": "",
+      "description": "Awarded to the student with the highest marks.",
+      "status": "awarded"
+    },
+    {
+      "id": "masters-presentation-prize-2013",
+      "year": 2013,
+      "title": "Masters Research Presentation Prize",
+      "funder": "University of Warwick",
+      "amount": "",
+      "description": "Awarded for the best research presentation.",
+      "status": "awarded"
+    },
+    {
+      "id": "life-sciences-scholarship-2012",
+      "year": 2012,
+      "title": "Life Sciences Departmental Scholarship",
+      "funder": "University of Warwick",
+      "amount": "£2,000",
+      "description": "Prize-winning essay.",
+      "status": "awarded"
+    },
+    {
+      "id": "nerc-ai-environmental-science-2026",
+      "year": 2026,
+      "title": "NERC AI for Environmental Science (Phase One)",
+      "funder": "NERC",
+      "amount": "£400,000",
+      "description": "Agentic AI to Realise Decisions based on Evidence for Nature. Decision expected July 2026.",
+      "status": "submitted"
+    }
+  ]
+}

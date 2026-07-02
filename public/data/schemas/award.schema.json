@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "award.schema.json",
+  "title": "Awards Schema",
+  "description": "Schema for grants, scholarships and awards",
+  "type": "object",
+  "required": ["awards"],
+  "properties": {
+    "awards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "year", "title", "description"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the award"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1900,
+            "maximum": 2100,
+            "description": "Year awarded or submitted"
+          },
+          "title": {
+            "type": "string",
+            "description": "Award, grant or scholarship name"
+          },
+          "funder": {
+            "type": "string",
+            "description": "Funding body or awarding institution"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Monetary value as displayed (may be empty for non-monetary prizes)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Short description of the award and its purpose"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["awarded", "submitted"],
+            "description": "Whether the grant is awarded or under review"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

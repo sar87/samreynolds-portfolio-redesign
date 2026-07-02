@@ -1,0 +1,52 @@
+{
+  "roles": [
+    {
+      "id": "cser-mphil-assessor",
+      "period": "2026 – Ongoing",
+      "title": "Assessor, Centre for the Study of Existential Risk MPhil",
+      "detail": "Global Risk and Resilience, University of Cambridge"
+    },
+    {
+      "id": "solace-ai-stakeholder",
+      "period": "2026 – Ongoing",
+      "title": "Invited member, Solace-AI Stakeholder Group",
+      "detail": ""
+    },
+    {
+      "id": "defra-eesc-of-practice",
+      "period": "2026 – Ongoing",
+      "title": "Invited member, Environmental Evidence Synthesis Community of Practice",
+      "detail": "DEFRA"
+    },
+    {
+      "id": "iucn-technical-notes-review",
+      "period": "2026",
+      "title": "Reviewer, IUCN technical notes on AI applications in restoration",
+      "detail": ""
+    },
+    {
+      "id": "digital-statecraft-faculty-fellow",
+      "period": "2025 – Ongoing",
+      "title": "Faculty Fellow, Digital Statecraft Academy",
+      "detail": "Guiding director-level civil servants on AI in policy design"
+    },
+    {
+      "id": "springer-nature-eurac",
+      "period": "2025 – Ongoing",
+      "title": "Invited member, Springer Nature European Research Advisory Council",
+      "detail": "Two-year appointment"
+    },
+    {
+      "id": "ai4nature-founding-member",
+      "period": "2025 – Ongoing",
+      "title": "Founding member, AI4Nature",
+      "detail": "A cross-sector alliance between business, technology, academia and government developing best practices for AI applications in nature recovery, beginning with England's Biodiversity Net Gain (BNG) framework"
+    },
+    {
+      "id": "conservation-leadership-masters-assessor",
+      "period": "2025 – Ongoing",
+      "title": "Assessor, Conservation Leadership Masters",
+      "detail": "University of Cambridge"
+    }
+  ]
+}

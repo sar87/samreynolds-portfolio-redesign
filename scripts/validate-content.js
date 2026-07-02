@@ -17,7 +17,9 @@ const schemas = {
   talk: ajv.compile(JSON.parse(readFileSync(join(schemaDir, 'talk.schema.json')))),
   media: ajv.compile(JSON.parse(readFileSync(join(schemaDir, 'media.schema.json')))),
   research: ajv.compile(JSON.parse(readFileSync(join(schemaDir, 'research.schema.json')))),
-  about: ajv.compile(JSON.parse(readFileSync(join(schemaDir, 'about.schema.json'))))
+  about: ajv.compile(JSON.parse(readFileSync(join(schemaDir, 'about.schema.json')))),
+  award: ajv.compile(JSON.parse(readFileSync(join(schemaDir, 'award.schema.json')))),
+  role: ajv.compile(JSON.parse(readFileSync(join(schemaDir, 'role.schema.json'))))
 };
 
 // Map schema names to data files
@@ -26,7 +28,9 @@ const files = {
   talk: 'talks.json',
   media: 'media.json',
   research: 'research.json',
-  about: 'about.json'
+  about: 'about.json',
+  award: 'awards.json',
+  role: 'roles.json'
 };
 
 let hasErrors = false;
