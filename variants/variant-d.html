@@ -304,12 +304,22 @@ section { padding: 6rem 0 0; }
 .pub-rows { border-top: 1px solid var(--line); }
 .pub-row { border-bottom: 1px solid var(--line); cursor: pointer; }
 .pub-row .head {
-  display: grid; grid-template-columns: 88px 1fr 200px 30px;
-  gap: 1.6rem; align-items: center;
-  padding: 1.3rem 0.6rem;
+  display: grid; grid-template-columns: 48px 74px 1fr 180px 30px;
+  gap: 1.5rem; align-items: center;
+  padding: 1.1rem 0.6rem;
   transition: background 0.25s ease;
 }
 .pub-row:hover .head { background: rgba(99,242,162,0.04); }
+/* cover thumbnail on each row */
+.pub-row .thumb {
+  width: 48px; height: 64px; border-radius: 3px; overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--pine-2);
+  box-shadow: 0 6px 16px -8px rgba(0,0,0,0.7);
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.pub-row .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.pub-row:hover .thumb { transform: translateY(-3px) rotate(-1.5deg); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.8), 0 0 20px -8px rgba(99,242,162,0.4); border-color: rgba(99,242,162,0.4); }
 .pub-row .y { font-family: var(--mono); font-size: 0.82rem; color: var(--glow-dim); }
 .pub-row .t { font-size: clamp(1rem, 1.5vw, 1.2rem); font-weight: 400; color: #e5f0e7; line-height: 1.35; transition: color 0.2s; }
 .pub-row:hover .t { color: var(--glow); }
@@ -320,7 +330,15 @@ section { padding: 6rem 0 0; }
 }
 .pub-row.open .x { transform: rotate(45deg); color: var(--glow); }
 .pub-row .body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.22,1,0.36,1); }
-.pub-row .body-inner { padding: 0.2rem 0.6rem 1.7rem; display: grid; grid-template-columns: 88px 1fr; gap: 1.6rem; }
+.pub-row .body-inner { padding: 0.4rem 0.6rem 1.9rem; display: grid; grid-template-columns: 172px 1fr; gap: 2rem; align-items: start; }
+/* framed cover inside the expanded panel */
+.pub-row .cover {
+  border-radius: 5px; overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 50px -22px rgba(0,0,0,0.85), 0 0 40px -16px rgba(99,242,162,0.18);
+  background: var(--pine-2);
+}
+.pub-row .cover img { width: 100%; height: auto; display: block; }
 .pub-row .abstract { font-size: 0.94rem; color: var(--fog-dim); max-width: 72ch; }
 .pub-row .authors { font-family: var(--mono); font-size: 0.78rem; margin-bottom: 0.7rem; color: var(--fog); }
 .pub-row .authors b { color: var(--glow); font-weight: 500; }
@@ -461,9 +479,9 @@ footer .fc a:hover { text-decoration: underline; }
   .stat { border-top: 1px solid var(--line); }
   .stat:nth-child(-n+2) { border-top: none; }
   .about-grid, .res-grid, .feature-grid, .talks-grid, .roles-grid { grid-template-columns: 1fr; }
-  .pub-row .head { grid-template-columns: 64px 1fr 30px; }
-  .pub-row .j { display: none; }
-  .pub-row .body-inner { grid-template-columns: 1fr; }
+  .pub-row .head { grid-template-columns: 48px 1fr 28px; gap: 1rem; }
+  .pub-row .y, .pub-row .j { display: none; }
+  .pub-row .body-inner { grid-template-columns: 120px 1fr; gap: 1.3rem; }
   .timeline-scroll { max-height: 420px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -751,13 +769,14 @@ const sorted = [...pubs.publications].sort((a, b) => b.year - a.year || (b.date 
 document.getElementById("pub-rows").innerHTML = sorted.map((p, i) => `
   <div class="pub-row reveal" data-i="${i}">
     <div class="head">
+      <span class="thumb">${p.image ? `<img src="${p.image}" alt="" loading="lazy">` : ""}</span>
       <span class="y">${p.year}</span>
       <span class="t">${p.title}</span>
       <span class="j">${p.journal ?? ""}</span>
       <span class="x">+</span>
     </div>
     <div class="body"><div class="body-inner">
-      <span></span>
+      ${p.image ? `<a class="cover" href="${p.link ?? (p.doi ? `https://doi.org/${p.doi}` : "#")}" target="_blank" rel="noopener"><img src="${p.image}" alt="${p.title}" loading="lazy"></a>` : `<span></span>`}
       <div>
         <p class="authors">${p.authors.map(a => a.isSamReynolds ? `<b>${a.name}</b>` : a.name).join(" · ")}</p>
         <p class="abstract">${(p.abstract ?? "").slice(0, 420)}${(p.abstract ?? "").length > 420 ? "…" : ""}</p>
