@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sam Reynolds — Emergence | Variant B</title>
+<meta name="description" content="Sam Reynolds — AI, Conservation & Ecology researcher, University of Cambridge">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #070d09;
+  --pine: #0c1510;
+  --pine-2: #101c14;
+  --glow: #63f2a2;
+  --glow-dim: #3a9c68;
+  --amber: #ffb454;
+  --fog: #b7cdbd;
+  --fog-dim: #6d8474;
+  --line: rgba(99, 242, 162, 0.14);
+  --display: "Bricolage Grotesque", sans-serif;
+  --mono: "IBM Plex Mono", monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--void);
+  color: var(--fog);
+  font-family: var(--display);
+  font-weight: 300;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: var(--glow); color: var(--void); }
+
+/* subtle vignette + scanline texture */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 90% 70% at 50% 0%, rgba(99,242,162,0.05), transparent 60%);
+}
+
+/* ---------- nav ---------- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.2rem 2.2rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  background: linear-gradient(rgba(7,13,9,0.85), rgba(7,13,9,0));
+  backdrop-filter: blur(2px);
+}
+.nav .mark { color: var(--glow); text-decoration: none; letter-spacing: 0.06em; }
+.nav .mark b { font-weight: 500; }
+.nav ul { display: flex; gap: 1.8rem; list-style: none; }
+.nav a { color: var(--fog-dim); text-decoration: none; letter-spacing: 0.08em; transition: color 0.25s; }
+.nav a:hover { color: var(--glow); }
+.nav a .idx { color: var(--glow-dim); margin-right: 0.3em; }
+
+/* ---------- hero ---------- */
+.hero {
+  position: relative; height: 100svh; min-height: 640px;
+  display: flex; flex-direction: column; justify-content: center;
+  overflow: hidden;
+}
+#murmuration { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1240px; width: 100%;
+  margin: 0 auto; padding: 0 2.2rem;
+  pointer-events: none;
+}
+.hero .sys {
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em;
+  color: var(--glow-dim);
+  margin-bottom: 1.6rem;
+}
+.hero .sys .blink { animation: blink 1.4s step-start infinite; color: var(--glow); }
+@keyframes blink { 50% { opacity: 0; } }
+.hero h1 {
+  font-size: clamp(2.8rem, 7.6vw, 6.4rem);
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: #eaf5ec;
+  max-width: 16ch;
+}
+.hero h1 .g { color: var(--glow); }
+.hero h1 .thin { font-weight: 200; font-style: italic; }
+.hero .sub {
+  margin-top: 1.8rem;
+  max-width: 52ch;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  color: var(--fog);
+}
+.hero .hint {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.22em;
+  color: var(--fog-dim); text-transform: uppercase;
+  z-index: 2;
+}
+.hero .sys, .hero h1, .hero .sub { opacity: 0; transform: translateY(20px); animation: up 1s cubic-bezier(0.22,1,0.36,1) forwards; }
+.hero h1 { animation-delay: 0.12s; } .hero .sub { animation-delay: 0.26s; }
+@keyframes up { to { opacity: 1; transform: none; } }
+
+/* ---------- stats strip ---------- */
+.stats {
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  background: var(--pine);
+  position: relative; z-index: 2;
+}
+.stats-inner {
+  max-width: 1240px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+}
+.stat { padding: 2rem 2.2rem; border-left: 1px solid var(--line); }
+.stat:first-child { border-left: none; }
+.stat .n { font-size: clamp(2rem, 3.6vw, 3.2rem); font-weight: 600; color: #eaf5ec; letter-spacing: -0.02em; }
+.stat .n .u { color: var(--glow); }
+.stat .l { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fog-dim); margin-top: 0.3rem; }
+
+/* ---------- sections ---------- */
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 2.2rem; position: relative; z-index: 2; }
+section { padding: 6rem 0 0; }
+.sec-head { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 3rem; }
+.sec-head .tag {
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em;
+  color: var(--glow); border: 1px solid var(--line);
+  padding: 0.35rem 0.8rem; border-radius: 3px;
+  background: rgba(99,242,162,0.05);
+}
+.sec-head h2 { font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 500; letter-spacing: -0.02em; color: #eaf5ec; }
+.sec-head .line { flex: 1; height: 1px; background: var(--line); }
+
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ---------- about ---------- */
+.about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 4rem; }
+.about-main .big {
+  font-size: clamp(1.3rem, 2.1vw, 1.75rem);
+  font-weight: 300; line-height: 1.5; color: #dceadfff;
+}
+.about-main .big em { color: var(--glow); font-style: normal; }
+.about-main p + p { margin-top: 1.1rem; font-size: 1rem; color: var(--fog-dim); }
+.panel {
+  background: var(--pine-2); border: 1px solid var(--line); border-radius: 6px;
+  padding: 1.8rem;
+}
+.panel h3 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--glow-dim); margin-bottom: 1.2rem; }
+.panel .edu { padding: 0.8rem 0; border-top: 1px dashed var(--line); }
+.panel .edu:first-of-type { border-top: none; padding-top: 0; }
+.panel .edu .d { color: #eaf5ec; font-weight: 400; font-size: 0.98rem; }
+.panel .edu .m { font-family: var(--mono); font-size: 0.78rem; color: var(--fog-dim); margin-top: 0.15rem; }
+.panel .links { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.4rem; }
+.panel .links a {
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.05em;
+  color: var(--fog); text-decoration: none;
+  border: 1px solid var(--line); border-radius: 99px;
+  padding: 0.4rem 0.95rem;
+  transition: all 0.25s ease;
+}
+.panel .links a:hover { color: var(--void); background: var(--glow); border-color: var(--glow); }
+
+/* ---------- research ---------- */
+.res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; }
+.res-card {
+  position: relative;
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: 2.4rem 2.2rem;
+  background: linear-gradient(160deg, var(--pine-2), var(--pine));
+  overflow: hidden;
+  transition: border-color 0.35s ease, transform 0.35s ease;
+}
+.res-card:hover { border-color: rgba(99,242,162,0.45); transform: translateY(-4px); }
+.res-card::after {
+  content: ""; position: absolute; top: -60px; right: -60px;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(99,242,162,0.13), transparent 70%);
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.res-card:hover::after { opacity: 1; }
+.res-card .num { font-family: var(--mono); font-size: 0.75rem; color: var(--glow-dim); letter-spacing: 0.14em; }
+.res-card h3 { font-size: 1.5rem; font-weight: 500; color: #eaf5ec; margin: 0.7rem 0 0.9rem; letter-spacing: -0.01em; }
+.res-card p { font-size: 0.96rem; color: var(--fog-dim); }
+
+/* ---------- publications table ---------- */
+.pub-rows { border-top: 1px solid var(--line); }
+.pub-row {
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+.pub-row .head {
+  display: grid; grid-template-columns: 88px 1fr 200px 30px;
+  gap: 1.6rem; align-items: center;
+  padding: 1.3rem 0.6rem;
+  transition: background 0.25s ease;
+}
+.pub-row:hover .head { background: rgba(99,242,162,0.04); }
+.pub-row .y { font-family: var(--mono); font-size: 0.82rem; color: var(--glow-dim); }
+.pub-row .t { font-size: clamp(1rem, 1.5vw, 1.2rem); font-weight: 400; color: #e5f0e7; line-height: 1.35; transition: color 0.2s; }
+.pub-row:hover .t { color: var(--glow); }
+.pub-row .j { font-family: var(--mono); font-size: 0.75rem; color: var(--fog-dim); text-align: right; }
+.pub-row .x {
+  font-family: var(--mono); color: var(--glow-dim); text-align: center;
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+.pub-row.open .x { transform: rotate(45deg); color: var(--glow); }
+.pub-row .body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.pub-row .body-inner { padding: 0.2rem 0.6rem 1.7rem; display: grid; grid-template-columns: 88px 1fr; gap: 1.6rem; }
+.pub-row .abstract { font-size: 0.94rem; color: var(--fog-dim); max-width: 72ch; }
+.pub-row .authors { font-family: var(--mono); font-size: 0.78rem; margin-bottom: 0.7rem; color: var(--fog); }
+.pub-row .authors b { color: var(--glow); font-weight: 500; }
+.pub-row .go {
+  display: inline-block; margin-top: 1rem;
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em;
+  color: var(--amber); text-decoration: none;
+}
+.pub-row .go:hover { text-decoration: underline; }
+
+/* ---------- talks ticker + list ---------- */
+.ticker-band {
+  margin-top: 3.4rem;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  overflow: hidden; white-space: nowrap;
+  background: var(--pine);
+  padding: 0.85rem 0;
+}
+.ticker { display: inline-block; animation: tick 60s linear infinite; }
+.ticker-band:hover .ticker { animation-play-state: paused; }
+.ticker span { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em; color: var(--fog-dim); margin-right: 3.2rem; }
+.ticker span b { color: var(--glow); font-weight: 400; }
+@keyframes tick { to { transform: translateX(-50%); } }
+
+.talk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 3.4rem; }
+.talk-item {
+  display: grid; grid-template-columns: 96px 1fr; gap: 1.4rem;
+  padding: 1.15rem 0; border-bottom: 1px dashed var(--line);
+}
+.talk-item .d { font-family: var(--mono); font-size: 0.75rem; color: var(--glow-dim); padding-top: 0.25rem; }
+.talk-item .t { color: #e5f0e7; font-weight: 400; font-size: 1rem; line-height: 1.4; }
+.talk-item .v { font-family: var(--mono); font-size: 0.75rem; color: var(--fog-dim); margin-top: 0.25rem; }
+
+/* ---------- media ---------- */
+.media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.4rem; padding-bottom: 1rem; }
+.m-card {
+  border: 1px solid var(--line); border-radius: 6px;
+  background: var(--pine-2);
+  padding: 1.6rem 1.5rem;
+  text-decoration: none;
+  display: flex; flex-direction: column; gap: 0.8rem;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.m-card:hover { border-color: rgba(255,180,84,0.5); transform: translateY(-4px); box-shadow: 0 18px 40px -20px rgba(0,0,0,0.7); }
+.m-card .tp { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); }
+.m-card h4 { color: #eaf5ec; font-weight: 500; font-size: 1.08rem; line-height: 1.35; }
+.m-card .mt { font-family: var(--mono); font-size: 0.72rem; color: var(--fog-dim); margin-top: auto; }
+
+/* ---------- footer ---------- */
+footer { margin-top: 6rem; border-top: 1px solid var(--line); background: var(--pine); position: relative; z-index: 2; }
+.foot-inner { max-width: 1240px; margin: 0 auto; padding: 3.4rem 2.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.6rem; }
+footer .fm { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 600; letter-spacing: -0.02em; color: #eaf5ec; }
+footer .fm .g { color: var(--glow); }
+footer .fc { font-family: var(--mono); font-size: 0.78rem; text-align: right; color: var(--fog-dim); }
+footer .fc a { color: var(--glow); text-decoration: none; }
+footer .fc a:hover { text-decoration: underline; }
+
+@media (max-width: 900px) {
+  .nav ul { display: none; }
+  .stats-inner { grid-template-columns: 1fr 1fr; }
+  .stat:nth-child(3) { border-left: none; }
+  .stat { border-top: 1px solid var(--line); }
+  .stat:nth-child(-n+2) { border-top: none; }
+  .about-grid, .res-grid, .talk-grid { grid-template-columns: 1fr; }
+  .pub-row .head { grid-template-columns: 64px 1fr 30px; }
+  .pub-row .j { display: none; }
+  .pub-row .body-inner { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+  .ticker { animation: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="mark" href="#"><b>reynolds</b>@cam:~/conservation-ai</a>
+  <ul>
+    <li><a href="#about"><span class="idx">01</span>about</a></li>
+    <li><a href="#research"><span class="idx">02</span>research</a></li>
+    <li><a href="#publications"><span class="idx">03</span>publications</a></li>
+    <li><a href="#talks"><span class="idx">04</span>talks</a></li>
+    <li><a href="#media"><span class="idx">05</span>media</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <canvas id="murmuration"></canvas>
+  <div class="hero-inner">
+    <p class="sys">// emergence: many simple agents, one intelligence <span class="blink">▮</span></p>
+    <h1>Teaching machines to read <span class="g">every word</span> ever written <span class="thin">about nature.</span></h1>
+    <p class="sub">Sam Reynolds — researcher in AI, conservation &amp; ecology at the University of Cambridge. Building evidence-synthesis systems that turn the world's literature into conservation action.</p>
+  </div>
+  <p class="hint">move your cursor — the flock responds</p>
+</header>
+
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat"><div class="n" data-count="14">0</div><div class="l">Publications</div></div>
+    <div class="stat"><div class="n" data-count="18">0</div><div class="l">Invited talks</div></div>
+    <div class="stat"><div class="n" data-count="5">0</div><div class="l">Media features</div></div>
+    <div class="stat"><div class="n"><span data-count="150">0</span><span class="u">M</span></div><div class="l">Documentary reach</div></div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="tag">01 / ABOUT</span><h2>A biologist among machines</h2><span class="line"></span></div>
+    <div class="about-grid">
+      <div class="about-main reveal">
+        <p class="big" id="bio-lede"></p>
+        <div id="bio-rest"></div>
+      </div>
+      <div class="reveal">
+        <div class="panel">
+          <h3>Education</h3>
+          <div id="education"></div>
+        </div>
+        <div class="panel" style="margin-top:1.4rem">
+          <h3>Connect</h3>
+          <div class="links" id="links"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="tag">02 / RESEARCH</span><h2>Current lines of inquiry</h2><span class="line"></span></div>
+    <div class="res-grid" id="res-grid"></div>
+  </div>
+</section>
+
+<section id="publications">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="tag">03 / PUBLICATIONS</span><h2>Written record</h2><span class="line"></span></div>
+    <div class="pub-rows" id="pub-rows"></div>
+  </div>
+</section>
+
+<section id="talks">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="tag">04 / TALKS</span><h2>On the road</h2><span class="line"></span></div>
+    <div class="talk-grid" id="talk-grid"></div>
+  </div>
+  <div class="ticker-band"><div class="ticker" id="ticker"></div></div>
+</section>
+
+<section id="media">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="tag">05 / MEDIA</span><h2>Signal boost</h2><span class="line"></span></div>
+    <div class="media-grid" id="media-grid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <p class="fm">Sam Reynolds<span class="g">.</span></p>
+    <div class="fc">
+      <p><a href="mailto:sar87@cam.ac.uk">sar87@cam.ac.uk</a></p>
+      <p>Dept. of Zoology · University of Cambridge</p>
+      <p style="margin-top:0.6rem; opacity:0.6">EMERGENCE — VARIANT B</p>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+/* ============ murmuration (boids) ============ */
+const canvas = document.getElementById("murmuration");
+const ctx = canvas.getContext("2d");
+let W, H, dpr;
+function resize() {
+  dpr = Math.min(devicePixelRatio || 1, 2);
+  W = canvas.clientWidth; H = canvas.clientHeight;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+resize(); addEventListener("resize", resize);
+
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const N = reduced ? 0 : (innerWidth < 700 ? 110 : 230);
+const boids = Array.from({ length: N }, () => ({
+  x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+  vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2,
+}));
+const mouse = { x: -9999, y: -9999 };
+canvas.parentElement.addEventListener("pointermove", e => {
+  const r = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+});
+canvas.parentElement.addEventListener("pointerleave", () => { mouse.x = -9999; mouse.y = -9999; });
+
+/* spatial grid for O(n) neighbours */
+const CELL = 60;
+function step() {
+  const grid = new Map();
+  for (const b of boids) {
+    const k = ((b.x / CELL) | 0) + "," + ((b.y / CELL) | 0);
+    (grid.get(k) ?? grid.set(k, []).get(k)).push(b);
+  }
+  for (const b of boids) {
+    let ax = 0, ay = 0, cx = 0, cy = 0, sx = 0, sy = 0, n = 0;
+    const gx = (b.x / CELL) | 0, gy = (b.y / CELL) | 0;
+    for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) {
+      const cell = grid.get((gx + i) + "," + (gy + j));
+      if (!cell) continue;
+      for (const o of cell) {
+        if (o === b) continue;
+        const dx = o.x - b.x, dy = o.y - b.y, d2 = dx * dx + dy * dy;
+        if (d2 > 3600) continue;
+        n++;
+        ax += o.vx; ay += o.vy;          /* alignment */
+        cx += o.x; cy += o.y;            /* cohesion */
+        if (d2 < 500) { sx -= dx / (d2 + 1) * 18; sy -= dy / (d2 + 1) * 18; } /* separation */
+      }
+    }
+    if (n) {
+      b.vx += (ax / n - b.vx) * 0.045 + (cx / n - b.x) * 0.0022 + sx * 0.06;
+      b.vy += (ay / n - b.vy) * 0.045 + (cy / n - b.y) * 0.0022 + sy * 0.06;
+    }
+    /* cursor: predator burst */
+    const mdx = b.x - mouse.x, mdy = b.y - mouse.y, md2 = mdx * mdx + mdy * mdy;
+    if (md2 < 22500) { const f = 1 - md2 / 22500; b.vx += (mdx / Math.sqrt(md2 + 1)) * f * 1.6; b.vy += (mdy / Math.sqrt(md2 + 1)) * f * 1.6; }
+    /* soft bounds */
+    if (b.x < 60) b.vx += 0.09; if (b.x > W - 60) b.vx -= 0.09;
+    if (b.y < 60) b.vy += 0.09; if (b.y > H - 60) b.vy -= 0.09;
+    /* speed clamp */
+    const sp = Math.hypot(b.vx, b.vy);
+    const max = 2.6, min = 0.9;
+    if (sp > max) { b.vx = b.vx / sp * max; b.vy = b.vy / sp * max; }
+    if (sp < min) { b.vx = b.vx / (sp + 0.001) * min; b.vy = b.vy / (sp + 0.001) * min; }
+    b.x += b.vx; b.y += b.vy;
+  }
+}
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  /* faint connective tissue */
+  ctx.strokeStyle = "rgba(99,242,162,0.05)";
+  ctx.beginPath();
+  for (let i = 0; i < boids.length; i += 7) {
+    const a = boids[i], b = boids[(i + 13) % boids.length];
+    if ((a.x - b.x) ** 2 + (a.y - b.y) ** 2 < 16000) { ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); }
+  }
+  ctx.stroke();
+  for (const b of boids) {
+    const sp = Math.hypot(b.vx, b.vy);
+    const g = Math.min(1, sp / 2.6);
+    ctx.fillStyle = `rgba(${Math.round(99 + g * 60)}, ${Math.round(210 + g * 45)}, ${Math.round(150 + g * 30)}, ${0.45 + g * 0.5})`;
+    ctx.beginPath();
+    ctx.arc(b.x, b.y, 1.1 + g * 1.2, 0, 7);
+    ctx.fill();
+  }
+}
+(function loop() { if (N) { step(); draw(); } requestAnimationFrame(loop); })();
+
+/* ============ content ============ */
+const [about, research, pubs, talks, media] = await Promise.all(
+  ["about", "research", "publications", "talks", "media"].map(f => fetch(`/data/${f}.json`).then(r => r.json()))
+);
+const fmt = d => new Date(d).toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+
+document.getElementById("bio-lede").innerHTML = about.bio[0]
+  .replace("AI-enabled tools", "<em>AI-enabled tools</em>");
+document.getElementById("bio-rest").innerHTML = about.bio.slice(1).map(p => `<p>${p}</p>`).join("");
+document.getElementById("education").innerHTML = about.education.map(e => `
+  <div class="edu"><div class="d">${e.degree}</div><div class="m">${e.institution} · ${e.year}</div></div>`).join("");
+const linkNames = { researchgate: "ResearchGate", linkedin: "LinkedIn", scholar: "Scholar", department: "Cambridge" };
+document.getElementById("links").innerHTML = Object.entries(about.links).map(([k, v]) =>
+  `<a href="${v}" target="_blank" rel="noopener">${linkNames[k] ?? k} ↗</a>`).join("");
+
+document.getElementById("res-grid").innerHTML = research.researchTopics.map((t, i) => `
+  <div class="res-card reveal">
+    <span class="num">TOPIC_${String(i + 1).padStart(2, "0")} // ${t.relatedPublications?.length ?? 0} papers</span>
+    <h3>${t.name}</h3><p>${t.description}</p>
+  </div>`).join("");
+
+const sorted = [...pubs.publications].sort((a, b) => b.year - a.year || (b.date > a.date ? 1 : -1));
+document.getElementById("pub-rows").innerHTML = sorted.map((p, i) => `
+  <div class="pub-row reveal" data-i="${i}">
+    <div class="head">
+      <span class="y">${p.year}</span>
+      <span class="t">${p.title}</span>
+      <span class="j">${p.journal ?? ""}</span>
+      <span class="x">+</span>
+    </div>
+    <div class="body"><div class="body-inner">
+      <span></span>
+      <div>
+        <p class="authors">${p.authors.map(a => a.isSamReynolds ? `<b>${a.name}</b>` : a.name).join(" · ")}</p>
+        <p class="abstract">${(p.abstract ?? "").slice(0, 420)}${(p.abstract ?? "").length > 420 ? "…" : ""}</p>
+        ${p.link || p.doi ? `<a class="go" href="${p.link ?? `https://doi.org/${p.doi}`}" target="_blank" rel="noopener">READ_PAPER ↗</a>` : ""}
+      </div>
+    </div></div>
+  </div>`).join("");
+document.getElementById("pub-rows").addEventListener("click", e => {
+  if (e.target.closest("a")) return;
+  const row = e.target.closest(".pub-row"); if (!row) return;
+  const body = row.querySelector(".body");
+  const open = row.classList.toggle("open");
+  body.style.maxHeight = open ? body.scrollHeight + "px" : "0";
+});
+
+const talksSorted = [...talks.talks].sort((a, b) => (b.date > a.date ? 1 : -1));
+document.getElementById("talk-grid").innerHTML = talksSorted.slice(0, 12).map(t => `
+  <div class="talk-item reveal">
+    <span class="d">${fmt(t.date)}</span>
+    <div><div class="t">${t.title}</div><div class="v">${t.venue}</div></div>
+  </div>`).join("");
+const tickerContent = talksSorted.map(t => `<span><b>${fmt(t.date)}</b> — ${t.venue}</span>`).join("");
+document.getElementById("ticker").innerHTML = tickerContent + tickerContent;
+
+document.getElementById("media-grid").innerHTML = media.media.map(m => `
+  <a class="m-card reveal" href="${m.link ?? "#"}" target="_blank" rel="noopener">
+    <span class="tp">[${m.type}]</span><h4>${m.title}</h4>
+    <span class="mt">${m.venue} · ${fmt(m.date)}</span>
+  </a>`).join("");
+
+/* reveals */
+const io = new IntersectionObserver(es => {
+  for (const e of es) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+}, { threshold: 0.1 });
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+/* count-up stats */
+const cio = new IntersectionObserver(es => {
+  for (const e of es) {
+    if (!e.isIntersecting) continue;
+    cio.unobserve(e.target);
+    const el = e.target, target = +el.dataset.count, t0 = performance.now();
+    (function tick(t) {
+      const p = Math.min(1, (t - t0) / 1400), ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * ease);
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+}, { threshold: 0.6 });
+document.querySelectorAll("[data-count]").forEach(el => cio.observe(el));
+/* fallback: never leave counters at 0 (e.g. anchor-jump past them) */
+setTimeout(() => document.querySelectorAll("[data-count]").forEach(el => {
+  if (el.textContent === "0") el.textContent = el.dataset.count;
+}), 4000);
+</script>
+</body>
+</html>

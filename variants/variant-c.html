@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sam Reynolds — Broadsheet | Variant C</title>
+<meta name="description" content="Sam Reynolds — AI, Conservation & Ecology researcher, University of Cambridge">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Spline+Sans+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bone: #f4f1ea;
+  --ink: #16150f;
+  --ink-60: rgba(22, 21, 15, 0.62);
+  --ink-30: rgba(22, 21, 15, 0.3);
+  --rule: rgba(22, 21, 15, 0.85);
+  --hairline: rgba(22, 21, 15, 0.18);
+  --vermilion: #d5461f;
+  --display: "Instrument Serif", Georgia, serif;
+  --sans: "Archivo", Helvetica, sans-serif;
+  --mono: "Spline Sans Mono", monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bone);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--vermilion); color: var(--bone); }
+a { color: inherit; }
+
+/* ---------- masthead ---------- */
+.masthead {
+  border-bottom: 2px solid var(--rule);
+  padding: 0.85rem 1.6rem;
+  display: flex; justify-content: space-between; align-items: center;
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bone);
+}
+.masthead .ed {
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-60);
+}
+.masthead nav { display: flex; gap: 1.7rem; }
+.masthead nav a {
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  text-decoration: none; position: relative;
+}
+.masthead nav a::after {
+  content: ""; position: absolute; left: 0; bottom: -3px; height: 2px; width: 100%;
+  background: var(--vermilion);
+  transform: scaleX(0); transform-origin: right;
+  transition: transform 0.3s cubic-bezier(0.65,0,0.35,1);
+}
+.masthead nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* ---------- hero masthead type ---------- */
+.hero {
+  border-bottom: 2px solid var(--rule);
+  padding: 4.2rem 1.6rem 0;
+  overflow: hidden;
+}
+.hero .over {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-60);
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 0.7rem;
+  flex-wrap: wrap; gap: 0.5rem;
+}
+.hero .over .red { color: var(--vermilion); }
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(4rem, 14.5vw, 13.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-align: center;
+  padding: 3.2rem 0 1rem;
+  text-transform: uppercase;
+}
+.hero h1 .l { display: inline-block; opacity: 0; transform: translateY(0.35em); animation: let 0.9s cubic-bezier(0.22,1,0.36,1) forwards; }
+@keyframes let { to { opacity: 1; transform: none; } }
+.hero h1 em { font-style: italic; color: var(--vermilion); }
+.hero .deck {
+  max-width: 640px; margin: 0 auto;
+  text-align: center;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-weight: 300;
+  color: var(--ink-60);
+  padding-bottom: 2.6rem;
+  opacity: 0; animation: fade 1s ease 0.9s forwards;
+}
+@keyframes fade { to { opacity: 1; } }
+.hero .deck b { color: var(--ink); font-weight: 500; }
+
+/* ---------- ticker ---------- */
+.ticker-band {
+  border-bottom: 2px solid var(--rule);
+  overflow: hidden; white-space: nowrap;
+  background: var(--ink); color: var(--bone);
+  padding: 0.65rem 0;
+}
+.ticker { display: inline-block; animation: tick 55s linear infinite; }
+.ticker-band:hover .ticker { animation-play-state: paused; }
+.ticker span { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-right: 2.8rem; }
+.ticker .dot { color: var(--vermilion); }
+@keyframes tick { to { transform: translateX(-50%); } }
+
+/* ---------- layout ---------- */
+.sheet { max-width: 1280px; margin: 0 auto; padding: 0 1.6rem; }
+section { border-bottom: 1px solid var(--hairline); }
+.sec {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 3.4rem;
+  padding: 4.6rem 0;
+}
+.sec-label { position: relative; }
+.sec-label .inner { position: sticky; top: 92px; }
+.sec-label .no {
+  font-family: var(--display); font-size: 3.4rem; line-height: 1;
+  color: var(--vermilion);
+}
+.sec-label h2 {
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  margin-top: 0.6rem;
+}
+.sec-label .cnt { font-family: var(--mono); font-size: 0.7rem; color: var(--ink-60); margin-top: 0.4rem; }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ---------- about ---------- */
+.about-lede {
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 3.3vw, 2.7rem);
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  max-width: 24em;
+}
+.about-lede em { color: var(--vermilion); }
+.about-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2.6rem; margin-top: 2.4rem; }
+.about-cols p { font-size: 0.95rem; color: var(--ink-60); font-weight: 300; }
+.about-cols p + p { margin-top: 1rem; }
+.about-meta { display: flex; gap: 3.5rem; margin-top: 3rem; padding-top: 1.6rem; border-top: 1px solid var(--hairline); flex-wrap: wrap; }
+.about-meta h4 { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--vermilion); font-weight: 600; margin-bottom: 0.8rem; }
+.about-meta .edu { font-size: 0.88rem; margin-bottom: 0.45rem; }
+.about-meta .edu b { font-weight: 500; }
+.about-meta .edu span { color: var(--ink-60); }
+.about-meta .lnk { display: flex; flex-direction: column; gap: 0.4rem; }
+.about-meta .lnk a { font-size: 0.88rem; text-decoration: none; width: fit-content; border-bottom: 1px solid var(--hairline); transition: border-color 0.25s, color 0.25s; }
+.about-meta .lnk a:hover { color: var(--vermilion); border-color: var(--vermilion); }
+
+/* ---------- pull quote ---------- */
+.pull {
+  padding: 5.6rem 1.6rem;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--ink); color: var(--bone);
+  text-align: center;
+}
+.pull blockquote {
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 4.6vw, 3.9rem);
+  font-style: italic;
+  line-height: 1.15;
+  max-width: 20em; margin: 0 auto;
+}
+.pull blockquote .red { color: var(--vermilion); font-style: normal; }
+.pull cite { display: block; margin-top: 1.6rem; font-family: var(--mono); font-style: normal; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,241,234,0.55); }
+
+/* ---------- research ---------- */
+.res-stack { display: flex; flex-direction: column; }
+.res-item { padding: 2.2rem 0; border-top: 1px solid var(--hairline); display: grid; grid-template-columns: 1fr 2fr; gap: 2.4rem; }
+.res-item:first-child { border-top: none; padding-top: 0; }
+.res-item h3 { font-family: var(--display); font-size: clamp(1.6rem, 2.6vw, 2.2rem); line-height: 1.1; }
+.res-item p { font-size: 0.95rem; color: var(--ink-60); font-weight: 300; }
+
+/* ---------- publications index ---------- */
+.pub-index { counter-reset: pub; }
+.pub-line {
+  counter-increment: pub;
+  display: grid;
+  grid-template-columns: 74px 1fr auto;
+  gap: 1.8rem; align-items: baseline;
+  padding: 1.35rem 0;
+  border-top: 1px solid var(--hairline);
+  text-decoration: none;
+  position: relative;
+  transition: padding-left 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+.pub-line:first-child { border-top: none; }
+.pub-line::before {
+  content: counter(pub, decimal-leading-zero);
+  font-family: var(--display);
+  font-size: 1.7rem;
+  color: var(--ink-30);
+  transition: color 0.3s ease;
+}
+.pub-line:hover { padding-left: 0.8rem; }
+.pub-line:hover::before { color: var(--vermilion); }
+.pub-line .body h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2vw, 1.7rem);
+  line-height: 1.15;
+}
+.pub-line:hover .body h3 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.pub-line .body .by { font-size: 0.82rem; color: var(--ink-60); margin-top: 0.35rem; font-weight: 300; }
+.pub-line .body .by b { font-weight: 600; color: var(--ink); }
+.pub-line .side { text-align: right; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--ink-60); text-transform: uppercase; }
+.pub-line .side .yr { display: block; font-size: 1rem; color: var(--vermilion); }
+.pub-line .arrow {
+  position: absolute; right: 0; top: 50%;
+  transform: translate(12px, -50%); opacity: 0;
+  font-family: var(--display); font-size: 1.6rem; color: var(--vermilion);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.pub-line:hover .arrow { transform: translate(0, -50%); opacity: 1; }
+.pub-line:hover .side { opacity: 0; }
+.show-all { margin-top: 2rem; }
+.show-all button {
+  font-family: var(--sans); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+  background: none; border: none; cursor: pointer;
+  color: var(--vermilion);
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 0.4rem 0;
+}
+.show-all button::after { content: "↓"; transition: transform 0.3s; }
+.show-all button:hover::after { transform: translateY(3px); }
+
+/* ---------- talks ---------- */
+.talk-cols { column-count: 2; column-gap: 3rem; }
+.talk-line { break-inside: avoid; padding: 1rem 0; border-top: 1px solid var(--hairline); }
+.talk-line:first-child { border-top: none; padding-top: 0; }
+.talk-line .d { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vermilion); }
+.talk-line h4 { font-size: 0.98rem; font-weight: 500; line-height: 1.4; margin-top: 0.2rem; }
+.talk-line .v { font-size: 0.84rem; color: var(--ink-60); font-weight: 300; font-style: italic; }
+
+/* ---------- media ---------- */
+.media-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; border: 1px solid var(--rule); }
+.media-cell {
+  border-right: 1px solid var(--hairline);
+  padding: 1.7rem 1.4rem;
+  text-decoration: none;
+  display: flex; flex-direction: column; gap: 0.7rem;
+  min-height: 210px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.media-cell:last-child { border-right: none; }
+.media-cell:hover { background: var(--ink); color: var(--bone); }
+.media-cell .tp { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--vermilion); }
+.media-cell h4 { font-family: var(--display); font-weight: 400; font-size: 1.3rem; line-height: 1.15; }
+.media-cell .mt { margin-top: auto; font-size: 0.78rem; color: inherit; opacity: 0.6; font-weight: 300; }
+
+/* ---------- footer ---------- */
+footer { padding: 4rem 1.6rem 2.2rem; }
+.foot-grid { max-width: 1280px; margin: 0 auto; }
+.foot-name {
+  font-family: var(--display);
+  font-size: clamp(3rem, 10vw, 8.5rem);
+  line-height: 0.95; text-transform: uppercase; letter-spacing: -0.02em;
+  border-bottom: 2px solid var(--rule);
+  padding-bottom: 1.6rem;
+}
+.foot-name em { font-style: italic; color: var(--vermilion); }
+.foot-row { display: flex; justify-content: space-between; padding-top: 1.2rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-60); flex-wrap: wrap; gap: 0.6rem; }
+.foot-row a { color: var(--ink); text-decoration: none; }
+.foot-row a:hover { color: var(--vermilion); }
+
+@media (max-width: 900px) {
+  .masthead nav { display: none; }
+  .sec { grid-template-columns: 1fr; gap: 1.8rem; padding: 3.2rem 0; }
+  .sec-label .inner { position: static; display: flex; align-items: baseline; gap: 1rem; }
+  .about-cols { grid-template-columns: 1fr; }
+  .res-item { grid-template-columns: 1fr; gap: 0.8rem; }
+  .talk-cols { column-count: 1; }
+  .pub-line { grid-template-columns: 48px 1fr; }
+  .pub-line .side { display: none; }
+  .media-cell { border-right: none; border-bottom: 1px solid var(--hairline); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+  .ticker { animation: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <span class="ed">Cambridge, England</span>
+  <nav>
+    <a href="#about">About</a><a href="#research">Research</a><a href="#publications">Publications</a><a href="#talks">Talks</a><a href="#media">Media</a>
+  </nav>
+  <span class="ed" id="today">Est. 2021</span>
+</header>
+
+<div class="hero">
+  <div class="sheet">
+    <div class="over">
+      <span>AI × Conservation × Ecology</span>
+      <span class="red">● University of Cambridge</span>
+      <span>Dept. of Zoology</span>
+    </div>
+    <h1 id="masthead-name">Sam <em>Reynolds</em></h1>
+    <p class="deck">Researcher teaching machines to read the world's conservation evidence — <b>so nature's decisions are made with everything we know.</b></p>
+  </div>
+</div>
+
+<div class="ticker-band"><div class="ticker" id="ticker"></div></div>
+
+<section id="about">
+  <div class="sheet">
+    <div class="sec">
+      <div class="sec-label"><div class="inner reveal">
+        <span class="no">01</span><h2>About</h2><p class="cnt" id="about-cnt">The researcher</p>
+      </div></div>
+      <div class="reveal">
+        <p class="about-lede" id="bio-lede"></p>
+        <div class="about-cols" id="bio-cols"></div>
+        <div class="about-meta">
+          <div><h4>Education</h4><div id="education"></div></div>
+          <div><h4>Elsewhere</h4><div class="lnk" id="links"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pull">
+  <blockquote class="reveal">“Conservation must shift from <span class="red">losing more slowly</span> to recovering lost ecosystems.”</blockquote>
+  <cite class="reveal">— The AI Horizon Scan, Trends in Ecology &amp; Evolution</cite>
+</div>
+
+<section id="research">
+  <div class="sheet">
+    <div class="sec">
+      <div class="sec-label"><div class="inner reveal">
+        <span class="no">02</span><h2>Research</h2><p class="cnt" id="res-cnt"></p>
+      </div></div>
+      <div class="res-stack" id="res-stack"></div>
+    </div>
+  </div>
+</section>
+
+<section id="publications">
+  <div class="sheet">
+    <div class="sec">
+      <div class="sec-label"><div class="inner reveal">
+        <span class="no">03</span><h2>Publications</h2><p class="cnt" id="pub-cnt"></p>
+      </div></div>
+      <div>
+        <div class="pub-index" id="pub-index"></div>
+        <div class="show-all"><button id="pub-more">Full index</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="talks">
+  <div class="sheet">
+    <div class="sec">
+      <div class="sec-label"><div class="inner reveal">
+        <span class="no">04</span><h2>Talks</h2><p class="cnt" id="talk-cnt"></p>
+      </div></div>
+      <div class="talk-cols" id="talk-cols"></div>
+    </div>
+  </div>
+</section>
+
+<section id="media">
+  <div class="sheet">
+    <div class="sec">
+      <div class="sec-label"><div class="inner reveal">
+        <span class="no">05</span><h2>Media</h2><p class="cnt" id="media-cnt"></p>
+      </div></div>
+      <div class="media-strip" id="media-strip"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <p class="foot-name reveal">Sam <em>Reynolds</em></p>
+    <div class="foot-row">
+      <span><a href="mailto:sar87@cam.ac.uk">sar87@cam.ac.uk</a></span>
+      <span>Department of Zoology · University of Cambridge</span>
+      <span>Broadsheet — Variant C</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+const [about, research, pubs, talks, media] = await Promise.all(
+  ["about", "research", "publications", "talks", "media"].map(f => fetch(`/data/${f}.json`).then(r => r.json()))
+);
+const fmt = d => new Date(d).toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+
+/* reveals */
+const io = new IntersectionObserver(es => {
+  for (const e of es) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+}, { threshold: 0.1 });
+function observe() { document.querySelectorAll(".reveal:not(.in)").forEach(el => io.observe(el)); }
+
+/* masthead letter animation */
+const h1 = document.getElementById("masthead-name");
+const parts = [];
+let delay = 0;
+for (const node of [...h1.childNodes]) {
+  const italic = node.nodeName === "EM";
+  const text = node.textContent;
+  for (const ch of text) {
+    if (ch === " ") { parts.push(" "); continue; }
+    parts.push(`<span class="l" style="animation-delay:${(delay++ * 0.045).toFixed(3)}s">${italic ? `<em>${ch}</em>` : ch}</span>`);
+  }
+}
+h1.innerHTML = parts.join("");
+
+/* date */
+document.getElementById("today").textContent = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+
+/* about */
+document.getElementById("bio-lede").innerHTML = about.bio[0].replace("AI-enabled tools", "<em>AI-enabled tools</em>");
+document.getElementById("bio-cols").innerHTML =
+  `<div>${about.bio.slice(1, 3).map(p => `<p>${p}</p>`).join("")}</div><div>${about.bio.slice(3).map(p => `<p>${p}</p>`).join("")}</div>`;
+document.getElementById("education").innerHTML = about.education.map(e =>
+  `<p class="edu"><b>${e.degree}</b><br><span>${e.institution}, ${e.year}</span></p>`).join("");
+const linkNames = { researchgate: "ResearchGate", linkedin: "LinkedIn", scholar: "Google Scholar", department: "Cambridge Zoology" };
+document.getElementById("links").innerHTML = Object.entries(about.links).map(([k, v]) =>
+  `<a href="${v}" target="_blank" rel="noopener">${linkNames[k] ?? k}</a>`).join("");
+
+/* ticker — headlines */
+const sorted = [...pubs.publications].sort((a, b) => b.year - a.year || (b.date > a.date ? 1 : -1));
+const heads = sorted.slice(0, 6).map(p => `<span><span class="dot">●</span> ${p.title} — <i>${p.journal}</i></span>`).join("");
+document.getElementById("ticker").innerHTML = heads + heads;
+
+/* research */
+document.getElementById("res-cnt").textContent = `${research.researchTopics.length} active topics`;
+document.getElementById("res-stack").innerHTML = research.researchTopics.map(t => `
+  <div class="res-item reveal"><h3>${t.name}</h3><p>${t.description}</p></div>`).join("");
+
+/* publications */
+document.getElementById("pub-cnt").textContent = `${sorted.length} entries, ${sorted.at(-1).year}–${sorted[0].year}`;
+const line = p => `
+  <a class="pub-line reveal" href="${p.link ?? (p.doi ? `https://doi.org/${p.doi}` : "#")}" target="_blank" rel="noopener">
+    <span class="body" style="grid-column:2">
+      <h3>${p.title}</h3>
+      <p class="by">${p.authors.map(a => a.isSamReynolds ? `<b>${a.name}</b>` : a.name).join(", ")}</p>
+    </span>
+    <span class="side"><span class="yr">${p.year}</span>${p.journal ?? ""}</span>
+    <span class="arrow">→</span>
+  </a>`;
+const pubIndex = document.getElementById("pub-index");
+const renderPubs = n => { pubIndex.innerHTML = sorted.slice(0, n).map(line).join(""); observe(); };
+renderPubs(7);
+document.getElementById("pub-more").addEventListener("click", e => { renderPubs(sorted.length); e.target.parentElement.remove(); });
+
+/* talks */
+const talksSorted = [...talks.talks].sort((a, b) => (b.date > a.date ? 1 : -1));
+document.getElementById("talk-cnt").textContent = `${talksSorted.length} appearances`;
+document.getElementById("talk-cols").innerHTML = talksSorted.map(t => `
+  <div class="talk-line reveal">
+    <span class="d">${fmt(t.date)}</span>
+    <h4>${t.title}</h4>
+    <span class="v">${t.venue}</span>
+  </div>`).join("");
+
+/* media */
+document.getElementById("media-cnt").textContent = `${media.media.length} features`;
+document.getElementById("media-strip").innerHTML = media.media.map(m => `
+  <a class="media-cell reveal" href="${m.link ?? "#"}" target="_blank" rel="noopener">
+    <span class="tp">${m.type}</span><h4>${m.title}</h4>
+    <span class="mt">${m.venue} · ${fmt(m.date)}</span>
+  </a>`).join("");
+
+observe();
+</script>
+</body>
+</html>
