@@ -3,6 +3,8 @@ node_modules/
 
 # Build output
 dist/
+# generated from content/notes/ by scripts/build-notes.js
+public/data/notes.json
 
 # Environment files
 .env

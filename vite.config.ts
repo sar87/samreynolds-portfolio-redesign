@@ -12,6 +12,12 @@ export default defineConfig({
 
   // Build configuration
   build: {
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        notes: 'notes.html',
+      },
+    },
     outDir: 'dist',
     sourcemap: true,
     target: 'es2022',
