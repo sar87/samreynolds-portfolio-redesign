@@ -686,26 +686,37 @@ footer .fc a:hover { text-decoration: underline; }
 </footer>
 
 <script type="module">
-/* ============ currents (flow field, green + amber) ============ */
+/* ============ silk (flow field, green + amber, combed trails + cursor whirlpool) ============ */
 const canvas = document.getElementById("hero-anim");
 const ctx = canvas.getContext("2d");
 let W, H, dpr;
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const parts = [];
+function fitParts() {                                   /* density scales with area */
+  const target = reduced ? 0 : Math.min(3800, Math.round(W * H / 380));
+  while (parts.length < target) parts.push({ x: Math.random() * W, y: Math.random() * H, life: 80 + Math.random() * 320 });
+  parts.length = target;
+}
 function resize() {
   dpr = Math.min(devicePixelRatio || 1, 2);
   W = canvas.clientWidth; H = canvas.clientHeight;
   canvas.width = W * dpr; canvas.height = H * dpr;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.fillStyle = "#070d09"; ctx.fillRect(0, 0, W, H);
+  ctx.lineWidth = 0.7; ctx.lineCap = "round";
+  fitParts();
 }
 resize(); addEventListener("resize", resize);
 
-const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mouse = { x: -9999, y: -9999 };
+let mvx = 0, mvy = 0;                                   /* smoothed cursor velocity → comb */
 canvas.parentElement.addEventListener("pointermove", e => {
   const r = canvas.getBoundingClientRect();
-  mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+  const nx = e.clientX - r.left, ny = e.clientY - r.top;
+  if (mouse.x > -9000) { mvx = mvx * 0.7 + (nx - mouse.x) * 0.3; mvy = mvy * 0.7 + (ny - mouse.y) * 0.3; }
+  mouse.x = nx; mouse.y = ny;
 });
-canvas.parentElement.addEventListener("pointerleave", () => { mouse.x = -9999; mouse.y = -9999; });
+canvas.parentElement.addEventListener("pointerleave", () => { mouse.x = -9999; mouse.y = -9999; mvx = 0; mvy = 0; });
 
 /* compact perlin-ish noise */
 function makeNoise() {
@@ -723,30 +734,36 @@ function makeNoise() {
 const flow = makeNoise(), tint = makeNoise();   /* separate field drives the colour */
 const C1 = [99, 242, 162];   /* green */
 const C2 = [255, 180, 84];   /* amber */
-const N = reduced ? 0 : (innerWidth < 700 ? 520 : 1150);
-const parts = Array.from({ length: N }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, life: 60 + Math.random() * 260 }));
-ctx.lineWidth = 1.1; ctx.lineCap = "round";
+const R2 = 92000;            /* whirlpool radius ≈ 303px */
+const RC2 = 32000;           /* comb radius ≈ 179px — only nearby fibres follow the cursor */
 let tFlow = 0;
 function frame() {
-  ctx.fillStyle = "rgba(7,13,9,0.052)"; ctx.fillRect(0, 0, W, H);
-  tFlow += 0.0009;
+  ctx.fillStyle = "rgba(7,13,9,0.024)"; ctx.fillRect(0, 0, W, H);   /* very slow fade → long silk trails */
+  tFlow += 0.0007; mvx *= 0.92; mvy *= 0.92;
+  const mspeed = Math.min(1, (Math.abs(mvx) + Math.abs(mvy)) * 0.055);
   for (const p of parts) {
-    const a = flow(p.x * 0.0016, p.y * 0.0016 + tFlow) * Math.PI * 4;
+    const a = flow(p.x * 0.0012, p.y * 0.0012 + tFlow) * Math.PI * 4;
     let vx = Math.cos(a), vy = Math.sin(a), bright = 0;
     const dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
-    if (d2 < 22000) { const f = 1 - d2 / 22000, d = Math.sqrt(d2) + 0.001; vx += dx / d * f * 1.6; vy += dy / d * f * 1.6; bright = f; }
+    if (d2 < R2) {
+      const f = 1 - d2 / R2, fw = f * f, d = Math.sqrt(d2) + 0.001;
+      vx += (-dy / d * 3.1 - dx / d * 0.75) * fw;      /* whirlpool: strong orbit with inward pull */
+      vy += ( dx / d * 3.1 - dy / d * 0.75) * fw;
+      if (d2 < RC2) { const c = 1 - d2 / RC2; vx += mvx * c * c * 1.1; vy += mvy * c * c * 1.1; }   /* comb only close fibres */
+      bright = f * (0.35 + mspeed * 0.65);
+    }
     const px = p.x, py = p.y;
-    p.x += vx * 1.25; p.y += vy * 1.25;
+    p.x += vx * 0.9; p.y += vy * 0.9;
     let m = (tint(p.x * 0.0011 + 140, p.y * 0.0011 - tFlow * 0.6) + 1) * 0.5; m = m * m * (3 - 2 * m);
     let r = C1[0] + (C2[0] - C1[0]) * m, g = C1[1] + (C2[1] - C1[1]) * m, b = C1[2] + (C2[2] - C1[2]) * m;
     r += (255 - r) * bright; g += (255 - g) * bright; b += (255 - b) * bright;
-    ctx.strokeStyle = `rgba(${r | 0},${g | 0},${b | 0},${0.5 + bright * 0.4})`;
+    ctx.strokeStyle = `rgba(${r | 0},${g | 0},${b | 0},${0.34 + bright * 0.55})`;
     ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(p.x, p.y); ctx.stroke();
-    if (--p.life < 0 || p.x < -5 || p.x > W + 5 || p.y < -5 || p.y > H + 5) { p.x = Math.random() * W; p.y = Math.random() * H; p.life = 60 + Math.random() * 260; }
+    if (--p.life < 0 || p.x < -5 || p.x > W + 5 || p.y < -5 || p.y > H + 5) { p.x = Math.random() * W; p.y = Math.random() * H; p.life = 80 + Math.random() * 320; }
   }
   requestAnimationFrame(frame);
 }
-if (N) frame();
+if (!reduced) frame();
 
 /* ============ content ============ */
 const [about, research, pubs, talks, media, awards, roles] = await Promise.all(
