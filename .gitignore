@@ -37,3 +37,6 @@ js/
 
 # Planning docs (not needed in production)
 .planning/
+
+# Local design reference captures
+.screenshots/

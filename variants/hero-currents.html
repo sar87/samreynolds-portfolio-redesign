@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero option — Currents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--void:#070d09;--pine:#0c1510;--glow:#63f2a2;--glow-dim:#3a9c68;--amber:#ffb454;--fog:#b7cdbd;--fog-dim:#6d8474;--line:rgba(99,242,162,0.14);--display:"Bricolage Grotesque",sans-serif;--mono:"IBM Plex Mono",monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--void);color:var(--fog);font-family:var(--display);font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;overflow:hidden;}
+body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 90% 70% at 50% 0%,rgba(99,242,162,0.05),transparent 60%);}
+.nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2.2rem;}
+.nav .mark{color:#eaf5ec;text-decoration:none;font-weight:500;font-size:1rem;letter-spacing:-0.01em;}
+.nav .mark span{color:var(--glow);}
+.nav .opt{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--glow-dim);border:1px solid var(--line);padding:0.35rem 0.8rem;border-radius:3px;}
+.hero{position:relative;height:100svh;min-height:640px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;}
+#anim{position:absolute;inset:0;width:100%;height:100%;display:block;}
+.hero-inner{position:relative;z-index:2;max-width:1240px;width:100%;margin:0 auto;padding:0 2.2rem;pointer-events:none;}
+.kicker{font-family:var(--mono);font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--glow-dim);margin-bottom:1.6rem;display:flex;align-items:center;gap:1rem;}
+.kicker::before{content:"";width:40px;height:1px;background:var(--glow-dim);}
+h1{font-size:clamp(2.8rem,7.6vw,6.4rem);font-weight:600;line-height:1.0;letter-spacing:-0.03em;color:#eaf5ec;max-width:16ch;}
+h1 .g{color:var(--glow);}h1 .thin{font-weight:200;font-style:italic;}
+.sub{margin-top:1.8rem;max-width:52ch;font-size:clamp(1rem,1.4vw,1.2rem);color:var(--fog);}
+.identity{margin-top:2.4rem;padding-top:1.5rem;border-top:1px solid var(--line);max-width:54ch;}
+.identity .idn{font-size:1.2rem;font-weight:600;color:#eaf5ec;letter-spacing:-0.01em;}
+.identity .idrole{font-size:1.2rem;font-weight:300;color:var(--glow);}
+.identity .idaffil{display:block;margin-top:0.4rem;font-family:var(--mono);font-size:0.74rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--fog-dim);}
+.hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:2;font-family:var(--mono);font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--fog-dim);}
+@media(max-width:900px){.nav .opt{display:none;}}
+</style>
+</head>
+<body>
+<nav class="nav"><a class="mark" href="#">Sam Reynolds<span>.</span></a><span class="opt">Option 1 · Currents</span></nav>
+<header class="hero">
+  <canvas id="anim"></canvas>
+  <div class="hero-inner">
+    <p class="kicker">AI · Conservation · Ecology</p>
+    <h1>Teaching machines to read <span class="g">every word</span> ever written <span class="thin">about nature.</span></h1>
+    <p class="sub">I develop AI systems that gather and synthesise the world's conservation evidence — so that decisions about nature are informed by everything we know.</p>
+    <div class="identity"><span class="idn">Sam Reynolds</span> · <span class="idrole">Assistant Research Professor</span><span class="idaffil">Conservation Research Institute · University of Cambridge</span></div>
+  </div>
+  <p class="hint">move your cursor — the currents bend</p>
+</header>
+<script type="module">
+const canvas=document.getElementById('anim'),ctx=canvas.getContext('2d');
+let W,H,dpr;
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=canvas.clientWidth;H=canvas.clientHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#070d09';ctx.fillRect(0,0,W,H);}
+resize();addEventListener('resize',resize);
+const mouse={x:-9999,y:-9999};
+const hero=canvas.parentElement;
+hero.addEventListener('pointermove',e=>{const r=canvas.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});
+hero.addEventListener('pointerleave',()=>{mouse.x=-9999;mouse.y=-9999;});
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* compact value/perlin-ish noise */
+function makeNoise(){
+  const p=[...Array(256).keys()];
+  for(let i=255;i>0;i--){const j=(Math.random()*(i+1))|0;[p[i],p[j]]=[p[j],p[i]];}
+  const perm=new Uint8Array(512);for(let i=0;i<512;i++)perm[i]=p[i&255];
+  const fade=t=>t*t*t*(t*(t*6-15)+10),lerp=(a,b,t)=>a+(b-a)*t;
+  const grad=(h,x,y)=>((h&1)?x:-x)+((h&2)?y:-y);
+  return(x,y)=>{const X=Math.floor(x)&255,Y=Math.floor(y)&255;x-=Math.floor(x);y-=Math.floor(y);
+    const u=fade(x),v=fade(y),a=perm[X]+Y,b=perm[X+1]+Y;
+    return lerp(lerp(grad(perm[a],x,y),grad(perm[b],x-1,y),u),lerp(grad(perm[a+1],x,y-1),grad(perm[b+1],x-1,y-1),u),v);};
+}
+const noise=makeNoise();
+const N=reduced?0:(innerWidth<700?520:1150);
+const parts=Array.from({length:N},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,life:60+Math.random()*260}));
+ctx.lineWidth=1.1;ctx.lineCap='round';
+let t=0;
+function frame(){
+  ctx.fillStyle='rgba(7,13,9,0.052)';ctx.fillRect(0,0,W,H);
+  t+=0.0009;
+  for(const p of parts){
+    const a=noise(p.x*0.0016,p.y*0.0016+t)*Math.PI*4;
+    let vx=Math.cos(a),vy=Math.sin(a),bright=0;
+    const dx=p.x-mouse.x,dy=p.y-mouse.y,d2=dx*dx+dy*dy;
+    if(d2<22000){const f=1-d2/22000,d=Math.sqrt(d2)+0.001;vx+=dx/d*f*1.6;vy+=dy/d*f*1.6;bright=f;}
+    const px=p.x,py=p.y;
+    p.x+=vx*1.25;p.y+=vy*1.25;
+    ctx.strokeStyle=`rgba(${Math.round(70+bright*150)},${Math.round(190+bright*60)},${Math.round(140+bright*70)},${0.5+bright*0.4})`;
+    ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(p.x,p.y);ctx.stroke();
+    if(--p.life<0||p.x<-5||p.x>W+5||p.y<-5||p.y>H+5){p.x=Math.random()*W;p.y=Math.random()*H;p.life=60+Math.random()*260;}
+  }
+  requestAnimationFrame(frame);
+}
+if(N)frame();
+</script>
+</body>
+</html>
