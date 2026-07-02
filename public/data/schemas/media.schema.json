@@ -39,6 +39,10 @@
             "format": "uri",
             "description": "URL to the media content (optional)"
           },
+          "image": {
+            "type": "string",
+            "description": "Path to the media thumbnail image (optional)"
+          },
           "description": {
             "type": "string",
             "description": "Brief description of the appearance (optional)"

@@ -449,18 +449,43 @@ section { padding: 6rem 0 0; }
 .role-item .detail { font-size: 0.88rem; color: var(--fog-dim); margin-top: 0.25rem; }
 
 /* ---------- media ---------- */
-.media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.4rem; padding-bottom: 1rem; }
+.media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.6rem; padding-bottom: 1rem; }
 .m-card {
-  border: 1px solid var(--line); border-radius: 6px;
+  border: 1px solid var(--line); border-radius: 8px;
   background: var(--pine-2);
-  padding: 1.6rem 1.5rem;
   text-decoration: none;
-  display: flex; flex-direction: column; gap: 0.8rem;
+  display: flex; flex-direction: column;
+  overflow: hidden;
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
-.m-card:hover { border-color: rgba(255,180,84,0.5); transform: translateY(-4px); box-shadow: 0 18px 40px -20px rgba(0,0,0,0.7); }
-.m-card .tp { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); }
-.m-card h4 { color: #eaf5ec; font-weight: 500; font-size: 1.08rem; line-height: 1.35; }
+.m-card:hover { border-color: rgba(255,180,84,0.55); transform: translateY(-5px); box-shadow: 0 24px 46px -20px rgba(0,0,0,0.78); }
+.m-card .media-thumb { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--pine); }
+.m-card .media-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+.m-card:hover .media-thumb img { transform: scale(1.06); }
+.m-card .media-thumb::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(12,21,16,0.6), transparent 55%);
+  pointer-events: none;
+}
+.m-card .tp {
+  position: absolute; top: 0.85rem; left: 0.85rem; z-index: 2;
+  font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--void); background: var(--amber);
+  padding: 0.3rem 0.65rem; border-radius: 99px;
+}
+.m-card .play {
+  position: absolute; inset: 0; margin: auto; z-index: 2;
+  width: 54px; height: 54px; border-radius: 50%;
+  background: rgba(7,13,9,0.5); backdrop-filter: blur(4px);
+  border: 1px solid rgba(244,241,234,0.45);
+  display: grid; place-items: center;
+  transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+.m-card:hover .play { background: var(--amber); border-color: var(--amber); transform: scale(1.1); }
+.m-card .play svg { width: 18px; height: 18px; fill: #f4f1ea; margin-left: 3px; transition: fill 0.3s ease; }
+.m-card:hover .play svg { fill: var(--void); }
+.m-card .m-body { padding: 1.2rem 1.3rem 1.4rem; display: flex; flex-direction: column; gap: 0.55rem; flex: 1; }
+.m-card h4 { color: #eaf5ec; font-weight: 500; font-size: 1.08rem; line-height: 1.32; }
 .m-card .mt { font-family: var(--mono); font-size: 0.72rem; color: var(--fog-dim); margin-top: auto; }
 
 /* ---------- footer ---------- */
@@ -765,6 +790,7 @@ document.getElementById("res-grid").innerHTML = research.researchTopics.map((t, 
     <h3>${t.name}</h3><p>${t.description}</p>
   </div>`).join("");
 
+const pubUrl = p => p.url ?? (p.doi ? `https://doi.org/${p.doi}` : "");
 const sorted = [...pubs.publications].sort((a, b) => b.year - a.year || (b.date > a.date ? 1 : -1));
 document.getElementById("pub-rows").innerHTML = sorted.map((p, i) => `
   <div class="pub-row reveal" data-i="${i}">
@@ -776,11 +802,11 @@ document.getElementById("pub-rows").innerHTML = sorted.map((p, i) => `
       <span class="x">+</span>
     </div>
     <div class="body"><div class="body-inner">
-      ${p.image ? `<a class="cover" href="${p.link ?? (p.doi ? `https://doi.org/${p.doi}` : "#")}" target="_blank" rel="noopener"><img src="${p.image}" alt="${p.title}" loading="lazy"></a>` : `<span></span>`}
+      ${p.image ? `<a class="cover" href="${pubUrl(p)}" target="_blank" rel="noopener"><img src="${p.image}" alt="${p.title}" loading="lazy"></a>` : `<span></span>`}
       <div>
         <p class="authors">${p.authors.map(a => a.isSamReynolds ? `<b>${a.name}</b>` : a.name).join(" · ")}</p>
         <p class="abstract">${(p.abstract ?? "").slice(0, 420)}${(p.abstract ?? "").length > 420 ? "…" : ""}</p>
-        ${p.link || p.doi ? `<a class="go" href="${p.link ?? `https://doi.org/${p.doi}`}" target="_blank" rel="noopener">Read the paper ↗</a>` : ""}
+        ${pubUrl(p) ? `<a class="go" href="${pubUrl(p)}" target="_blank" rel="noopener">Read the paper ↗</a>` : ""}
       </div>
     </div></div>
   </div>`).join("");
@@ -840,11 +866,21 @@ document.getElementById("timeline").innerHTML = talksSorted.map(t => `
 const tickerContent = talksSorted.map(t => `<span><b>${fmt(t.date)}</b> — ${t.title}, ${t.venue}</span>`).join("");
 document.getElementById("ticker").innerHTML = tickerContent + tickerContent;
 
-document.getElementById("media-grid").innerHTML = media.media.map(m => `
+document.getElementById("media-grid").innerHTML = media.media.map(m => {
+  const playable = ["video", "podcast", "panel"].includes(m.type);
+  return `
   <a class="m-card reveal" href="${m.link ?? "#"}" target="_blank" rel="noopener">
-    <span class="tp">${m.type}</span><h4>${m.title}</h4>
-    <span class="mt">${m.venue} · ${fmt(m.date)}</span>
-  </a>`).join("");
+    <div class="media-thumb">
+      <span class="tp">${m.type}</span>
+      ${m.image ? `<img src="${m.image}" alt="${m.title}" loading="lazy">` : ""}
+      ${playable ? `<span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>` : ""}
+    </div>
+    <div class="m-body">
+      <h4>${m.title}</h4>
+      <span class="mt">${m.venue} · ${fmt(m.date)}</span>
+    </div>
+  </a>`;
+}).join("");
 
 /* reveals */
 const io = new IntersectionObserver(es => {

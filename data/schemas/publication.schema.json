@@ -68,6 +68,10 @@
             "type": "string",
             "format": "uri",
             "description": "Direct URL for publications without a DOI"
+          },
+          "image": {
+            "type": "string",
+            "description": "Path to the publication cover/thumbnail image (optional)"
           }
         },
         "additionalProperties": false
