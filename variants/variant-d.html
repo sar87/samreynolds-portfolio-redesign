@@ -66,7 +66,7 @@ body::before {
   display: flex; flex-direction: column; justify-content: center;
   overflow: hidden;
 }
-#murmuration { position: absolute; inset: 0; width: 100%; height: 100%; }
+#hero-anim { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero-inner {
   position: relative; z-index: 2;
   max-width: 1240px; width: 100%;
@@ -533,7 +533,7 @@ footer .fc a:hover { text-decoration: underline; }
 </nav>
 
 <header class="hero">
-  <canvas id="murmuration"></canvas>
+  <canvas id="hero-anim"></canvas>
   <div class="hero-inner">
     <p class="kicker">AI · Conservation · Ecology</p>
     <h1>Teaching machines to read <span class="g">every word</span> ever written <span class="thin">about nature.</span></h1>
@@ -678,8 +678,8 @@ footer .fc a:hover { text-decoration: underline; }
 </footer>
 
 <script type="module">
-/* ============ murmuration (boids) ============ */
-const canvas = document.getElementById("murmuration");
+/* ============ currents (flow field, green + amber) ============ */
+const canvas = document.getElementById("hero-anim");
 const ctx = canvas.getContext("2d");
 let W, H, dpr;
 function resize() {
@@ -687,15 +687,11 @@ function resize() {
   W = canvas.clientWidth; H = canvas.clientHeight;
   canvas.width = W * dpr; canvas.height = H * dpr;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.fillStyle = "#070d09"; ctx.fillRect(0, 0, W, H);
 }
 resize(); addEventListener("resize", resize);
 
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const N = reduced ? 0 : (innerWidth < 700 ? 110 : 230);
-const boids = Array.from({ length: N }, () => ({
-  x: Math.random() * innerWidth, y: Math.random() * innerHeight,
-  vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2,
-}));
 const mouse = { x: -9999, y: -9999 };
 canvas.parentElement.addEventListener("pointermove", e => {
   const r = canvas.getBoundingClientRect();
@@ -703,63 +699,46 @@ canvas.parentElement.addEventListener("pointermove", e => {
 });
 canvas.parentElement.addEventListener("pointerleave", () => { mouse.x = -9999; mouse.y = -9999; });
 
-const CELL = 60;
-function step() {
-  const grid = new Map();
-  for (const b of boids) {
-    const k = ((b.x / CELL) | 0) + "," + ((b.y / CELL) | 0);
-    (grid.get(k) ?? grid.set(k, []).get(k)).push(b);
-  }
-  for (const b of boids) {
-    let ax = 0, ay = 0, cx = 0, cy = 0, sx = 0, sy = 0, n = 0;
-    const gx = (b.x / CELL) | 0, gy = (b.y / CELL) | 0;
-    for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) {
-      const cell = grid.get((gx + i) + "," + (gy + j));
-      if (!cell) continue;
-      for (const o of cell) {
-        if (o === b) continue;
-        const dx = o.x - b.x, dy = o.y - b.y, d2 = dx * dx + dy * dy;
-        if (d2 > 3600) continue;
-        n++;
-        ax += o.vx; ay += o.vy;
-        cx += o.x; cy += o.y;
-        if (d2 < 500) { sx -= dx / (d2 + 1) * 18; sy -= dy / (d2 + 1) * 18; }
-      }
-    }
-    if (n) {
-      b.vx += (ax / n - b.vx) * 0.045 + (cx / n - b.x) * 0.0022 + sx * 0.06;
-      b.vy += (ay / n - b.vy) * 0.045 + (cy / n - b.y) * 0.0022 + sy * 0.06;
-    }
-    const mdx = b.x - mouse.x, mdy = b.y - mouse.y, md2 = mdx * mdx + mdy * mdy;
-    if (md2 < 22500) { const f = 1 - md2 / 22500; b.vx += (mdx / Math.sqrt(md2 + 1)) * f * 1.6; b.vy += (mdy / Math.sqrt(md2 + 1)) * f * 1.6; }
-    if (b.x < 60) b.vx += 0.09; if (b.x > W - 60) b.vx -= 0.09;
-    if (b.y < 60) b.vy += 0.09; if (b.y > H - 60) b.vy -= 0.09;
-    const sp = Math.hypot(b.vx, b.vy);
-    const max = 2.6, min = 0.9;
-    if (sp > max) { b.vx = b.vx / sp * max; b.vy = b.vy / sp * max; }
-    if (sp < min) { b.vx = b.vx / (sp + 0.001) * min; b.vy = b.vy / (sp + 0.001) * min; }
-    b.x += b.vx; b.y += b.vy;
-  }
+/* compact perlin-ish noise */
+function makeNoise() {
+  const p = [...Array(256).keys()];
+  for (let i = 255; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [p[i], p[j]] = [p[j], p[i]]; }
+  const perm = new Uint8Array(512); for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
+  const fade = t => t * t * t * (t * (t * 6 - 15) + 10), lerp = (a, b, t) => a + (b - a) * t;
+  const grad = (h, x, y) => ((h & 1) ? x : -x) + ((h & 2) ? y : -y);
+  return (x, y) => {
+    const X = Math.floor(x) & 255, Y = Math.floor(y) & 255; x -= Math.floor(x); y -= Math.floor(y);
+    const u = fade(x), v = fade(y), a = perm[X] + Y, b = perm[X + 1] + Y;
+    return lerp(lerp(grad(perm[a], x, y), grad(perm[b], x - 1, y), u), lerp(grad(perm[a + 1], x, y - 1), grad(perm[b + 1], x - 1, y - 1), u), v);
+  };
 }
-function draw() {
-  ctx.clearRect(0, 0, W, H);
-  ctx.strokeStyle = "rgba(99,242,162,0.05)";
-  ctx.beginPath();
-  for (let i = 0; i < boids.length; i += 7) {
-    const a = boids[i], b = boids[(i + 13) % boids.length];
-    if ((a.x - b.x) ** 2 + (a.y - b.y) ** 2 < 16000) { ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); }
+const flow = makeNoise(), tint = makeNoise();   /* separate field drives the colour */
+const C1 = [99, 242, 162];   /* green */
+const C2 = [255, 180, 84];   /* amber */
+const N = reduced ? 0 : (innerWidth < 700 ? 520 : 1150);
+const parts = Array.from({ length: N }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, life: 60 + Math.random() * 260 }));
+ctx.lineWidth = 1.1; ctx.lineCap = "round";
+let tFlow = 0;
+function frame() {
+  ctx.fillStyle = "rgba(7,13,9,0.052)"; ctx.fillRect(0, 0, W, H);
+  tFlow += 0.0009;
+  for (const p of parts) {
+    const a = flow(p.x * 0.0016, p.y * 0.0016 + tFlow) * Math.PI * 4;
+    let vx = Math.cos(a), vy = Math.sin(a), bright = 0;
+    const dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
+    if (d2 < 22000) { const f = 1 - d2 / 22000, d = Math.sqrt(d2) + 0.001; vx += dx / d * f * 1.6; vy += dy / d * f * 1.6; bright = f; }
+    const px = p.x, py = p.y;
+    p.x += vx * 1.25; p.y += vy * 1.25;
+    let m = (tint(p.x * 0.0011 + 140, p.y * 0.0011 - tFlow * 0.6) + 1) * 0.5; m = m * m * (3 - 2 * m);
+    let r = C1[0] + (C2[0] - C1[0]) * m, g = C1[1] + (C2[1] - C1[1]) * m, b = C1[2] + (C2[2] - C1[2]) * m;
+    r += (255 - r) * bright; g += (255 - g) * bright; b += (255 - b) * bright;
+    ctx.strokeStyle = `rgba(${r | 0},${g | 0},${b | 0},${0.5 + bright * 0.4})`;
+    ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(p.x, p.y); ctx.stroke();
+    if (--p.life < 0 || p.x < -5 || p.x > W + 5 || p.y < -5 || p.y > H + 5) { p.x = Math.random() * W; p.y = Math.random() * H; p.life = 60 + Math.random() * 260; }
   }
-  ctx.stroke();
-  for (const b of boids) {
-    const sp = Math.hypot(b.vx, b.vy);
-    const g = Math.min(1, sp / 2.6);
-    ctx.fillStyle = `rgba(${Math.round(99 + g * 60)}, ${Math.round(210 + g * 45)}, ${Math.round(150 + g * 30)}, ${0.45 + g * 0.5})`;
-    ctx.beginPath();
-    ctx.arc(b.x, b.y, 1.1 + g * 1.2, 0, 7);
-    ctx.fill();
-  }
+  requestAnimationFrame(frame);
 }
-(function loop() { if (N) { step(); draw(); } requestAnimationFrame(loop); })();
+if (N) frame();
 
 /* ============ content ============ */
 const [about, research, pubs, talks, media, awards, roles] = await Promise.all(
