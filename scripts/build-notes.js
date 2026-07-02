@@ -31,7 +31,8 @@ const notes = files.map(file => {
     date: toDateString(meta.date),
     tags: Array.isArray(meta.tags) ? meta.tags.map(String) : meta.tags ? [String(meta.tags)] : [],
     excerpt: text.length > 180 ? text.slice(0, 180).replace(/\s\S*$/, '') + '…' : text,
-    html: marked.parse(body),
+    // media uploads reference /images/notes/... absolutely; make them relative so any base path works
+    html: marked.parse(body).replace(/(src|href)="\//g, '$1="'),
   };
 }).sort((a, b) => (b.date + b.slug).localeCompare(a.date + a.slug));
 

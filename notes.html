@@ -54,10 +54,9 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;bac
 </style>
 </head>
 <body>
-<!-- back-links point at the variant D preview; change both to "/" when variant D is promoted to homepage -->
 <nav class="nav">
-  <a class="mark" href="/variants/variant-d.html">Sam Reynolds<span>.</span></a>
-  <a class="back" href="/variants/variant-d.html">← Back to site</a>
+  <a class="mark" href="./">Sam Reynolds<span>.</span></a>
+  <a class="back" href="./">← Back to site</a>
 </nav>
 <main class="wrap" id="app"><p class="empty">Loading notes…</p></main>
 
@@ -69,7 +68,7 @@ const tagHtml = tags => tags.length ? `<span class="tags">${tags.map(t => `<span
 
 let notes = [];
 try {
-  notes = (await fetch("/data/notes.json").then(r => r.json())).notes;
+  notes = (await fetch("data/notes.json").then(r => r.json())).notes;
 } catch {
   app.innerHTML = `<p class="empty">Couldn't load notes.</p>`;
 }

@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  // Base path: '/' for custom domain (samreynolds.org)
-  base: '/',
+  // Relative base: works at the GitHub Pages project URL now and a custom domain later
+  base: './',
 
   // Server configuration
   server: {
