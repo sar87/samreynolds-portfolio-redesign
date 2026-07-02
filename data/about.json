@@ -1,13 +1,14 @@
 {
   "name": "Sam Reynolds",
-  "title": "AI, Conservation & Ecology Researcher",
+  "title": "Assistant Research Professor",
   "affiliation": "University of Cambridge",
   "email": "sar87@cam.ac.uk",
+  "headshot": "/images/profile.jpg",
   "bio": [
-    "I am a classically trained biologist who has slowly migrated from cells, genes and proteins; to ecosystems, climate change and food security; to applied ecology; and finally, to conservation. I am now exploring how AI-enabled tools may dramatically alter evidence synthesis of grey and published literature to inform conservation action.",
-    "Currently, I am working on the development of Artificial Intelligence (AI) technologies to streamline the collation of evidence from published and grey literature to better inform conservation action. Additionally, I am focused on co-designing AI tools which will allow decision makers to interact with evidence in an intuitive way.",
-    "Following my recent publication in Trends in Ecology and Evolution, 'The potential for AI to revolutionize conservation: a horizon scan' I am aiming to further explore this space between cutting edge AI and conservation science/practice.",
-    "I hold a PhD in Zoology from the University of Cambridge, which focused on harnessing the impacts of aquatic invasive species, and a MSc and BSc Hons in Biological sciences from the University of Warwick."
+    "I am a biologist who has slowly migrated from cells, genes and proteins; to ecosystems, climate change and food security; to applied ecology; and finally, to conservation. I am now exploring how AI-enabled tools may dramatically alter evidence synthesis of grey and published literature to inform conservation action. I am also interested in AI applications in conservation more broadly, both in terms of how they work and how we implement them responsibly and ethically.",
+    "I hold a PhD in Zoology from the University of Cambridge (2021), which focused on harnessing and quantifying the impacts of aquatic invasive species, and an MSc (2013) and BSc (2011) in Biological sciences from the University of Warwick.",
+    "Beyond academia, I have worked for environmental NGOs (IUCN & ClientEarth), as a nature documentary researcher (National Geographic), and as an Environmental Consultant (WSP).",
+    "I am a faculty fellow for the Digital Statecraft Academy, a global hub for cultivating public leaders ready to navigate the complexities of data, AI and digital governance, and a founding member of Ai4Nature, a cross-sectoral initiative to advance responsible AI applications in biodiversity data and nature recovery."
   ],
   "education": [
     {

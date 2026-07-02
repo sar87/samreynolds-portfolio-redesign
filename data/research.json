@@ -2,8 +2,8 @@
   "researchTopics": [
     {
       "id": "ai-conservation",
-      "name": "Conservation and AI",
-      "description": "Conservation needs to move faster and more effectively with a paradigm shift from 'losing more slowly' to 'recovering lost ecosystems' if we are to achieve a resilient planet. By leveraging artificial intelligence (AI) to combine the totality of human knowledge with the sum of human observations, we can achieve a step change in our ability to deliver effective conservation. My current research concerns the development of AI technologies to streamline the collation of evidence from published and grey literature to better inform conservation action, and co-designing AI tools which will allow decision makers to interact with evidence in an intuitive way.",
+      "name": "AI for conservation and evidence synthesis",
+      "description": "I am currently leading a collaboration with the Department of Computer Science and Technology to develop Artificial Intelligence (AI) technologies capable of expert-level searching, classifying and summarising to streamline the collation and analysis of evidence from published and grey literature to better inform conservation action. Additionally, I am co-designing AI tools which will allow decision makers to interact with evidence in an intuitive way. This research has led to impact and influence across academic research, academic publishing, conservation NGOs and government policy. Following my publication in Trends in Ecology and Evolution, 'The potential for AI to revolutionize conservation: a horizon scan', I have been further exploring the space between cutting edge AI and conservation science and practice, including the ethical and environmental considerations of adopting AI technologies and working with conservation organisations to guide responsible adoption.",
       "relatedPublications": [
         "ai-assisted-living-evidence-databases",
         "ai-poisoning-evidence-synthesis",
@@ -15,8 +15,8 @@
     },
     {
       "id": "invasive-species-phd",
-      "name": "PhD Research",
-      "description": "My PhD thesis was titled 'Invasive non-native species and the management and exploitation of freshwater ecosystems'. I explored the impact of invasive species, focussing particularly on invasive freshwater mussels and plants, on the collapse and recovery of freshwater ecosystems. Identifying both how invasive species can bring about catastrophic shifts between clear water or phytoplankton dominated alternative equilibria and may also predictably alter phytoplankton communities either driving or suppressing harmful algal blooms. My research has been featured in over 100 news outlets and the Cambridge University News website, and my publication on the global impacts of invasive species on shallow lake ecosystems is in the 95th percentile of all recorded Altmetric scores.",
+      "name": "Invasive species",
+      "description": "Building on my PhD research, I continue to conduct research on invasive species. I worked on a project to co-design a prototype of the first comprehensive and centralised repository for compiling and sharing evidence on invasive species management actions, involving multiple stakeholder workshops with over 100 participants from around the world. I also guide the application of a novel method of evidence synthesis termed 'dynamic meta-analysis' to better understand the effectiveness of invasive species management. This work led to collaboration with Chinese academics and government to support the 'Special Action Plan for the Prevention and Control of Spartina (2022-2025)'; the outcomes were presented in Science magazine, for which I was interviewed, and were presented to the Chinese Government.",
       "relatedPublications": [
         "invasive-species-tipping-points-shallow-lakes",
         "invasive-quagga-mussels-water-quality",

@@ -142,6 +142,34 @@ section { padding: 6rem 0 0; }
 
 /* ---------- about ---------- */
 .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 4rem; }
+.profile-card {
+  border: 1px solid var(--line); border-radius: 6px;
+  background: var(--pine-2);
+  padding: 1.2rem; margin-bottom: 1.4rem;
+  text-align: center;
+}
+.profile-card .photo {
+  position: relative;
+  width: 100%; aspect-ratio: 1 / 1;
+  border-radius: 5px; overflow: hidden;
+  margin-bottom: 1.1rem;
+  box-shadow: 0 0 50px -18px rgba(99,242,162,0.4);
+}
+.profile-card .photo img {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center 22%;
+  filter: saturate(1.02);
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.profile-card:hover .photo img { transform: scale(1.04); }
+.profile-card .photo::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(12,21,16,0.35), transparent 45%);
+  pointer-events: none;
+}
+.profile-card .pname { font-size: 1.25rem; font-weight: 600; color: #eaf5ec; letter-spacing: -0.01em; }
+.profile-card .ptitle { font-size: 0.95rem; color: var(--fog); margin-top: 0.15rem; }
+.profile-card .paffil { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--glow-dim); margin-top: 0.55rem; }
 .about-main .big {
   font-size: clamp(1.3rem, 2.1vw, 1.75rem);
   font-weight: 300; line-height: 1.5; color: #dceadf;
@@ -439,6 +467,12 @@ footer .fc a:hover { text-decoration: underline; }
         <div id="bio-rest"></div>
       </div>
       <div class="reveal">
+        <div class="profile-card">
+          <div class="photo"><img id="headshot" alt="Sam Reynolds" loading="lazy"></div>
+          <div class="pname" id="p-name"></div>
+          <div class="ptitle" id="p-title"></div>
+          <div class="paffil" id="p-affil"></div>
+        </div>
         <div class="panel">
           <h3>Education</h3>
           <div id="education"></div>
@@ -621,6 +655,10 @@ const [about, research, pubs, talks, media] = await Promise.all(
 );
 const fmt = d => new Date(d).toLocaleDateString("en-GB", { month: "short", year: "numeric" });
 
+document.getElementById("headshot").src = about.headshot ?? "/images/profile.jpg";
+document.getElementById("p-name").textContent = about.name;
+document.getElementById("p-title").textContent = about.title;
+document.getElementById("p-affil").textContent = about.affiliation;
 document.getElementById("bio-lede").innerHTML = about.bio[0].replace("AI-enabled tools", "<em>AI-enabled tools</em>");
 document.getElementById("bio-rest").innerHTML = about.bio.slice(1).map(p => `<p>${p}</p>`).join("");
 document.getElementById("education").innerHTML = about.education.map(e => `
