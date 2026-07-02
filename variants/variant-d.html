@@ -780,7 +780,10 @@ document.getElementById("headshot").src = about.headshot ?? "/images/profile.jpg
 document.getElementById("p-name").textContent = about.name;
 document.getElementById("p-title").textContent = about.title;
 document.getElementById("p-affil").textContent = about.affiliation;
-document.getElementById("bio-lede").innerHTML = about.bio[0].replace("AI-enabled tools", "<em>AI-enabled tools</em>");
+document.getElementById("bio-lede").innerHTML = about.bio[0]
+  .replace("AI-enabled tools", "<em>AI-enabled tools</em>")
+  .replace("inform conservation action", "<em>inform conservation action</em>")
+  .replace("responsibly and ethically", "<em>responsibly and ethically</em>");
 document.getElementById("bio-rest").innerHTML = about.bio.slice(1).map(p => `<p>${p}</p>`).join("");
 document.getElementById("education").innerHTML = about.education.map(e => `
   <div class="edu"><div class="d">${e.degree}</div><div class="m">${e.institution} · ${e.year}</div></div>`).join("");
