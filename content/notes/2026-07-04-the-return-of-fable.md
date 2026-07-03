@@ -1,6 +1,9 @@
 ---
 title: "The return of Fable "
 date: 2026-07-03
+tags:
+  - Fable
+  - Work Updates
 ---
 # The return of Fable 5
 
@@ -16,5 +19,5 @@ Earlier today [Will Morgan](https://www.zoo.cam.ac.uk/people/william-morgan) and
 
 This has been part of a longer running project that Will has been leading on understanding how we can score the effectiveness of conservation actions described in conservation evidence summaries. To achieve this would require a significant amount of human time, so we have been investigating how we could potentially use an LLM as a judge to accelerate the process. We are well aware that there are many [issues around asking LLMs to make judgements](https://arxiv.org/abs/2601.17312). However, we aren't accepting these judgements blindly, we are assessing them against human assessments. 
 
-### The exploration continues until July 7th... 
+### The exploration continues until July 7th...
 
