@@ -5,8 +5,6 @@ tags:
   - Fable
   - Work Updates
 ---
-# The return of Fable 5
-
 This has been an interesting few days in the world of vibe coding and project building. Unfortunately, I missed the initial release of Fable before it was surreptitiously removed by an order from the US government. Which itself raised a whole new conversation about the governance of LLMs, and the tiered levels of access to frontier LLMs that are likely in our future. 
 
 We know that already that if we were paying per token for the usage of these models then they would be unaffordable for the majority of users, but that looks set to be the [future of Fable from July 8th](https://www.digitalapplied.com/blog/claude-fable-5-before-july-7-six-day-window-playbook). How this unfolds will be interesting for proprietary model providers, as the competition from open-weight model providers is currently hot on their heels.
