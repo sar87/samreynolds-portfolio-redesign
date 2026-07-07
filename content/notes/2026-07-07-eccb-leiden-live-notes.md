@@ -32,3 +32,20 @@ In closing, Nathalie she offered the following points:
 - Biodiversity science of tomorrow calls for attracting and training more boundary spanners, capable to operate across disciplines as well as strengthening of our science to policy pathways - effectiveness needs specialists AND generalists.
 - Siloes hamper effectiveness; breaking siloes starts with engaging with spaces where we are not expected.
 
+## Session 1 - Automated detection for conservation
+
+A series of talks looking at detextion in the environment, from audio, to video, to images, to geospatial models. 
+
+### Upscaling biodiversity monitoring with machine listening - [Dr Leonie Baier](https://www.naturalis.nl/en/leonie-baier)
+
+The algorithms are no longer the biggest challenge - but it is the data that they learn from. Monitoring capacity is not keeping up with the scale of the biodiversity challenge. 
+
+Many taxons are vocally active, machine listening can be ubiquitous and continuous, that is cheaper than using human surveying efforts. 
+
+However, we are frequently confronted by the long-tailed problem, some species we know a lot about, but a long tail of species which are data deficient. Some species are easy to record with non-specialist equipment, i.e., birds, but species like bats, the data is less abundantly available.  Also, models trained with perfect data of recordings in quiet environments, can struggle to train models that are listening with different background noise. To get around this, one way would be to have better 'strong labels' - these are human annotated data sources so that the key identifying signatures are more easily identified:
+
+ 
+
+
+
+&nbsp;
