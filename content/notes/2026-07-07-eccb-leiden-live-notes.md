@@ -44,8 +44,9 @@ Many taxons are vocally active, machine listening can be ubiquitous and continuo
 
 However, we are frequently confronted by the long-tailed problem, some species we know a lot about, but a long tail of species which are data deficient. Some species are easy to record with non-specialist equipment, i.e., birds, but species like bats, the data is less abundantly available.  Also, models trained with perfect data of recordings in quiet environments, can struggle to train models that are listening with different background noise. To get around this, one way would be to have better 'strong labels' - these are human annotated data sources so that the key identifying signatures are more easily identified:
 
- 
+![](</images/notes/Image (23).jpeg>)
 
+ They are working with [xeno-canto.org](http://xeno-canto.org) to help make the shift from weak labels to strong labels. In her questions, she made the case that there needs to be a standardised way of labelling data that expands across projects to improve the strong labelling efforts. This applies even to weak background sounds that are hard to identify by most experts, even labelling the sound as 'too weak to identify' would be a useful label. 
 
+### Understanding the spatial vatiation of hunting pressure in the Chiquitano region via acoustic gunshot detecting - [Francesco Bini](https://www.linkedin.com/in/francesco-bini-a99073229/)
 
-&nbsp;
