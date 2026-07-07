@@ -50,3 +50,20 @@ However, we are frequently confronted by the long-tailed problem, some species w
 
 ### Understanding the spatial vatiation of hunting pressure in the Chiquitano region via acoustic gunshot detecting - [Francesco Bini](https://www.linkedin.com/in/francesco-bini-a99073229/)
 
+Chiquitano is the largest tropical broadleaf forest in peru. There are regional issues with hunting - they set out to be find out if they can use auidomoth devices to identify gunshots to survey hunting pressures accross the region. 
+
+![](</images/notes/Image (24).jpeg>)
+
+Filtering positive detections took a lot of time, they used the hardRain R package to identify clips which contained heavy rain, which triggered the audio. Also, sometimes there were triggers from species noise, which were then to be checked to see if there were gunshots in the background, as they didnt want to miss any files containing gunshots. 
+
+In an attempt to model hunting pressure, they found that the presence of woodlands was one of the main drivers of gunshot probability. Access from and distance from settlements, towns, cities and roads may have an effect, but it is uncertain. 
+
+### High-throughput biodiversity monitoring with AI species identification in support of the EU Nature Directives - [Niels Raes](https://www.linkedin.com/in/niels-raes-3bab121/)
+
+They want to enable mangers of Natura 2000 sites to be helped by high throughput data monitoring for biodiversity and decision making. 
+
+They use the ARISE Digital Species Identification system, which contains data for multiple species and taxons. Uploading and assessing your results through this platform automatically links with GBIF. This system has tutorials for managers so that they can learn how to use the platform and add their data. You can even link your monitors straight to the platform, and use it as a place to look at and assess your data. 
+
+
+
+&nbsp;
