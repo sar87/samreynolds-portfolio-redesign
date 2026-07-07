@@ -72,6 +72,18 @@ The key thing is that it also links with [GBIF](https://www.gbif.org/) to make s
 
 ### Upscaling an Essential Biodiversity Variable using ariel and satellite remote sensing on an oceanic island - [Dr Samantha Suter](https://www.unine.ch/conservation-biology/dr-samantha-suter/)
 
+Samantha is looking at expanding the range of biodiversity monitoring through remote sensing technology that links to on the ground monitoring efforts. This has led to the idea of "Remote sensing - Essential Biodiversity Variables". 
+
+![](</images/notes/Image (26).jpeg>)
+
+They used terrestrial laser scanning of habitat structure on oceanic islands, and then wanted to see how well remote sensing models could predict the observed conditions using the terrestrial laser scanning. 
+
+![](</images/notes/Image (27).jpeg>)
+
+They found that the dominant structural feature for each habitat, was the feature that was best predicted by the models - which is useful. 
+
+I raised a question about TESSERA opposed to working out which raw data streams from Sentinel to work from, that TESSERA might be a useful option. 
+
 
 
 &nbsp;
