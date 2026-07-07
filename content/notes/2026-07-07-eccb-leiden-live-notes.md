@@ -1,6 +1,8 @@
 ---
 title: ECCB Leiden - Live Notes
 date: 2026-07-07
+tags:
+  - ECCB
 ---
 In this note, I will be hoping to maintain live notes on the ECCB conference sessions. 
 
