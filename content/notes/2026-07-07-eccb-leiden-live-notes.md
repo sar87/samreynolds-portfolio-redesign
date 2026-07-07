@@ -62,7 +62,15 @@ In an attempt to model hunting pressure, they found that the presence of woodlan
 
 They want to enable mangers of Natura 2000 sites to be helped by high throughput data monitoring for biodiversity and decision making. 
 
-They use the ARISE Digital Species Identification system, which contains data for multiple species and taxons. Uploading and assessing your results through this platform automatically links with GBIF. This system has tutorials for managers so that they can learn how to use the platform and add their data. You can even link your monitors straight to the platform, and use it as a place to look at and assess your data. 
+They use the [ARISE Digital Species Identification system](https://www.arise-biodiversity.nl/post/digital-species-identification), which contains data for multiple species and taxons. Uploading and assessing your results through this platform automatically links with [GBIF](https://www.gbif.org/). This system has tutorials for managers so that they can learn how to use the platform and add their data. You can even link your monitors straight to the platform, and use it as a place to look at and assess your data. 
+
+You have a drop-down of models, and computing resources, that you can use to analyse your data. This includes image and audio analysis. It guides you through the curation of your dataset, the removal of images of people and cars, and allows you to evaluate the models performance on your dataset. 
+
+The key thing is that it also links with [GBIF](https://www.gbif.org/) to make sure that your data is FAIR and is contributing to the broader understanding of biodiversity. 
+
+![](</images/notes/Image (25).jpeg>)
+
+### Upscaling an Essential Biodiversity Variable using ariel and satellite remote sensing on an oceanic island - [Dr Samantha Suter](https://www.unine.ch/conservation-biology/dr-samantha-suter/)
 
 
 
