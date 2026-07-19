@@ -1,6 +1,32 @@
 {
   "publications": [
     {
+      "id": "responsible-ai-conservation-principles",
+      "title": "Principles for navigating responsible use of AI for conservation",
+      "authors": [
+        { "name": "Reynolds, S. A.", "isSamReynolds": true },
+        { "name": "Kaunain, N. N.", "isSamReynolds": false },
+        { "name": "Coad, L.", "isSamReynolds": false },
+        { "name": "Johnston, C.", "isSamReynolds": false },
+        { "name": "Rutenberg, I.", "isSamReynolds": false },
+        { "name": "Abdullahi, Z. O.", "isSamReynolds": false },
+        { "name": "El Bizri, H. R.", "isSamReynolds": false },
+        { "name": "Kenyon, M.", "isSamReynolds": false },
+        { "name": "Mtenga, N. C.", "isSamReynolds": false },
+        { "name": "Silva, E.", "isSamReynolds": false },
+        { "name": "Tegang, R. P.", "isSamReynolds": false },
+        { "name": "Ugarte, C. S.", "isSamReynolds": false },
+        { "name": "Hinsley, A.", "isSamReynolds": false },
+        { "name": "Sandbrook, C.", "isSamReynolds": false }
+      ],
+      "journal": "Cambridge Open Engage",
+      "year": 2026,
+      "date": "2026-07-15",
+      "doi": "10.33774/coe-2026-5lcdd",
+      "abstract": "Artificial intelligence (AI) is being widely adopted across conservation tasks, such as species identification, habitat mapping and threat detection. However, its adoption has rapidly outpaced governance and ethical guidance for its responsible integration into conservation research and practice. AI raises ethical, social and environmental challenges distinct from those associated more broadly with the integration of conservation technology (e.g., camera traps, drones, audio monitoring systems). These challenges include the environmental footprint of AI infrastructure, the difficulty of tracing or removing data from trained models, opaque decision-making and the uneven distribution of risks and benefits. AI systems are frequently presented as neutral and objective technologies; however, unlike other technological tools, they embed ethical and political assumptions, with little oversight of whose values or interests are reflected in their design. Building on Sandbrook et al.'s (2021) framework for socially responsible integration of surveillance technologies in conservation, we propose seven principles for the responsible use of AI in conservation research and practice: recognising social impacts; deploying AI according to necessity and proportionality; evaluating impacts on people; seeking meaningful consent; ensuring transparency and accountability; respecting rights and vulnerabilities; and protecting privacy, data sovereignty and intellectual property. We interpret the term AI broadly, to encompass both task-specific machine learning models and general-purpose generative AI such as large language models, which raise overlapping but distinct ethical concerns. We translate these seven principles into a set of guiding questions for practitioners, funders and NGOs.",
+      "image": "/images/publications/responsible-ai-conservation.jpg"
+    },
+    {
       "id": "ai-assisted-living-evidence-databases",
       "title": "AI-assisted Living Evidence Databases for Conservation Science",
       "authors": [
