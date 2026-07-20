@@ -19,11 +19,9 @@ There were over 180 applications to attend the workshop from conservation resear
 
 I was assigned to the latter. We had a fantastic group of participants in our group, with a geographic spread from Indonesia to Kenya to Brazil, all working in conservation research or practice and thinking about the integration of AI into this space. 
 
+![](</images/notes/Image (28).jpeg>)
 
-
-&nbsp;
-
-&nbsp;
+*A picture of half the team outside the Oxford Martin School. Unfortunately, I dont have a picture of everyone together!*
 
 As the days went on, we clarified our thinking and discussions. As anyone who has been part of workshop discussions before, we all know it takes a little while for everyone to start talking the same language. Here is where it is important to have a good framing for people to engage with. We soon identified that the conversations we needed to have were not at the level of technology use in conservation, which it is easy to end up talking about, but specifically about what new challenges are raised by introducing an AI element. For example, the use of camera traps and the issues concerning human bycatch, privacy and appropriate data handling are distinct from the specific challenges that enter the picture when you are using classifiers to automatically categorise images, sending data to third party models or using the data to train new models. 
 
