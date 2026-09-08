@@ -351,12 +351,12 @@ section { padding: 6rem 0 0; }
 .pub-row .abstract { font-size: 0.94rem; color: var(--fog-dim); max-width: 72ch; }
 .pub-row .authors { font-family: var(--mono); font-size: 0.78rem; margin-bottom: 0.7rem; color: var(--fog); }
 .pub-row .authors b { color: var(--glow); font-weight: 500; }
-.pub-row .go {
+.pub-row .go, .feature-copy .go {
   display: inline-block; margin-top: 1rem;
   font-size: 0.85rem; font-weight: 400; letter-spacing: 0.02em;
   color: var(--amber); text-decoration: none;
 }
-.pub-row .go:hover { text-decoration: underline; }
+.pub-row .go:hover, .feature-copy .go:hover { text-decoration: underline; }
 
 /* ---------- talks: featured + scrollable timeline ---------- */
 .talks-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 3.4rem; align-items: start; }
@@ -617,9 +617,10 @@ footer .fc a:hover { text-decoration: underline; }
         <video autoplay muted loop playsinline src="copilot-demo.mp4"></video>
       </div>
       <div class="feature-copy reveal">
-        <h3>The Conservation <span class="g">Copilot</span></h3>
+        <h3>Conservation Evidence <span class="g">Copilot</span></h3>
         <p>An AI assistant that lets conservation decision-makers converse directly with the evidence base — ask a question in plain language, and receive an answer grounded in the published and grey literature, with citations.</p>
         <p>Built with the Conservation Evidence project at Cambridge, it is part of a broader effort to make evidence synthesis continuous, transparent and accessible to practitioners.</p>
+        <a class="go" href="https://www.conservationevidencecopilot.com" target="_blank" rel="noopener">www.conservationevidencecopilot.com ↗</a>
         <div class="chips">
           <span>Evidence synthesis</span><span>Large language models</span><span>Co-designed with practitioners</span>
         </div>
