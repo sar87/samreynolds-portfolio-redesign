@@ -97,10 +97,28 @@
       "date": "2026-07-01"
     },
     {
+      "id": "csap-fast-stream-2026",
+      "title": "LLMs in Government for the Civil Service Fast Stream",
+      "venue": "Cambridge Centre for Science and Policy, Cambridge",
+      "date": "2026-09-02"
+    },
+    {
       "id": "defra-data-information-festival-2026",
       "title": "AI and Rapid Evidence Reviews",
       "venue": "DEFRA Group Data and Information Festival, London",
       "date": "2026-09-07"
+    },
+    {
+      "id": "stanford-uncommon-dialogue-2026",
+      "title": "Harnessing AI for Nature",
+      "venue": "Stanford University Uncommon Dialogue, Stanford, USA",
+      "date": "2026-10-07"
+    },
+    {
+      "id": "stanford-guest-lecture-2026",
+      "title": "Guest lecture for Stanford University's AI in Biodiversity Science and Conservation course",
+      "venue": "Stanford University, Stanford, USA",
+      "date": "2026-10-08"
     },
     {
       "id": "cambridge-sustainability-leadership-2026",
