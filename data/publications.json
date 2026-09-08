@@ -1,6 +1,29 @@
 {
   "publications": [
     {
+      "id": "ias-removal-projects-unified-framework",
+      "title": "A unified framework for recording invasive alien species removal projects to inform research and management",
+      "authors": [
+        { "name": "Taylor, N. G.", "isSamReynolds": false },
+        { "name": "Aldridge, D. C.", "isSamReynolds": false },
+        { "name": "Christie, A. P.", "isSamReynolds": false },
+        { "name": "Costello, K.", "isSamReynolds": false },
+        { "name": "Reynolds, S. A.", "isSamReynolds": true },
+        { "name": "Smith, K.", "isSamReynolds": false },
+        { "name": "Sutherland, W. J.", "isSamReynolds": false },
+        { "name": "Trevelyan, R.", "isSamReynolds": false },
+        { "name": "Venter, T.", "isSamReynolds": false },
+        { "name": "Worthington, T. A.", "isSamReynolds": false },
+        { "name": "Nunes, A. L.", "isSamReynolds": false }
+      ],
+      "journal": "ARPHA Conference Abstracts",
+      "year": 2026,
+      "date": "2026-08-17",
+      "doi": "10.3897/aca.9.e203683",
+      "abstract": "Coordinated, effective and efficient management of invasive alien species (IAS) relies on access to standardised information on past and ongoing control efforts. However, existing data are typically fragmented, difficult to locate, inconsistently formatted, or remain unpublished – particularly in cases where management was less successful. This limits the potential for past efforts to inform the design of future management strategies and to identify knowledge gaps that could be filled by applied research. To help address these challenges, for example by increasing reporting rates and improving the quality of recorded data, we co-developed a unified data framework capable of capturing salient information on IAS removal projects. The framework is applicable to all types of IAS, management objectives (e.g. from containment to eradication), removal techniques and monitored outcomes, for any location and spatiotemporal scale, and for any degree of success. We produced a first draft of the framework by reviewing existing standards, databases, and reporting systems. This was refined through a series of online and in-person workshops involving >70 participants with expertise in IAS management from >30 countries. Finally, we tested the framework by extracting data for case studies from a variety of sources. The framework is split into sections capturing: project details, target IAS, goals, actions taken, economic costs and benefits, outcomes, reflections on implementation, and linked resources. The framework is deliberately comprehensive, containing >90 questions. However, the burden of data entry is reduced by conditional logic (some questions only appear if relevant based on previous responses), acknowledging that some data (e.g. detailed quantitative outcomes) can be captured by other linked frameworks, and highlighting a small subset of essential questions to allow for very rapid data entry. Our framework also uses preset response categories, borrowed from existing frameworks or platforms for interoperability, wherever possible. Areas of ongoing and future work include: (a) using the framework to populate a database of IAS removal projects, (b) building an online platform based on the framework and database, allowing users to interact with existing data and submit their own, (c) creating artificial intelligence tools to support data entry, and (d) developing crosswalks with terminology in other frameworks and platforms to maximise interoperability. Presented at Neobiota 2026, the 14th International Conference on Biological Invasions.",
+      "image": "/images/publications/ias-removal-framework.png"
+    },
+    {
       "id": "responsible-ai-conservation-principles",
       "title": "Principles for navigating responsible use of AI for conservation",
       "authors": [
