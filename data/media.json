@@ -1,6 +1,16 @@
 {
   "media": [
     {
+      "id": "pembroke-blog-2026",
+      "type": "blog",
+      "title": "Pembroke College August Blog",
+      "venue": "Pembroke College, Cambridge",
+      "date": "2026-09-04",
+      "link": "https://www.pem.cam.ac.uk/college/news/august-2026-dr-sam-reynolds",
+      "description": "A blog I wrote for Pembroke College, following my appointment as an Associate Scholar. The theme of the College's blog series is 'Storytelling', and I was kindly asked to contribute in relation to my research on conservation AI.\n\nIn the piece I write about life on Earth as the most universal story there is, the bandwidth problem we face in trying to read it, and how AI might help us process the ever-growing volume of environmental data and scientific literature to make better conservation decisions, while being honest about the ethical questions that come with it.",
+      "image": "/images/media/pembroke-blog.png"
+    },
+    {
       "id": "cna-documentary-2026",
       "type": "video",
       "title": "Channel News Asia Documentary",
