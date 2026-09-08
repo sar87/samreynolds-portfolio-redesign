@@ -109,7 +109,8 @@ body::before {
   border-top: 1px solid var(--line);
   max-width: 54ch;
 }
-.hero .identity .idrole { font-size: 1.1rem; font-weight: 400; color: var(--glow); }
+.hero .identity .idrole { display: block; font-size: 1.1rem; font-weight: 400; color: var(--glow); }
+.hero .identity .idaffil + .idrole { margin-top: 0.9rem; }
 .hero .identity .idaffil {
   display: block; margin-top: 0.4rem;
   font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase;
@@ -563,6 +564,8 @@ footer .fc a:hover { text-decoration: underline; }
     <div class="identity">
       <span class="idrole">Assistant Research Professor</span>
       <span class="idaffil">Conservation Research Institute · University of Cambridge</span>
+      <span class="idrole">Associate Scholar</span>
+      <span class="idaffil">Pembroke College · University of Cambridge</span>
     </div>
   </div>
   <a class="down" href="#about" aria-label="Scroll down">↓</a>
