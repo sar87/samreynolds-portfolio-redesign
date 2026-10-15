@@ -127,6 +127,98 @@ body::before {
 }
 @keyframes bob { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
 
+/* ---------- latest (glass panel on desktop, pill + bottom sheet on mobile) ---------- */
+.hero-inner.has-latest { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 3.5rem; align-items: center; }
+.hero-inner.has-latest h1 { font-size: clamp(3rem, 6.4vw, 6.2rem); }
+.glass {
+  position: relative;
+  background: rgba(14, 26, 19, 0.16);
+  -webkit-backdrop-filter: blur(7px) saturate(160%); backdrop-filter: blur(7px) saturate(160%);
+  border: 1px solid rgba(183, 205, 189, 0.24); border-radius: 18px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.07) inset, 0 40px 80px -40px rgba(0,0,0,0.85);
+}
+.glass::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(160deg, rgba(234,245,236,0.09), rgba(234,245,236,0) 38%); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .glass { background: rgba(12, 21, 16, 0.88); } }
+.latest {
+  pointer-events: auto;
+  padding: 1.35rem; display: grid; gap: 1.1rem;
+  opacity: 0; transform: translateY(20px); animation: up 1s cubic-bezier(0.22,1,0.36,1) 0.6s forwards;
+}
+.latest[hidden], .latest-pill[hidden] { display: none; }
+.latest-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.latest-lbl { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--glow); display: flex; align-items: center; gap: 0.6rem; }
+.latest .dot, .latest-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--glow); flex: none; animation: ping 2.4s ease-out infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(99,242,162,0.55); } 70%, 100% { box-shadow: 0 0 0 9px rgba(99,242,162,0); } }
+.latest-meta, .latest-kind { font-family: var(--mono); font-size: 0.69rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fog-dim); }
+.latest-kind b { font-weight: 400; color: var(--amber); }
+.latest-close { display: none; background: none; border: 0; color: var(--fog-dim); font-size: 1.5rem; line-height: 1; cursor: pointer; padding: 0 0.2rem; }
+.latest-sep { height: 1px; background: var(--line); }
+.latest-video { display: grid; gap: 0.5rem; }
+.latest-frame { position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #000; }
+.latest-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.latest-play { position: absolute; inset: 0; width: 100%; padding: 0; border: 0; cursor: pointer; background: none; }
+.latest-play img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+.latest-play::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 50%, rgba(7,13,9,0.7)); }
+.latest-play .pb {
+  position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(7,13,9,0.45); border: 1px solid rgba(234,245,236,0.4);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  transition: background 0.25s, border-color 0.25s;
+}
+.latest-play .pb::before { content: ""; margin-left: 5px; border-left: 17px solid #eaf5ec; border-top: 11px solid transparent; border-bottom: 11px solid transparent; }
+.latest-play:hover img { transform: scale(1.03); }
+.latest-play:hover .pb, .latest-play:focus-visible .pb { background: rgba(99,242,162,0.25); border-color: var(--glow); }
+.latest-play:focus-visible { outline: 2px solid var(--glow); outline-offset: -2px; }
+.latest-title { color: #eaf5ec; font-weight: 500; font-size: 1.1rem; line-height: 1.25; letter-spacing: -0.01em; }
+.latest-note { display: flex; gap: 0.9rem; align-items: center; text-decoration: none; color: inherit; border-radius: 10px; }
+.latest-note img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; flex: none; }
+.latest-note .latest-title { font-size: 1.05rem; margin: 0.2rem 0 0.15rem; transition: color 0.25s; }
+.latest-note .ex { font-size: 0.85rem; line-height: 1.45; color: var(--fog); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.latest-note:hover .latest-title { color: var(--glow); }
+.latest-note:focus-visible { outline: 2px solid var(--glow); outline-offset: 4px; }
+.latest-foot { display: flex; justify-content: space-between; }
+.latest-foot a { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--amber); text-decoration: none; }
+.latest-foot a:hover { text-decoration: underline; }
+.latest-pill, .latest-scrim { display: none; }
+
+@media (max-width: 960px) {
+  .hero { height: auto; min-height: 100svh; padding: 6rem 0 8.5rem; }
+  .hero-inner.has-latest { display: block; z-index: auto; }   /* no stacking context, so the sheet can sit above the scrim */
+  .latest-pill[aria-expanded="true"] { visibility: hidden; }
+  .latest-pill { transition: opacity 0.35s, transform 0.35s, visibility 0s; }
+  .latest-pill.gone { opacity: 0; transform: translateY(12px); visibility: hidden; pointer-events: none; transition: opacity 0.35s, transform 0.35s, visibility 0s 0.35s; }
+  .hero-inner.has-latest h1 { font-size: clamp(3rem, 8.4vw, 6.8rem); }
+  .hero .down { display: none; }
+  .latest-pill {
+    position: absolute; z-index: 20; left: 0.9rem; right: 0.9rem; bottom: 1.4rem;
+    display: grid; gap: 0.6rem; padding: 0.8rem 0.9rem; text-align: left;
+    font: inherit; color: inherit; cursor: pointer; border-radius: 16px;
+  }
+  .latest-pill-top { display: flex; justify-content: space-between; align-items: center; }
+  .latest-pill-top .latest-meta { color: var(--fog); }
+  .latest-pill-row { display: flex; gap: 0.7rem; align-items: center; }
+  .latest-pill-row img { width: 64px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 6px; flex: none; }
+  .latest-pill-row span { color: #eaf5ec; font-weight: 500; font-size: 0.9rem; line-height: 1.25; }
+  .latest-pill:focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
+  .latest-scrim { display: block; position: fixed; inset: 0; z-index: 150; background: rgba(4,8,6,0.6); opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .latest-scrim.open { opacity: 1; pointer-events: auto; }
+  .latest {
+    position: fixed; z-index: 160; left: 0; right: 0; bottom: 0;
+    max-height: 88svh; overflow-y: auto;
+    border-radius: 22px 22px 0 0; border-bottom: 0;
+    padding: 1.1rem 1.15rem calc(1.6rem + env(safe-area-inset-bottom, 0px));
+    background: rgba(14, 26, 19, 0.55);
+    -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%);
+    animation: none; opacity: 1;
+    transform: translateY(105%); visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), visibility 0s 0.4s;
+  }
+  .latest.open { transform: none; visibility: visible; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
+  .latest-close { display: block; }
+  .latest-top .latest-meta { margin-left: auto; }
+}
+
 /* ---------- stats strip ---------- */
 .stats {
   border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
@@ -558,16 +650,36 @@ footer .fc a:hover { text-decoration: underline; }
 <header class="hero">
   <canvas id="hero-anim"></canvas>
   <div class="hero-inner">
-    <p class="kicker">AI · Conservation · Ecology</p>
-    <h1>Sam Reynolds<span class="g">.</span></h1>
-    <p class="tagline">Working towards the <span class="g">responsible integration</span> of AI into conservation research, practice and decision-making.</p>
-    <div class="identity">
-      <span class="idrole">Assistant Research Professor</span>
-      <span class="idaffil">Conservation Research Institute · University of Cambridge</span>
-      <span class="idrole">Associate Scholar</span>
-      <span class="idaffil">Pembroke College · University of Cambridge</span>
+    <div class="hero-text">
+      <p class="kicker">AI · Conservation · Ecology</p>
+      <h1>Sam Reynolds<span class="g">.</span></h1>
+      <p class="tagline">Working towards the <span class="g">responsible integration</span> of AI into conservation research, practice and decision-making.</p>
+      <div class="identity">
+        <span class="idrole">Assistant Research Professor</span>
+        <span class="idaffil">Conservation Research Institute · University of Cambridge</span>
+        <span class="idrole">Associate Scholar</span>
+        <span class="idaffil">Pembroke College · University of Cambridge</span>
+      </div>
     </div>
+    <!-- latest: glass panel on desktop, bottom sheet on mobile; filled from notes.json + media.json -->
+    <aside class="latest glass" id="latest" aria-label="Latest" hidden>
+      <div class="latest-top">
+        <span class="latest-lbl"><span class="dot"></span>Latest</span>
+        <span class="latest-meta" id="latest-updated"></span>
+        <button class="latest-close" id="latest-close" type="button" aria-label="Close latest">×</button>
+      </div>
+      <div id="latest-video"></div>
+      <div class="latest-sep"></div>
+      <a class="latest-note" id="latest-note" href="notes.html"></a>
+      <div class="latest-sep"></div>
+      <div class="latest-foot"><a href="notes.html">All notes →</a><a href="#media">All media →</a></div>
+    </aside>
   </div>
+  <button class="latest-pill glass" id="latest-pill" type="button" aria-controls="latest" aria-expanded="false" hidden>
+    <span class="latest-pill-top"><span class="latest-lbl"><span class="dot"></span>Latest</span><span class="latest-meta">Open ↑</span></span>
+    <span class="latest-pill-row" id="latest-pill-row"></span>
+  </button>
+  <div class="latest-scrim" id="latest-scrim"></div>
   <a class="down" href="#about" aria-label="Scroll down">↓</a>
 </header>
 
@@ -919,8 +1031,9 @@ document.getElementById("media-grid").innerHTML = media.media.map(m => {
 }).join("");
 
 /* notes — latest three; the section stays quiet if notes.json is missing */
+let notes = [];
 try {
-  const { notes } = await (await fetch("data/notes.json")).json();
+  ({ notes } = await (await fetch("data/notes.json")).json());
   document.getElementById("notes-list").innerHTML = notes.slice(0, 3).map(n => `
     <div class="note-row reveal">
       <span class="d">${new Date(n.date + "T00:00:00").toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}</span>
@@ -930,6 +1043,109 @@ try {
       </div>
     </div>`).join("");
 } catch { document.getElementById("notes").style.display = "none"; }
+
+/* latest — newest video (with an embedUrl) + newest note, in the hero */
+{
+  const dayFmt = d => new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  const video = [...media.media].filter(m => m.embedUrl).sort((a, b) => (b.date > a.date ? 1 : -1))[0];
+  const note = notes[0];
+  const panel = document.getElementById("latest");
+  const videoBox = document.getElementById("latest-video");
+  /* YouTube loads only when play is pressed, from the no-cookie domain */
+  function bindPlay() {
+    const btn = videoBox.querySelector(".latest-play");
+    btn?.addEventListener("click", () => {
+      const embed = video.embedUrl.replace("www.youtube.com", "www.youtube-nocookie.com");
+      btn.outerHTML = `<iframe src="${embed}?autoplay=1&rel=0&playsinline=1" title="${video.title}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>`;
+    });
+  }
+  if (video || note) {
+    const newest = [video?.date, note?.date].filter(Boolean).sort().pop();
+    document.getElementById("latest-updated").textContent = `Updated ${dayFmt(newest)}`;
+
+    if (video) {
+      videoBox.className = "latest-video";
+      videoBox.innerHTML = `
+        <div class="latest-frame">
+          <button class="latest-play" type="button" aria-label="Play video: ${video.title}">
+            ${video.image ? `<img src="${rel(video.image)}" alt="">` : ""}
+            <span class="pb"></span>
+          </button>
+        </div>
+        <span class="latest-kind"><b>Video</b> · ${video.venue} · ${dayFmt(video.date)}</span>
+        <span class="latest-title">${video.title}</span>`;
+      videoBox.dataset.thumb = videoBox.querySelector(".latest-frame").innerHTML;
+      bindPlay();
+    } else {
+      videoBox.nextElementSibling.remove();
+      videoBox.remove();
+    }
+
+    const noteLink = document.getElementById("latest-note");
+    if (note) {
+      const img = note.html?.match(/<img[^>]+src="([^"]+)"/)?.[1];
+      noteLink.href = `notes.html#${note.slug}`;
+      noteLink.innerHTML = `
+        ${img ? `<img src="${rel(img)}" alt="" loading="lazy">` : ""}
+        <div>
+          <span class="latest-kind"><b>Note</b> · ${dayFmt(note.date)}</span>
+          <div class="latest-title">${note.title}</div>
+          ${note.excerpt ? `<div class="ex">${note.excerpt}</div>` : ""}
+        </div>`;
+    } else {
+      noteLink.previousElementSibling.remove();
+      noteLink.remove();
+    }
+
+    panel.hidden = false;
+    document.querySelector(".hero-inner").classList.add("has-latest");
+
+    /* mobile: pill at the bottom of the hero opens the panel as a bottom sheet */
+    const pill = document.getElementById("latest-pill"), scrim = document.getElementById("latest-scrim");
+    const first = video ?? note;
+    const pillImg = video?.image ? rel(video.image) : null;
+    document.getElementById("latest-pill-row").innerHTML =
+      `${pillImg ? `<img src="${pillImg}" alt="">` : ""}<span>${first.title}${video && note ? " · and a new note" : ""}</span>`;
+    /* the pill goes away once it's been opened or scrolled past, and stays away until something newer is posted */
+    const mobile = matchMedia("(max-width: 960px)");
+    const seenKey = [video?.id, note?.slug].join("|");
+    let seen = false;
+    try { seen = localStorage.getItem("latest-seen") === seenKey; } catch {}
+    const dismissPill = () => {
+      if (pill.classList.contains("gone")) return;
+      pill.classList.add("gone");
+      try { localStorage.setItem("latest-seen", seenKey); } catch {}
+    };
+    pill.hidden = seen;
+    if (!seen) {
+      const heroObs = new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting && mobile.matches) { dismissPill(); heroObs.disconnect(); }
+      });
+      heroObs.observe(document.querySelector(".hero"));
+    }
+    const setOpen = open => {
+      panel.classList.toggle("open", open);
+      scrim.classList.toggle("open", open);
+      pill.setAttribute("aria-expanded", open);
+      document.body.style.overflow = open ? "hidden" : "";
+      if (open) document.getElementById("latest-close").focus();
+      else {
+        /* closing stops a playing video by putting the thumbnail back */
+        if (video && panel.querySelector(".latest-frame iframe")) {
+          videoBox.querySelector(".latest-frame").innerHTML = videoBox.dataset.thumb;
+          bindPlay();
+        }
+        dismissPill();
+      }
+    };
+    pill.addEventListener("click", () => setOpen(true));
+    scrim.addEventListener("click", () => setOpen(false));
+    document.getElementById("latest-close").addEventListener("click", () => setOpen(false));
+    addEventListener("keydown", e => { if (e.key === "Escape" && panel.classList.contains("open")) setOpen(false); });
+    /* leaving the mobile layout with the sheet open shouldn't leave the page scroll-locked */
+    mobile.addEventListener("change", e => { if (!e.matches && panel.classList.contains("open")) setOpen(false); });
+  }
+}
 
 /* reveals */
 const io = new IntersectionObserver(es => {
