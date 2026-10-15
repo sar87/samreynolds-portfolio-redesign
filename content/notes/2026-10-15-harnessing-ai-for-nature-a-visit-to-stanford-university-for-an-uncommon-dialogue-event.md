@@ -80,7 +80,7 @@ From the meeting itself the main idea that the broader group coalesced around wa
 
 The main ask from the room to funders, tech organisations and CEOs of conservation organisations is how do we secure the funding that allows us to build the un-sexy infrastructure that we need to be able to facilitate this future. Building flashy tools is all well and good, but they need to be underpinned by interoperable data, with the gaps and limitations of the data clearly defined. What we need is some kind of endowment that allows for the development of this data commons, with the ongoing funds that will be required to update and maintain it. 
 
-We need structures for benefit sharing, so that people who feed into the data commons can benefit from their data being used to guide decision making. 
+Alongside these data commons and tools we need structures for benefit sharing, so that people who feed into the data commons can benefit from their data being used to guide decision making. What does that look like? How do we make it fair and equitable?
 
 There is also of course the risk that the questions that we are asking are not the right ones. As famously characterised by Douglas Adams, the answer to life the universe and everything is 42. If we don't ask the right questions, we are going to have non-sensical answers from which to operate on. 
 
