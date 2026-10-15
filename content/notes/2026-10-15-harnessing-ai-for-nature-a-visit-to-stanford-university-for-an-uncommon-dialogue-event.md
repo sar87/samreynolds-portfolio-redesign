@@ -66,6 +66,8 @@ The three groups were as follows:
 2. LLMs for data interpretation and decisions in conservation interventions
 3. Balancing environmental impacts with conservation potential - Responsible AI development
 
+
+
 The three discussions held throughout the day focused on:
 
 1. Priority use cases and opportunities
