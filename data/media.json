@@ -1,6 +1,17 @@
 {
   "media": [
     {
+      "id": "conservation-copilot-video-2026",
+      "type": "video",
+      "title": "Conservation Co-pilot: Making Environmental Evidence Accessible",
+      "venue": "ai@cam",
+      "date": "2026-09-29",
+      "link": "https://www.youtube.com/watch?v=j9b3_stSB8M",
+      "description": "A short film by ai@cam about the Conservation Co-pilot, the AI-powered interface our AI-deas Sprint team is building to make trusted conservation evidence quicker and easier to access.\n\nEvery day, conservationists make decisions about how best to protect species and habitats, but finding the right scientific evidence and understanding what it means for a particular place or species can take months. Built around the Conservation Evidence database, the Co-pilot is designed to close that gap.",
+      "embedUrl": "https://www.youtube.com/embed/j9b3_stSB8M",
+      "image": "/images/media/conservation-copilot-video.jpg"
+    },
+    {
       "id": "pembroke-blog-2026",
       "type": "blog",
       "title": "Pembroke College August Blog",
