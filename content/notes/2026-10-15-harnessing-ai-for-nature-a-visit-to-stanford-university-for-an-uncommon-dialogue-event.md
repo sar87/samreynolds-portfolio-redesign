@@ -88,7 +88,7 @@ As always with these types of meetings, it takes a little while for everyone to 
 
 Which leads nicely onto alignment - a big area of discussion in AI right now as we race towards better and better models as the window on our ability to ensure they are setting out on the 'right' path closes. In the context of conservation, what does alignment look like? What optimal biodiversity looks like for one group of people will be different for another. We will likely need some kind of pluralistic approach where where they are multiple potential alignments depending on the context you are working in. 
 
-None of these are simple questions with simple solutions, and it is nearly impossible to have all the right people in the room to be able to cover off these topics in a satisfactory manner. Also, the technology is progressing so quickly that these essential conversations and considerations are not happening quickly enough to guide current development. 
+None of these are simple questions with simple solutions, and it is nearly impossible to have all the right people in the room to be able to cover off these topics in a satisfactory manner. Also, the technology is progressing so quickly it can feel that these essential conversations and considerations are not happening quickly enough to guide current development. 
 
 However, that doesn't mean we should not have these conversations, and I am glad that this Uncommon Dialogue allowed for new connections between people working in this space. I am very grateful to have been involved. 
 
