@@ -66,8 +66,6 @@ The three groups were as follows:
 2. LLMs for data interpretation and decisions in conservation interventions
 3. Balancing environmental impacts with conservation potential - Responsible AI development
 
-
-
 The three discussions held throughout the day focused on:
 
 1. Priority use cases and opportunities
@@ -84,7 +82,7 @@ The main ask from the room to funders, tech organisations and CEOs of conservati
 
 Alongside these data commons and tools we need structures for benefit sharing, so that people who feed into the data commons can benefit from their data being used to guide decision making. What does that look like? How do we make it fair and equitable?
 
-There is also of course the risk that the questions that we are asking are not the right ones. As famously characterised by Douglas Adams, the answer to life the universe and everything is 42. If we don't ask the right questions, we are going to have non-sensical answers from which to operate on. 
+There is also of course the risk that the questions that we are asking are not the right ones. As famously characterised by Douglas Adams, the answer to life the universe and everything is 42. If we don't ask the right questions, we are going to have non-sensical answers from which to operate from. 
 
 As always with these types of meetings, it takes a little while for everyone to start speaking the same language. Within AI there is a lot of vocabulary which has general and specific meanings which overlaps. For example, what is a tool? Is a tool specific to tool use by agents, such as access to a calculator or certain predefined functions, or is a tool an AI application such as the Conservation Evidence Copilot? Both are logical extensions of the word tool, but leads to unaligned conversations. 
 
