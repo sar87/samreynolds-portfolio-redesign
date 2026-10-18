@@ -2,6 +2,10 @@
 title: "A chat with an unnamed frontier AI lab employee and the wild world of AI
   adverts in San Francisco "
 date: 2026-10-18
+tags:
+  - San Francisco
+  - Frontier AI Lab
+  - AI Adverts
 ---
 San Francisco is a strange city. Robot taxis, unapologetic capitalism, AI hype and harrowing homelessness all nestled in a small peninsula. The entrepreneur spirit is rife in a way that you don't really experience in the UK, there is certainly no tall poppy syndrome among the young people cramming into the [Corgi Cafe](https://www.corgicafe.com/). There are a few observations and conversations I thought might be worth capturing while they are still relatively fresh in my mind:
 
