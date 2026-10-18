@@ -26,7 +26,15 @@ This isn't necessarily a new perspective, but it certainly the first time I have
 
 We all know that in all jobs there are nuances that are perhaps not fully recognised or valued by managers, the problem is, AI gives people managing teams the ability create tools that appear to do the job of their employees. It can give the illusion of competence to those without the competencies. Anyone who has used AI coding agents will know the feeling of creating a piece of software that makes you feel incredibly empowered. However, if a real software engineer was to look at the code, they would probably cry at how poorly it is strung together. If, like I have, you have worked with AI in your own area of research, you realise that in a lot of ways it is pretty stupid, but as soon as you step away from your own area of expertise it seems all powerful. This is the Gell-Mann Amnesia Effect - you read a newspaper article on a topic you know intimately and spot dozens of errors, oversimplifications, or complete misunderstandings. Yet, you turn the page and read an article on a completely different topic and swallow it whole, forgetting how badly the paper botched the subject you actually understood. If you are in a decision making position that is sufficiently distant to the details of specific details that matter, it is perhaps feasible that you might make the decision replace teams of people with AI under the illusion the output you are getting is 'the same'. 
 
-We then moved on to discussing the state of AI use within Anthropic, and their concerns around security and alignment. 
+We then moved on to discussing the state of AI use within Anthropic, and their concerns around security and alignment:
+
+Anthropic has a fully agentic set-up. All departments documentation (at some levels), are visible to a central Claude agent. So you can ask the agent "can you look at finance and pull strange transactions?" in response it can gather these transactions and also assess them against any relevant invoices as well as the relevant contracts. This means that you can access this information instantly without having to send multiple emails to various departments to find the information you are looking for. 
+
+Anthropic only really plans a few months ahead - any decisions or directions that have been set for 2027 (I write this in Oct 2026) are caveated by an enormous amount of assumptions with a big cone of uncertainty. Things change so fast you cannot be wedded to plans that might be subject to significant change. 
+
+The majority of the work within Anthropic is focused on security and alignment. They believe that we are in the last year of being able to understand how the models work, and how they are being trained. At this time, humans are still able to track reasoning traces and have a heavy hand in model training, but in a year it is likely it will be AI alone training the next generation of AI. 
+
+This has big implications for things such as model alignment. If we think about human generations, the values held by your grandparents are likely different to your parents, and yours again are likely different to your parents. That is only three generations, that have occurred over decades. New generations of these models 
 
 
 
