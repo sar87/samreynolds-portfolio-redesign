@@ -40,6 +40,8 @@ We then moved on to discussing the state of AI use within Anthropic, and their c
 
 Yikes... I have certainly been reflecting on this conversation and what it means in the context of AI in conservation and beyond. Mostly beyond. Alignment for me is a tricky one. It obviously makes sense that it is a question that needs answering. If I am standing at the north pole and I want to walk in a straight line and end up at my house, then every fraction of a degree I am wrong when setting off on my journey could lead to me being potentially hundreds or thousands of miles away from home. So you want to get it right at the beginning. But who says that everyone wants to go to my house? (I'd rather they didn't as I have very limited seating). Alignment for models appears to suggest that there is a morality, direction, or way of thinking that these models should be aligned to. But what is that exactly? and who gets to decide? It seems though, that it is going to be decided very quickly by a very small number of people. 
 
+### The AI advertising landscape in San Francisco
+
 
 
 &nbsp;
