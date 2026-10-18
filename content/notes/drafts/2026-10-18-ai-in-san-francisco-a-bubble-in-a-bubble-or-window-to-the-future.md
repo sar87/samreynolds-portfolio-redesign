@@ -6,7 +6,7 @@ San Francisco is a strange city. Robot taxis, unapologetic capitalism, AI hype a
 
 ## A chat with Anthropic
 
-I was fortunate enough to corner an employee at Anthropic and pick their brains about where they see AI going, and whether we in conservation are thinking big enough. This employee will remain nameless, but is, by their own admission, "fully AGI pilled". For clarity, these are also not direct quotes but paraphrased summations. 
+I was fortunate enough to corner an employee at Anthropic and pick their brains about where they see AI going, and whether we in conservation are thinking big enough. This employee will remain nameless, but is, by their own admission, "fully AGI pilled". For clarity, these are not quotes but instead summaries of our conversation. 
 
 My first question was, if AGI (Artificial General Intelligence) is coming, where do we spend our time? The paraphrased answer was along the lines of: 
 
@@ -28,13 +28,17 @@ We all know that in all jobs there are nuances that are perhaps not fully recogn
 
 We then moved on to discussing the state of AI use within Anthropic, and their concerns around security and alignment:
 
-Anthropic has a fully agentic set-up. All departments documentation (at some levels), are visible to a central Claude agent. So you can ask the agent "can you look at finance and pull strange transactions?" in response it can gather these transactions and also assess them against any relevant invoices as well as the relevant contracts. This means that you can access this information instantly without having to send multiple emails to various departments to find the information you are looking for. 
+> Anthropic has a fully agentic set-up. All departments documentation (at some levels), are visible to a central Claude agent. So you can ask the agent "can you look at finance and pull strange transactions?" in response it can gather these transactions and also assess them against any relevant invoices as well as the relevant contracts. This means that you can access this information instantly without having to send multiple emails to various departments to find the information you are looking for. 
+>
+> Anthropic only really plans a few months ahead - any decisions or directions that have been set for 2027 (I write this in Oct 2026) are caveated by an enormous amount of assumptions with a big cone of uncertainty. Things change so fast you cannot be wedded to plans that might be subject to significant change. 
+>
+> The majority of the work within Anthropic is focused on security and alignment. They believe that we are in the last year of being able to understand how the models work, and how they are being trained. At this time, humans are still able to track reasoning traces and have a heavy hand in model training, but in a year it is likely it will be AI alone training the next generation of AI. 
+>
+> This has big implications for things such as model alignment. If we think about human generations, the values held by your grandparents are likely different to your parents, and yours again are likely different to your parents. That is only three generations, that have occurred over decades. New generations of these models will be occurring weeks or months apart - how do we make sure that we don't have a significant drift in alignment. It is something we need to get right now, before while we are still in the AI training loop. 
+>
+> People use Claude in ways that you might not fully expect, and a huge number of users ask Claude for advice on 'the big questions' - do I take the job? do I leave my partner? should I get the surgery?
 
-Anthropic only really plans a few months ahead - any decisions or directions that have been set for 2027 (I write this in Oct 2026) are caveated by an enormous amount of assumptions with a big cone of uncertainty. Things change so fast you cannot be wedded to plans that might be subject to significant change. 
-
-The majority of the work within Anthropic is focused on security and alignment. They believe that we are in the last year of being able to understand how the models work, and how they are being trained. At this time, humans are still able to track reasoning traces and have a heavy hand in model training, but in a year it is likely it will be AI alone training the next generation of AI. 
-
-This has big implications for things such as model alignment. If we think about human generations, the values held by your grandparents are likely different to your parents, and yours again are likely different to your parents. That is only three generations, that have occurred over decades. New generations of these models 
+Yikes. 
 
 
 
