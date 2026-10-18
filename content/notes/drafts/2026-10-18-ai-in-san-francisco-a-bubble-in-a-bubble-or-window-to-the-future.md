@@ -46,9 +46,11 @@ Yikes... I have certainly been reflecting on this conversation and what it means
 
 ### The AI advertising landscape in San Francisco
 
-This was the first time I have seen such a high abundance of AI advertisements, often with taglines that would mean nothing to anyone outside of the linux terminal. 
+This was the first time I have seen such a high abundance of AI advertisements, often with taglines that would mean nothing to anyone outside of the linux terminal. All of them pushing AI solutions to your every day problems. I spent the last couple of days of my trip photographing these adverts, which fittingly, I asked Claude to turn into a collage: 
 
 
+
+&nbsp;
 
 &nbsp;
 
