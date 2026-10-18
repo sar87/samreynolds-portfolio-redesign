@@ -1,5 +1,6 @@
 ---
-title: AI in San Francisco - a bubble in a bubble or window to the future?
+title: "A chat with an unnamed Anthropic employee and the wild world of AI
+  adverts in San Francisco "
 date: 2026-10-18
 ---
 San Francisco is a strange city. Robot taxis, unapologetic capitalism, AI hype and harrowing homelessness all nestled in a small peninsula. The entrepreneur spirit is rife in a way that you don't really experience in the UK, there is certainly no tall poppy syndrome among the young people cramming out the Corgi Cafe. There are a few observations and conversations I thought might be worth capturing while they are still relatively fresh in my mind:
@@ -42,9 +43,9 @@ Yikes... I have certainly been reflecting on this conversation and what it means
 
 ### The AI advertising landscape in San Francisco
 
+This was the first time I have seen such a high abundance of AI advertisements, often with taglines that would mean nothing to anyone outside of the linux terminal. 
 
 
-&nbsp;
 
 &nbsp;
 
