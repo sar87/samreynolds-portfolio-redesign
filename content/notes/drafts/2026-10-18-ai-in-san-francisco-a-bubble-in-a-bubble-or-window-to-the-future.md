@@ -6,7 +6,7 @@ San Francisco is a strange city. Robot taxis, unapologetic capitalism, AI hype a
 
 ## A chat with Anthropic
 
-I was fortunate enough to corner an employee at Anthropic and pick their brains about where they see AI going, and whether we in conservation are thinking big enough. This employee will remain nameless, but is, by their own admission, "fully AGI pilled". For clarity, these are not quotes but instead summaries of our conversation. 
+I was fortunate enough to corner an employee at Anthropic and pick their brains about where they see AI going, and whether we, in conservation, are thinking big enough. This employee will remain nameless, but is, by their own admission, "fully AGI pilled". For clarity, these are not quotes but a summarisation of our conversation. 
 
 My first question was, if AGI (Artificial General Intelligence) is coming, where do we spend our time? The paraphrased answer was along the lines of: 
 
