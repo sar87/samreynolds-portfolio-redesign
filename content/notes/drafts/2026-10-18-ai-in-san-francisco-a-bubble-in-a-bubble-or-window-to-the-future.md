@@ -12,5 +12,8 @@ My first question was, if AGI (Artificial General Intelligence) is coming, where
 
 This makes sense to me following my experience building the Conservation Evidence Copilot, the reason that the Copilot can deliver efficiently for users is because we have spent 20 years laboriously collating the data in a way that makes sense. The actual building of the Copilot tool, in comparison to that evidence gathering effort, is relatively trivial. 
 
-When I asked about whether we should be using AI in 
+When I asked about whether we should be using AI in conservation, the answer was certainly one of an American perspective: *Do you want to be fighting with one hand behind your back? Other organisations who will be working against the goals of conservation organisations will and are using this technology - to fight against these organisations would be an uphill battle without embracing these tools in some capacity*. 
 
+
+
+&nbsp;
