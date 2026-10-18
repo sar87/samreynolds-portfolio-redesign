@@ -6,11 +6,11 @@ tags:
   - Anthropic
   - San Francisco
 ---
-San Francisco is a strange city. Robot taxis, unapologetic capitalism, AI hype and harrowing homelessness all nestled in a small peninsula. The entrepreneur spirit is rife in a way that you don't really experience in the UK, there is certainly no tall poppy syndrome among the young people cramming out the Corgi Cafe. There are a few observations and conversations I thought might be worth capturing while they are still relatively fresh in my mind:
+San Francisco is a strange city. Robot taxis, unapologetic capitalism, AI hype and harrowing homelessness all nestled in a small peninsula. The entrepreneur spirit is rife in a way that you don't really experience in the UK, there is certainly no tall poppy syndrome among the young people cramming into the [Corgi Cafe](https://www.corgicafe.com/). There are a few observations and conversations I thought might be worth capturing while they are still relatively fresh in my mind:
 
 ## A chat with Anthropic
 
-I was fortunate enough to corner an employee at Anthropic and pick their brains about where they see AI going, and whether we, in conservation, are thinking big enough. This employee will remain nameless, but is, by their own admission, "fully AGI pilled". For clarity, these are not quotes but a summarisation of our conversation. 
+I was fortunate enough to corner an employee at [Anthropic](https://www.anthropic.com/) and pick their brains about where they see AI going, and whether we, in conservation, are thinking big enough. This employee will remain nameless, but is, by their own admission, "fully AGI pilled". For clarity, these are not quotes but a summarisation of our conversation. 
 
 My first question was, if AGI (Artificial General Intelligence) is coming, where do we spend our time? The paraphrased answer was along the lines of: 
 
@@ -47,6 +47,8 @@ Yikes... I have certainly been reflecting on this conversation and what it means
 ### The AI advertising landscape in San Francisco
 
 This was the first time I have seen such a high abundance of AI advertisements, often with taglines that would mean nothing to anyone outside of the linux terminal. All of them pushing AI solutions to your every day problems. I spent the last couple of days of my trip photographing these adverts, which fittingly, I asked Claude to turn into a collage: 
+
+![](</images/notes/AI Adverts Collage (web).png>)
 
 
 
