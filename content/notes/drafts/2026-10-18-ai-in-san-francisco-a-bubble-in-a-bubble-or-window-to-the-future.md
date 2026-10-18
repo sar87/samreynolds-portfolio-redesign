@@ -6,7 +6,9 @@ San Francisco is a strange city. Robot taxis, unapologetic capitalism, AI hype a
 
 ## A chat with Anthropic
 
-I was fortunate enough to corner an employee at Anthropic and pick their brains about where they see AI going, and whether we in conservation are thinking big enough. This employee will remain nameless, but is by their own omission "fully AGI pilled". My first question was, if AGI (Artificial General Intelligence) is coming, where do we spend our time? The paraphrased answer being, *organising data and collecting data. If you think that the application you are thinking of could be 'one-shotted' in a years time, don't waste time building it now and focus on gathering and organising the underlying data*. 
+I was fortunate enough to corner an employee at Anthropic and pick their brains about where they see AI going, and whether we in conservation are thinking big enough. This employee will remain nameless, but is, by their own admission, "fully AGI pilled". 
+
+My first question was, if AGI (Artificial General Intelligence) is coming, where do we spend our time? The paraphrased answer was: *Organising data and collecting data. If you think that the application you are thinking of could be 'one-shotted' in a years time, don't waste time building it now and focus on gathering and organising the underlying data*. 
 
 This makes sense to me following my experience building the Conservation Evidence Copilot, the reason that the Copilot can deliver efficiently for users is because we have spent 20 years laboriously collating the data in a way that makes sense. The actual building of the Copilot tool, in comparison to that evidence gathering effort, is relatively trivial. 
 
