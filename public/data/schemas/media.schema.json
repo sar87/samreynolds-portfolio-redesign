@@ -51,6 +51,10 @@
             "type": "string",
             "format": "uri",
             "description": "Embed URL for inline iframe player (YouTube, Spotify)"
+          },
+          "clip": {
+            "type": "string",
+            "description": "Path to a short, silent, self-hosted preview clip (e.g. /clips/name.mp4) that autoplays muted in the hero"
           }
         },
         "additionalProperties": false

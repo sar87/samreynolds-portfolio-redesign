@@ -24,6 +24,8 @@ const notes = files.map(file => {
   const meta = yamlLoad(m[1]) ?? {};
   if (!meta.title || !meta.date) throw new Error(`${file}: frontmatter needs title and date`);
   const body = m[2].trim();
+  // media uploads reference /images/notes/... absolutely; make them relative so any base path works
+  const html = marked.parse(body).replace(/(src|href)="\//g, '$1="');
   const text = body.replace(/[#*_>`\[\]!]|\(.*?\)/g, '').replace(/\s+/g, ' ').trim();
   return {
     slug: file.replace(/\.md$/, ''),
@@ -31,8 +33,9 @@ const notes = files.map(file => {
     date: toDateString(meta.date),
     tags: Array.isArray(meta.tags) ? meta.tags.map(String) : meta.tags ? [String(meta.tags)] : [],
     excerpt: text.length > 180 ? text.slice(0, 180).replace(/\s\S*$/, '') + '…' : text,
-    // media uploads reference /images/notes/... absolutely; make them relative so any base path works
-    html: marked.parse(body).replace(/(src|href)="\//g, '$1="'),
+    // thumbnail: `image` in the frontmatter, else the first image in the body, else null
+    image: meta.image ? String(meta.image).replace(/^\//, '') : html.match(/<img[^>]+src="([^"]+)"/)?.[1] ?? null,
+    html,
   };
 }).sort((a, b) => (b.date + b.slug).localeCompare(a.date + a.slug));
 

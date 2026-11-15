@@ -1,6 +1,15 @@
 {
   "awards": [
     {
+      "id": "hans-wilsdorf-fondation-2026",
+      "year": 2026,
+      "title": "Hans Wilsdorf Fondation Grant",
+      "funder": "Hans Wilsdorf Fondation",
+      "amount": "£1,500,000",
+      "description": "Three-year grant to further research on the AI evidence pipeline.",
+      "status": "awarded"
+    },
+    {
       "id": "cci-catalyst-grant-2026",
       "year": 2026,
       "title": "CCI Catalyst Grant",
@@ -107,15 +116,6 @@
       "amount": "£2,000",
       "description": "Prize-winning essay.",
       "status": "awarded"
-    },
-    {
-      "id": "nerc-ai-environmental-science-2026",
-      "year": 2026,
-      "title": "NERC AI for Environmental Science (Phase One)",
-      "funder": "NERC",
-      "amount": "£400,000",
-      "description": "Agentic AI to Realise Decisions based on Evidence for Nature. Decision expected July 2026.",
-      "status": "submitted"
     }
   ]
 }

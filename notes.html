@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-palette="midnight">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,50 +7,73 @@
 <meta name="description" content="Short, dated notes on AI, conservation and ecology — announcements, quick thoughts and work in progress.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- use the palette the visitor chose on the home page -->
+<script>try { const t = localStorage.getItem("ve-palette"); if (t) document.documentElement.dataset.palette = t; } catch {}</script>
 <style>
-:root{--void:#070d09;--pine:#0c1510;--pine-2:#0e1a12;--glow:#63f2a2;--glow-dim:#3a9c68;--amber:#ffb454;--fog:#b7cdbd;--fog-dim:#6d8474;--line:rgba(99,242,162,0.14);--display:"Bricolage Grotesque",sans-serif;--mono:"IBM Plex Mono",monospace;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--void);color:var(--fog);font-family:var(--display);font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;}
-body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 90% 70% at 50% 0%,rgba(99,242,162,0.05),transparent 60%);}
-.nav{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2.2rem;background:rgba(7,13,9,0.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
-.nav .mark{color:#eaf5ec;text-decoration:none;font-weight:500;font-size:1rem;letter-spacing:-0.01em;}
-.nav .mark span{color:var(--glow);}
-.nav .back{font-family:var(--mono);font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--glow-dim);text-decoration:none;}
-.nav .back:hover{color:var(--glow);}
-.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:4.5rem 2.2rem 6rem;}
-.sec-head{display:flex;align-items:center;gap:1.1rem;margin-bottom:1rem;}
-.sec-head .tag{font-family:var(--mono);font-size:0.72rem;color:var(--glow-dim);border:1px solid var(--line);border-radius:3px;padding:0.2rem 0.55rem;}
-.sec-head h1{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:600;letter-spacing:-0.02em;color:#eaf5ec;line-height:1.05;}
-.lede{font-size:1.1rem;color:var(--fog);max-width:56ch;margin-bottom:3.2rem;}
+/* palettes — keep in step with index.html */
+:root {
+  --serif: "Newsreader", Georgia, serif; --grot: "Bricolage Grotesque", system-ui, sans-serif; --sans: "Geist", system-ui, sans-serif; --mono: "Geist Mono", ui-monospace, monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+:root[data-palette="midnight"] { --paper: #0a0f24; --paper-2: #121936; --ink: #f4efe6; --ink-2: #bcc0d4; --ink-3: #8088a6; --rule: rgba(244, 239, 230, 0.16); --mark: #ff6a4d; --on-mark: #0a0f24; }
+:root[data-palette="aubergine"] { --paper: #1a0b16; --paper-2: #27121f; --ink: #f7ebe1; --ink-2: #d4bcc2; --ink-3: #9a7d8d; --rule: rgba(247, 235, 225, 0.16); --mark: #ffb23e; --on-mark: #1a0b16; }
+:root[data-palette="graphite"] { --paper: #0e0f12; --paper-2: #17191e; --ink: #f1f1ec; --ink-2: #b9bbc2; --ink-3: #7f828c; --rule: rgba(241, 241, 236, 0.15); --mark: #a78bff; --on-mark: #0e0f12; }
+:root[data-palette="cobalt"] { --paper: #f2efe7; --paper-2: #e6e2d6; --ink: #101636; --ink-2: #3a4060; --ink-3: #6d728d; --rule: rgba(16, 22, 54, 0.17); --mark: #ffdd3c; --on-mark: #101636; --link: #2440e0; }
+:root[data-palette="clay"] { --paper: #f3e6d6; --paper-2: #e9d8c3; --ink: #2b1710; --ink-2: #5a4034; --ink-3: #8a7062; --rule: rgba(43, 23, 16, 0.18); --mark: #ffc94d; --on-mark: #2b1710; --link: #b8391a; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink-2); font-family: var(--sans); font-size: 1.02rem; line-height: 1.62; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--mark); color: var(--on-mark); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+.mono { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+.nav { position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; padding: 0.95rem clamp(1.2rem, 3.4vw, 3rem); background: color-mix(in srgb, var(--paper) 86%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+.nav .mark { font-family: var(--grot); font-size: 1.08rem; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); text-decoration: none; }
+.nav .mark span { color: var(--mark); }
+.nav .back { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink-3); padding-bottom: 0.1rem; }
+.nav .back:hover { border-color: var(--ink); }
+.wrap { max-width: 980px; margin: 0 auto; padding: 4rem clamp(1.2rem, 3.4vw, 3rem) 6rem; }
+.head { padding-top: 1.1rem; border-top: 1px solid var(--ink); margin-bottom: 2.6rem; }
+.head h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 1; letter-spacing: -0.035em; color: var(--ink); }
+.lede { margin-top: 1rem; max-width: 58ch; color: var(--ink-3); }
 /* ---- list view ---- */
-.note-item{display:grid;grid-template-columns:9.5rem 1fr;gap:1.4rem;padding:1.3rem 0;border-bottom:1px solid var(--line);align-items:baseline;}
-.note-item .d{font-family:var(--mono);font-size:0.78rem;letter-spacing:0.08em;color:var(--fog-dim);}
-.note-item h2{font-size:1.3rem;font-weight:500;letter-spacing:-0.01em;line-height:1.3;}
-.note-item h2 a{color:#eaf5ec;text-decoration:none;}
-.note-item h2 a:hover{color:var(--glow);}
-.note-item .ex{margin-top:0.35rem;font-size:0.98rem;color:var(--fog-dim);max-width:60ch;}
-.tags{display:inline-flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.55rem;}
-.tags span{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--glow-dim);border:1px solid var(--line);border-radius:99px;padding:0.14rem 0.6rem;}
+.note-item { display: grid; grid-template-columns: 7.5rem 8.5rem minmax(0, 1fr); gap: 1.5rem; padding: 1.3rem 0; border-top: 1px solid var(--rule); align-items: center; text-decoration: none; }
+.note-item:last-child { border-bottom: 1px solid var(--rule); }
+.note-item .d { line-height: 1.5; }
+.nt { aspect-ratio: 4 / 3; border-radius: 4px; overflow: hidden; background: var(--paper-2); display: grid; place-items: center; }
+.nt img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(0.85); transition: transform 0.9s var(--ease), filter 0.5s; }
+.note-item:hover .nt img { transform: scale(1.06); filter: none; }
+.nt i { font-family: var(--serif); font-weight: 200; font-size: 2.6rem; line-height: 1; color: var(--ink-3); }
+.note-item h2 { font-family: var(--serif); font-weight: 400; font-size: 1.45rem; line-height: 1.2; letter-spacing: -0.012em; color: var(--ink); }
+.note-item:hover h2 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+.note-item .ex { margin-top: 0.35rem; font-size: 0.95rem; color: var(--ink-3); max-width: 62ch; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.2rem 1rem; margin-top: 0.55rem; }
+.tags span { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+.tags span::before { content: "+ "; color: var(--mark); }
 /* ---- single note view ---- */
-.note-full .d{font-family:var(--mono);font-size:0.78rem;letter-spacing:0.1em;color:var(--fog-dim);}
-.note-full h1{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:600;letter-spacing:-0.02em;color:#eaf5ec;line-height:1.15;margin:0.5rem 0 0.9rem;}
-.note-body{margin-top:2rem;font-size:1.13rem;line-height:1.75;}
-.note-body p+p,.note-body p+ul,.note-body ul+p{margin-top:1.2rem;}
-.note-body a{color:var(--glow);text-decoration:none;border-bottom:1px solid rgba(99,242,162,0.35);}
-.note-body a:hover{border-bottom-color:var(--glow);}
-.note-body h2,.note-body h3{color:#eaf5ec;font-weight:600;margin:2rem 0 0.8rem;letter-spacing:-0.01em;}
-.note-body ul,.note-body ol{padding-left:1.3rem;}
-.note-body li+li{margin-top:0.4rem;}
-.note-body blockquote{border-left:2px solid var(--glow-dim);padding-left:1.1rem;color:var(--fog-dim);margin:1.4rem 0;}
-.note-body code{font-family:var(--mono);font-size:0.88em;background:var(--pine-2);border:1px solid var(--line);border-radius:3px;padding:0.1em 0.35em;}
-.note-body pre{background:var(--pine-2);border:1px solid var(--line);border-radius:6px;padding:1.1rem 1.3rem;overflow-x:auto;margin:1.4rem 0;}
-.note-body pre code{background:none;border:none;padding:0;}
-.note-body img{max-width:100%;border-radius:6px;margin:1.4rem 0;}
-.all-link{display:inline-block;margin-bottom:2.6rem;font-family:var(--mono);font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--glow-dim);text-decoration:none;}
-.all-link:hover{color:var(--glow);}
-.empty{font-family:var(--mono);font-size:0.85rem;color:var(--fog-dim);padding:3rem 0;}
-@media(max-width:640px){.note-item{grid-template-columns:1fr;gap:0.25rem;}}
+.all-link { display: inline-block; margin-bottom: 2.4rem; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink-3); padding-bottom: 0.1rem; }
+.all-link:hover { border-color: var(--ink); }
+.note-full { max-width: 720px; }
+.note-full h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(2.1rem, 4.6vw, 3.4rem); line-height: 1.06; letter-spacing: -0.03em; color: var(--ink); margin: 0.6rem 0 0.9rem; }
+.note-body { margin-top: 2.2rem; font-size: 1.1rem; line-height: 1.75; }
+.note-body p + p, .note-body p + ul, .note-body ul + p, .note-body p + ol, .note-body ol + p { margin-top: 1.2rem; }
+.note-body a { color: var(--link, var(--ink)); text-decoration: underline; text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+.note-body a:hover { text-decoration-color: currentColor; }
+.note-body h2, .note-body h3 { font-family: var(--serif); font-weight: 400; color: var(--ink); line-height: 1.15; letter-spacing: -0.02em; margin: 2.4rem 0 0.8rem; }
+.note-body h2 { font-size: 1.9rem; } .note-body h3 { font-size: 1.5rem; }
+.note-body strong { color: var(--ink); font-weight: 600; }
+.note-body ul, .note-body ol { padding-left: 1.3rem; }
+.note-body li + li { margin-top: 0.4rem; }
+.note-body blockquote { border-left: 2px solid var(--mark); padding-left: 1.1rem; color: var(--ink-3); margin: 1.4rem 0; }
+.note-body code { font-family: var(--mono); font-size: 0.88em; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 3px; padding: 0.1em 0.35em; }
+.note-body pre { background: var(--paper-2); border: 1px solid var(--rule); border-radius: 6px; padding: 1.1rem 1.3rem; overflow-x: auto; margin: 1.4rem 0; }
+.note-body pre code { background: none; border: none; padding: 0; }
+.note-body img { max-width: 100%; height: auto; border-radius: 6px; margin: 1.4rem 0; }
+.empty { padding: 3rem 0; }
+@media (max-width: 640px) {
+  .note-item { grid-template-columns: 5.6rem 1fr; gap: 0.25rem 1rem; align-items: start; }
+  .note-item .nt { grid-row: 1 / span 2; } .note-item > :not(.nt) { grid-column: 2; }
+  .note-item h2 { font-size: 1.2rem; } .note-item .ex { display: none; }
+}
 </style>
 <!-- notes are routed by #slug, so include the hash in the counted path -->
 <script>window.goatcounter = { path: () => location.pathname + location.hash };</script>
@@ -59,45 +82,46 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <body>
 <nav class="nav">
   <a class="mark" href="./">Sam Reynolds<span>.</span></a>
-  <a class="back" href="./">← Back to site</a>
+  <a class="back mono" href="./">← Back to site</a>
 </nav>
-<main class="wrap" id="app"><p class="empty">Loading notes…</p></main>
+<main class="wrap" id="app"><p class="empty mono">Loading notes…</p></main>
 
 <script type="module">
 const app = document.getElementById("app");
 const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const fmt = d => new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+const fmt = d => new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 const tagHtml = tags => tags.length ? `<span class="tags">${tags.map(t => `<span>${esc(t)}</span>`).join("")}</span>` : "";
 
 let notes = [];
 try {
   notes = (await fetch("data/notes.json").then(r => r.json())).notes;
 } catch {
-  app.innerHTML = `<p class="empty">Couldn't load notes.</p>`;
+  app.innerHTML = `<p class="empty mono">Couldn't load notes.</p>`;
 }
 
 function renderList() {
   document.title = "Notes — Sam Reynolds";
   app.innerHTML = `
-    <div class="sec-head"><span class="tag">✳</span><h1>Notes</h1></div>
-    <p class="lede">Short, dated entries — announcements, quick thoughts, links and work in progress. Longer-form work lives under publications and talks.</p>
+    <div class="head"><h1>Notes</h1>
+    <p class="lede">Short, dated entries — announcements, quick thoughts, links and work in progress. Longer-form work lives under publications and talks.</p></div>
     ${notes.length ? notes.map(n => `
-      <article class="note-item">
-        <span class="d">${fmt(n.date)}</span>
+      <a class="note-item" href="#${esc(n.slug)}">
+        <span class="d mono">${fmt(n.date)}</span>
+        <span class="nt">${n.image ? `<img src="${n.image}" alt="" loading="lazy">` : `<i>${n.date.slice(8)}</i>`}</span>
         <div>
-          <h2><a href="#${esc(n.slug)}">${esc(n.title)}</a></h2>
+          <h2>${esc(n.title)}</h2>
           ${n.excerpt ? `<p class="ex">${esc(n.excerpt)}</p>` : ""}
           ${tagHtml(n.tags)}
         </div>
-      </article>`).join("") : `<p class="empty">No notes yet.</p>`}`;
+      </a>`).join("") : `<p class="empty mono">No notes yet.</p>`}`;
 }
 
 function renderNote(n) {
   document.title = `${n.title} — Notes — Sam Reynolds`;
   app.innerHTML = `
-    <a class="all-link" href="#">← All notes</a>
+    <a class="all-link mono" href="#">← All notes</a>
     <article class="note-full">
-      <span class="d">${fmt(n.date)}</span>
+      <span class="mono">${fmt(n.date)}</span>
       <h1>${esc(n.title)}</h1>
       ${tagHtml(n.tags)}
       <div class="note-body">${n.html}</div>
@@ -112,7 +136,7 @@ function route() {
 }
 addEventListener("hashchange", route);
 addEventListener("hashchange", () => window.goatcounter?.count?.());
-if (notes.length || true) route();
+route();
 </script>
 </body>
 </html>

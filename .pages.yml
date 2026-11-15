@@ -28,6 +28,10 @@ content:
         label: Tags
         type: string
         list: true
+      - name: image
+        label: Thumbnail image
+        description: Optional. Shown next to the note in lists. If left empty, the first image in the body is used.
+        type: image
       - name: body
         label: Body
         type: rich-text
