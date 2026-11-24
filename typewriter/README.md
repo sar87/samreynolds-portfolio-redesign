@@ -22,6 +22,7 @@ Open `index.html` in a browser. There is no build step. Typing and the PDF expor
 - **Typing**: printable characters strike onto the page. Delete, the arrow keys, Home, End, paste and drag-and-drop are all blocked.
 - **Backspace**: steps the carriage back one space and erases nothing. Typing there strikes over the old character, so both marks show (handy for x-ing out a typo). A space typed over a character leaves it as it is. Backspace stops at the left margin and cannot go up to an earlier line. In the PDF's selectable text layer, an overstruck position reads as the last character struck there.
 - **No auto-repeat**: holding any key acts once, as on a manual machine. That includes the space bar and Backspace: one press, one step.
+- **Phones and tablets**: a browser will not let a page bring up the device's keyboard on its own, only in answer to a tap. So the hint under the carriage reads "tap anywhere to bring up your keyboard", and a tap anywhere on the page does that. With the on-screen keys showing, the device's keyboard stays away.
 - **Tab**: moves to the next tab stop (every 5 characters).
 - **Line length**: 60 characters per line. The margin bell rings 8 characters before the end, and the carriage locks at the margin, which plays a thud and makes the type guide shake.
 - **Carriage return**: Enter, or clicking the return lever on the left of the carriage. The paper feeds up one line and the carriage is shoved back to the start.

@@ -744,6 +744,21 @@ trap.addEventListener('compositionend', drain);
 trap.addEventListener('paste', e => e.preventDefault());
 trap.addEventListener('blur', () => setTimeout(focusTrap, 0));
 
+// Phones and tablets: a page cannot bring up the device's keyboard on its own, the browser only allows it in answer to a tap.
+// The trap holds the focus from the start, and focusing a field that already has it does nothing, so on a tap the trap is let
+// go and taken up again. That counts as the visitor's doing, and the keyboard comes up. The hint says to tap.
+const touch = matchMedia('(pointer:coarse)').matches;
+let fullH = 0, fullW = 0;
+function softUp(){   // is the device's keyboard up already? It shrinks the visible part of the page
+  const vv = window.visualViewport, h = vv ? vv.height : innerHeight;
+  if (innerWidth !== fullW){ fullW = innerWidth; fullH = 0; }   // turned on its side: measure afresh
+  fullH = Math.max(fullH, h);
+  return h < fullH - 120;
+}
+function raise(){ if (!touch || kbOn || busy || dialogOpen() || softUp()) return; trap.blur(); trap.focus({preventScroll:true}); }
+stage.addEventListener('click', e => { if (!e.target.closest('button,a,#lever,#veil,#keys')) raise(); });
+if (touch){ softUp(); hint.innerHTML = 'tap anywhere to bring up your keyboard &nbsp;&middot;&nbsp; nothing can be erased'; }
+
 // roll the platen back to re-read (wheel / drag); the next keystroke snaps back
 function look(d){ if (busy) return; delete tweens.view; A.view = clamp(A.view + d, 0, row()*G.lh + G.lh*2); apply(); }
 stage.addEventListener('wheel', e => { e.preventDefault(); if (!dialogOpen()) look(-e.deltaY); }, {passive:false});
@@ -760,7 +775,7 @@ function setMuted(m){ muted = m; $('sndOn').style.display = m ? 'none' : ''; $('
   if (master) master.gain.value = m ? 0 : .9; try{ localStorage.setItem(KEY+'.muted', m ? '1' : '0'); }catch(e){} }
 $('bSnd').addEventListener('click', () => { setMuted(!muted); if (!muted) snd.key(); focusTrap(); });
 $('bPdf').addEventListener('click', () => { exportPDF(); focusTrap(); });
-$('bKeys').addEventListener('click', () => { setKeys(!kbOn); try{ localStorage.setItem(KEY+'.kb', kbOn ? '1' : '0'); }catch(e){} focusTrap(); });   // only a choice made with the button is remembered
+$('bKeys').addEventListener('click', () => { setKeys(!kbOn); try{ localStorage.setItem(KEY+'.kb', kbOn ? '1' : '0'); }catch(e){} focusTrap(); raise(); });   // only a choice made with the button is remembered
 const hasText = () => /\S/.test(allText());
 function openDlg(id){ for (const d of document.querySelectorAll('.dlg')) d.hidden = d.id !== id; veil.classList.add('open'); }
 $('bNew').addEventListener('click', () => { if (!hasText()){ newSheet(); focusTrap(); return; } openDlg('dlg'); $('dCancel').focus(); });
