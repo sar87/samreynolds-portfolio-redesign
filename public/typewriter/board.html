@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notes on the board</title>
+<meta name="description" content="Notes typed on the typewriter, pinned up once I have read them.">
+<link rel="stylesheet" href="font.css">
+<style>
+:root{--accent:#f2a03d;--ink:#121110}
+*{box-sizing:border-box}
+html{background:#121212}
+body{margin:0;min-height:100vh;background:radial-gradient(120% 80% at 50% 0%,#24211e 0%,#1a1a1a 55%,#121212 100%) no-repeat;
+  font-family:'Special Elite','Courier New',monospace;color:#b8b3a8}
+a{color:var(--accent)} a:hover{color:#ffc27a}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:18px 22px}
+h1{margin:0;font-size:18px;font-weight:normal;letter-spacing:.04em;color:#d9d4ca}
+h1 .home{display:inline-block;margin-right:14px;color:#8d8a84;text-decoration:none}
+h1 .home:hover{color:#d9d4ca}
+.cta{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:2px 20px 0;border-radius:22px;background:var(--accent);
+  color:#1b1408;font-size:15px;letter-spacing:.04em;text-decoration:none}
+.cta:hover{background:#ffb257;color:#1b1408}
+.cta svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+main{max-width:1200px;margin:0 auto;padding:8px 24px 0}
+.intro{margin:0 0 22px;font-size:15px;line-height:1.6;color:#a9a49b}
+.outro{margin:0;padding:26px 0 40px;text-align:center;font-size:14px;line-height:1.6;color:#a9a49b}
+
+/* cork */
+.board{border:12px solid #2a201a;border-radius:8px;padding:44px 40px 48px;min-height:340px;background-color:#6a5236;
+  background-image:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(255,220,170,.2),rgba(255,220,170,0)),
+    radial-gradient(circle at 20% 30%,rgba(0,0,0,.28) 0 1px,transparent 1.6px),
+    radial-gradient(circle at 70% 60%,rgba(255,230,190,.12) 0 1px,transparent 1.6px),
+    radial-gradient(circle at 45% 80%,rgba(0,0,0,.22) 0 .8px,transparent 1.4px);
+  background-size:100% 100%,9px 11px,13px 7px,7px 9px;box-shadow:0 24px 60px rgba(0,0,0,.6),inset 0 0 30px rgba(0,0,0,.35)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:44px 36px;align-items:start}
+.state{grid-column:1/-1;text-align:center;color:#efe3cd;padding:60px 10px;font-size:15px;line-height:1.7;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.state button{font:inherit;margin-top:10px;min-height:44px;padding:0 20px;border-radius:22px;border:1px solid #e9dcc6;background:none;color:inherit;cursor:pointer}
+
+/* a note on the board */
+.note{position:relative;padding:26px 20px 16px;background:linear-gradient(#c2b9a7,#b1a896);box-shadow:0 8px 16px rgba(0,0,0,.45);
+  color:var(--ink);display:flex;flex-direction:column;gap:14px;cursor:pointer;transform:rotate(var(--rot));
+  transition:transform .2s ease, box-shadow .2s ease}
+.note:hover{transform:rotate(var(--rot)) translateY(-3px);box-shadow:0 14px 24px rgba(0,0,0,.5)}
+.note:focus-visible{outline:none;box-shadow:0 0 0 3px var(--accent),0 14px 24px rgba(0,0,0,.5)}
+.pin{position:absolute;left:calc(50% - 7px);top:8px;width:14px;height:14px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#ffd08a,var(--accent) 55%,#a8641c);box-shadow:2px 4px 4px rgba(0,0,0,.45)}
+.body{margin:0;font-size:14px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;max-height:calc(1.6em * 11);overflow:hidden}
+.body.long{-webkit-mask-image:linear-gradient(#000 72%,transparent);mask-image:linear-gradient(#000 72%,transparent)}
+.note footer{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:#2e2a24}
+.w{white-space:nowrap}
+.c{display:inline-block;position:relative}
+.g{display:inline-block;transform:translate(var(--dx),var(--dy)) rotate(var(--rt));opacity:var(--op);text-shadow:0 0 .6px rgba(18,17,16,.55)}
+.c .g+.g{position:absolute;left:0;top:0;width:100%;text-align:center}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* one note full size, laid out exactly as typed */
+#view{position:fixed;inset:0;z-index:10;background:rgba(8,8,8,.88);overflow:auto;padding:64px 12px 40px;overscroll-behavior:contain}
+#view[hidden]{display:none}
+#close{position:fixed;top:12px;right:14px;z-index:1;width:44px;height:44px;border-radius:22px;border:1px solid #5a544c;background:#2a2724;
+  color:#e6e0d2;font:inherit;font-size:20px;line-height:1;cursor:pointer}
+.paper{position:relative;margin:0 auto;border-radius:12px 12px 2px 2px;color:var(--ink);box-shadow:0 20px 50px rgba(0,0,0,.6);
+  background-color:#c9c1b0;
+  background-image:radial-gradient(ellipse 80% 60% at 50% 18%,rgba(255,236,205,.22),rgba(255,236,205,0)),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/></svg>")}
+.paper .ch{position:absolute;text-align:center;white-space:pre;opacity:var(--op);transform:translate(var(--dx),var(--dy)) rotate(var(--rt));
+  text-shadow:0 0 .6px rgba(18,17,16,.55)}
+.vfoot{display:flex;justify-content:space-between;gap:12px;margin:16px auto 0;font-size:14px;color:#b8b3a8}
+
+@media (max-width:600px){
+  header{padding:14px 14px}
+  main{padding:4px 12px 0}
+  .board{border-width:8px;padding:34px 18px 38px}
+  .grid{gap:34px}
+}
+@media (prefers-reduced-motion:reduce){.note{transition:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1><a class="home" href="../" title="Back to samreynolds.org" aria-label="Back to samreynolds.org">&larr;</a>Notes on the board</h1>
+  <a class="cta" href="index.html">
+    <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="6.5" width="18" height="11" rx="2"/><path d="M7 10.3h.01M10.3 10.3h.01M13.7 10.3h.01M17 10.3h.01M8.5 13.9h7"/></svg>
+    Leave a note
+  </a>
+</header>
+<main>
+  <p class="intro">Typed on the machine, one go, no erasing. Pinned up once I have read them.</p>
+  <div class="board"><div class="grid" id="grid" aria-live="polite"><p class="state">Fetching the board&hellip;</p></div></div>
+  <p class="outro">Tap a note to read it full size. Want yours up here? <a href="index.html">Leave a note</a> and choose &ldquo;pin it up&rdquo;.</p>
+</main>
+
+<div id="view" role="dialog" aria-modal="true" aria-label="Note" hidden>
+  <button id="close" aria-label="Close">&times;</button>
+  <div class="paper" id="paper"></div>
+  <div class="vfoot" id="vfoot"></div>
+</div>
+
+<script>
+(() => {
+'use strict';
+// The Worker that keeps the notes (see worker/ and README). On localhost, ?api=http://localhost:8787 points at a local copy.
+let API = 'https://typewriter-notes.jmjuggernaut.workers.dev';
+if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)){ const o = new URLSearchParams(location.search).get('api'); if (o) API = o; }
+
+const WOBBLE = .25;   // as in index.html: how much of each strike's stored jitter is shown
+const $ = id => document.getElementById(id);
+const grid = $('grid'), view = $('view'), paper = $('paper'), vfoot = $('vfoot');
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const strikes = c => !c ? [] : Array.isArray(c[0]) ? c : [c];
+const reads = c => { const s = strikes(c); return s.length ? s[s.length-1][0] : ' '; };
+const lineText = l => l.map(reads).join('').replace(/\s+$/, '');
+const sheetText = s => s.lines.map(lineText).join('\n');
+const shift = k => `--dx:${k[1]*WOBBLE}em;--dy:${k[2]*WOBBLE}em;--rt:${k[3]*WOBBLE}deg;--op:${k[4]}`;
+
+function when(iso){
+  const d = new Date(iso), o = {day: 'numeric', month: 'short'};
+  if (d.getFullYear() !== new Date().getFullYear()) o.year = 'numeric';
+  return isNaN(d) ? '' : d.toLocaleDateString(undefined, o);
+}
+function tilt(id){ let h = 0; for (const ch of id) h = (h*31 + ch.charCodeAt(0)) >>> 0; return ((h % 1000)/1000*5 - 2.5).toFixed(2); }
+
+// On the card the note is reflowed to fit. A line typed out to the margin runs on into the next; a line ended
+// early (a short line, a sign-off, a blank line) keeps its break. Every strike keeps its jitter and overstrikes.
+function glyph(cell){
+  const c = el('span', 'c');
+  for (const k of strikes(cell)){ const g = el('span', 'g', k[0]); g.style.cssText = shift(k); c.append(g); }
+  return c;
+}
+function flow(sheet, into){
+  let prev = -1;
+  for (const l of sheet.lines){
+    const n = lineText(l).length;
+    if (prev >= 0) into.append(n && prev >= sheet.cols - 12 ? ' ' : '\n');
+    let word = null;
+    for (let i = 0; i < n; i++){
+      const cell = l[i];
+      if (!cell){ word = null; into.append(' '); continue; }
+      if (!word){ word = el('span', 'w'); into.append(word); }
+      word.append(glyph(cell));
+    }
+    prev = n;
+  }
+}
+
+function card(n){
+  const a = el('article', 'note');
+  a.tabIndex = 0; a.setAttribute('role', 'button');
+  a.style.setProperty('--rot', tilt(n.id) + 'deg');
+  const who = n.name || 'a friend';
+  a.setAttribute('aria-label', `Note from ${who}, ${when(n.date)}. Open full size.`);
+  a.append(el('span', 'pin'));
+  const body = el('p', 'body'); body.setAttribute('aria-hidden', 'true'); flow(n.sheet, body);
+  const f = el('footer'); f.append(el('span', '', '— ' + who), el('span', '', when(n.date)));
+  a.append(body, f);
+  a.addEventListener('click', () => open(n, a));
+  a.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(n, a); } });
+  return a;
+}
+
+// full size: the sheet exactly as it came off the machine
+let ADV = .6, back = null;
+function measure(){ const g = document.createElement('canvas').getContext('2d'); g.font = '100px "Special Elite"'; const w = g.measureText('M').width/100; ADV = clamp(w || .6, .5, .68); }
+function open(n, from){
+  back = from;
+  // fit the whole width of the page on screen (on a phone the type is small, but pinch-zoom works)
+  const {cols, lines} = n.sheet, side = innerWidth < 600 ? 2 : 5;
+  const cw = clamp((Math.min(innerWidth - 24, 980))/(cols + side*2), 4, 13.4);
+  const fs = cw/ADV, lh = Math.round(fs*1.6), mx = cw*side, tp = lh*3;
+  const W = cw*(cols + side*2);
+  paper.textContent = '';
+  paper.style.cssText = `width:${W}px;height:${tp + lines.length*lh + lh*3}px;font-size:${fs}px;line-height:${lh}px`;
+  const ink = el('div'); ink.setAttribute('aria-hidden', 'true');
+  lines.forEach((l, r) => l.forEach((cell, c) => {
+    for (const k of strikes(cell)){
+      const s = el('span', 'ch', k[0]);
+      s.style.cssText = `left:${mx + c*cw}px;top:${tp + r*lh}px;width:${cw}px;height:${lh}px;` + shift(k);
+      ink.append(s);
+    }
+  }));
+  paper.append(ink, el('p', 'sr', sheetText(n.sheet)));
+  vfoot.style.width = W + 'px'; vfoot.textContent = '';
+  vfoot.append(el('span', '', '— ' + (n.name || 'a friend')), el('span', '', when(n.date)));
+  view.setAttribute('aria-label', `Note from ${n.name || 'a friend'}`);
+  view.hidden = false; view.scrollTop = 0; document.body.style.overflow = 'hidden';
+  $('close').focus();
+}
+function close(){
+  view.hidden = true; document.body.style.overflow = '';
+  if (back) back.focus();
+}
+$('close').addEventListener('click', close);
+view.addEventListener('click', e => { if (e.target === view) close(); });
+document.addEventListener('keydown', e => {
+  if (view.hidden) return;
+  if (e.key === 'Escape') close();
+  if (e.key === 'Tab'){ e.preventDefault(); $('close').focus(); }   // only one control in the dialog
+});
+
+function state(msg, retry){
+  grid.textContent = '';
+  const p = el('p', 'state', msg);
+  if (retry){ const b = el('button', '', 'Try again'); b.addEventListener('click', load); p.append(el('br'), b); }
+  grid.append(p);
+}
+async function load(){
+  state('Fetching the board…');
+  let notes;
+  try {
+    const r = await fetch(API + '/board');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    notes = (await r.json()).notes;
+  } catch (e){ console.error(e); state('The board could not be reached just now.', true); return; }
+  if (!notes.length){ state('Nothing pinned up yet. Be the first.'); return; }
+  grid.textContent = '';
+  for (const n of notes) grid.append(card(n));
+  requestAnimationFrame(() => grid.querySelectorAll('.body').forEach(b => b.classList.toggle('long', b.scrollHeight > b.clientHeight + 2)));
+}
+
+(document.fonts ? document.fonts.load('20px "Special Elite"') : Promise.resolve()).then(measure, () => {}).finally(load);
+})();
+</script>
+</body>
+</html>

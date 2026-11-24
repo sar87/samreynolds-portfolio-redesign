@@ -10,8 +10,15 @@ It is a static site: two HTML pages that load their content from JSON and Markdo
 
 - A full-screen animated hero with the name, tagline, roles and headline numbers.
 - A "Latest" panel showing the newest video and the newest note. The video plays a short silent clip; pressing play swaps to the full film on YouTube with sound.
-- Sections for About, Featured project, Research, Publications, Grants, Talks, Roles, Media and Notes.
+- Sections for About, Featured project, Research, Publications, Grants, Talks, Roles, Media, Notes and Write to me.
+- "Write to me" invites visitors to the typewriter (below) and shows the newest three notes pinned to its board. The same invitation is the paper strip at the bottom of the "Latest" panel.
 - Visitors can change the look: five colour palettes and three hero animations (Strata, Ripple, Silk). The controls sit in the navigation bar on wide screens and behind an "Appearance" button on smaller ones. The choice is remembered in the visitor's browser.
+
+**Typewriter (`typewriter/index.html`) and its board (`typewriter/board.html`)**
+
+- A typewriter in the browser: visitors type a note, which is emailed to Sam, and can ask for it to be pinned to the public board.
+- On a desktop the home page opens it over the page; on phones and tablets the links go to the typewriter page itself.
+- The two pages are self-contained and are not built by Vite. The server that receives the notes is a Cloudflare Worker, kept in `typewriter/worker/` and deployed separately. See `typewriter/README.md` and `typewriter/SETUP.md`.
 
 **Notes page (`notes.html`)**
 
@@ -30,6 +37,8 @@ It is a static site: two HTML pages that load their content from JSON and Markdo
 | `content/notes/*.md` | Notes, one Markdown file each. `content/notes/drafts/` is not published |
 | `public/images/` | Images for publications, media and notes |
 | `public/clips/` | Short silent clips for the hero video |
+| `public/typewriter/` | The typewriter and its board, published as they are |
+| `typewriter/` | The typewriter's documentation and its server (`worker/`). Not published |
 | `scripts/build-notes.js` | Turns the notes into `public/data/notes.json` at build time |
 | `scripts/validate-content.js` | Checks the content files against their schemas |
 | `.pages.yml` | Settings for Pages CMS, used to write notes in the browser |

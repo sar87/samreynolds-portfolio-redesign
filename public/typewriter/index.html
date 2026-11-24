@@ -1,0 +1,1044 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, interactive-widget=resizes-content">
+<title>Typewriter</title>
+<link rel="stylesheet" href="font.css">
+<style>
+:root{
+  --bg:#1a1a1a;
+  --paper:#3b3a37;
+  --paper-dark:#2b2a28;
+  --ink:#121110;
+  --amber:#f2a03d;
+  --ui:#8d8a84;
+  --ui-hi:#d9d4ca;
+  --cw:12px; --fs:20px; --lh:32px; --mx:60px; --tp:128px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);overflow:hidden;overscroll-behavior:none}
+body{font-family:"Special Elite","Courier New",Courier,monospace;color:var(--ui);-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+
+#stage{position:fixed;inset:0;overflow:hidden;cursor:default;touch-action:none;
+  background:radial-gradient(120% 90% at 50% 62%, #222120 0%, #1b1b1b 55%, #131313 100%)}
+
+#carriage{position:absolute;left:0;top:0;height:100%;will-change:transform}
+
+/* ---------- paper ---------- */
+#paper{position:absolute;left:0;top:0;width:100%;overflow:hidden;isolation:isolate;will-change:transform;
+  border-radius:90px 90px 0 0 / 70px 70px 0 0;
+  background:linear-gradient(var(--paper-dark), var(--paper) 150px);
+  box-shadow:0 0 60px rgba(0,0,0,.45)}
+#lamp,.lamp{position:absolute;left:0;top:0;width:620px;height:430px;transform-origin:50% 100%;pointer-events:none;will-change:transform;
+  background:radial-gradient(ellipse 62% 100% at 50% 100%, rgba(255,238,202,.96) 0%, rgba(246,218,168,.80) 16%, rgba(216,184,134,.42) 42%, rgba(170,142,104,.14) 70%, rgba(150,125,90,0) 100%);
+  -webkit-mask-image:conic-gradient(from -60deg at 50% 100%, transparent 0deg, #000 34deg, #000 86deg, transparent 120deg);
+          mask-image:conic-gradient(from -60deg at 50% 100%, transparent 0deg, #000 34deg, #000 86deg, transparent 120deg)}
+#glow,.glow{position:absolute;left:0;top:0;width:260px;height:260px;pointer-events:none;will-change:transform;
+  background:radial-gradient(circle, rgba(255,232,186,.75) 0%, rgba(240,206,150,.35) 35%, rgba(200,160,110,0) 70%)}
+#grain,.grain{position:absolute;inset:0;pointer-events:none;opacity:.55;mix-blend-mode:multiply;
+  background-image:
+    radial-gradient(circle at 23% 31%, rgba(0,0,0,.55) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 71% 12%, rgba(0,0,0,.45) 0 .8px, transparent 1.4px),
+    radial-gradient(circle at 48% 77%, rgba(0,0,0,.5) 0 1.1px, transparent 1.7px),
+    radial-gradient(circle at 88% 58%, rgba(0,0,0,.4) 0 .7px, transparent 1.3px),
+    radial-gradient(circle at 9% 86%, rgba(0,0,0,.45) 0 .9px, transparent 1.5px),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/></svg>");
+  background-size:310px 270px, 430px 390px, 370px 510px, 530px 450px, 290px 610px, 240px 240px}
+#ink,.ink{position:absolute;inset:0;color:var(--ink);font-size:var(--fs);line-height:var(--lh)}
+.ln{position:absolute;left:0;right:0;height:var(--lh);top:calc(var(--tp) + var(--r) * var(--lh))}
+.ch{position:absolute;top:0;width:var(--cw);left:calc(var(--mx) + var(--c) * var(--cw));text-align:center;white-space:pre;
+  display:flex;justify-content:center;
+  opacity:var(--op);transform:translate(var(--dx),var(--dy)) rotate(var(--rt));text-shadow:0 0 .6px rgba(18,17,16,.55)}
+.ch.hv{text-shadow:0 0 1px rgba(18,17,16,.95), .3px 0 0 rgba(18,17,16,.6)}
+.ch.new{animation:strike .1s cubic-bezier(.2,.7,.3,1)}
+#stage.kbon .ch.new{animation-delay:.04s;animation-fill-mode:backwards}
+@keyframes strike{from{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--rt)) scale(1.4)}}
+
+/* ---------- carriage: platen, end plates, knobs, return lever (all travel with the paper) ---------- */
+#bar{position:absolute;left:-20px;right:-20px;height:22px;border-radius:3px;
+  background:linear-gradient(#3a3a3a 0%, #262626 22%, #111 60%, #050505 100%);
+  box-shadow:0 10px 22px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.05) inset}
+#bar::before,#bar::after{content:"";position:absolute;top:-17px;bottom:-17px;width:13px;border-radius:4px;
+  background:linear-gradient(90deg,#5d5b57 0%, #474541 35%, #2a2927 100%);
+  box-shadow:0 8px 16px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.14) inset}
+#bar::before{left:-13px}#bar::after{right:-13px}
+#scale{position:absolute;left:var(--mx);height:20px;pointer-events:none;opacity:.42;border-right:1px solid #cfc9bd;
+  background:
+    repeating-linear-gradient(90deg, #cfc9bd 0 1px, transparent 1px calc(var(--cw) * 5)) 0 0 / 100% 7px no-repeat,
+    repeating-linear-gradient(90deg, #cfc9bd 0 1px, transparent 1px var(--cw)) 0 0 / 100% 4px no-repeat}
+#scale span{position:absolute;top:9px;transform:translateX(-50%);font:600 7.5px/1 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.04em;color:#cfc9bd}
+.knob{position:absolute;width:34px;height:52px;border-radius:5px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.08) 0 1px, rgba(0,0,0,.3) 1px 2px, transparent 2px 5px),
+    linear-gradient(#484848 0%, #2c2c2c 25%, #111 65%, #040404 100%);
+  box-shadow:0 10px 20px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.12) inset}
+.knob::before{content:"";position:absolute;top:20px;height:12px;width:10px;background:linear-gradient(#7c7973 0%,#3d3b38 45%,#121212 100%)}
+.knob.l{left:-77px}.knob.l::before{right:-10px}
+.knob.r{right:-77px}.knob.r::before{left:-10px}
+#lever{position:absolute;left:-148px;width:150px;height:130px;overflow:visible;pointer-events:none;filter:drop-shadow(0 7px 8px rgba(0,0,0,.55))}
+#arm{pointer-events:auto;cursor:pointer;transform-origin:122px 104px;transition:transform .15s cubic-bezier(.3,.6,.3,1), filter .15s}
+#arm:hover{filter:brightness(1.3)}
+#lever.pull #arm{transform:rotate(20deg)}
+
+/* ---------- fixed to the machine: the printing point ---------- */
+#housing{position:absolute;left:50%;margin-left:-56px;width:112px;height:52px;border-radius:26px;
+  background:linear-gradient(#4a4947 0%, #3a3937 45%, #2c2b2a 100%);
+  box-shadow:0 12px 24px rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.09) inset, 0 -1px 0 rgba(0,0,0,.5) inset;
+  display:flex;align-items:center;justify-content:center;gap:9px}
+.dot{width:8px;height:8px;border-radius:50%;background:#262524;box-shadow:0 1px 0 rgba(255,255,255,.06), 0 0 0 1px rgba(0,0,0,.35) inset;transition:background .25s, box-shadow .25s}
+.dot.on{background:#f08a3c;box-shadow:0 0 9px 1px rgba(240,138,60,.75)}
+.dot.dim{background:#b96a2e;box-shadow:0 0 4px rgba(240,138,60,.3)}
+.dot.flash{background:#ffc37a;box-shadow:0 0 12px 3px rgba(255,170,80,.9);transition:none}
+
+/* ---------- type head ---------- */
+#head{position:absolute;left:0;top:0;width:0;height:0;pointer-events:none;will-change:transform}
+#head .card{position:absolute;left:calc(var(--cw) * -.8);width:calc(var(--cw) * 1.6);top:5px;height:8px;background:#141414;border-radius:1.5px;box-shadow:0 2px 4px rgba(0,0,0,.5)}
+#head .stem{position:absolute;left:-2.5px;width:5px;top:12px;background:linear-gradient(90deg,#1c1c1c,#0b0b0b);height:var(--stem)}
+#head .emit{position:absolute;left:calc(var(--cw) * -1.15);width:calc(var(--cw) * 2.3);height:2.5px;top:calc(var(--stem) + 9px);border-radius:2px;background:#ffb24d;box-shadow:0 0 10px 2px rgba(255,170,70,.75), 0 0 2px #fff3}
+#head.hit .card{animation:tap .09s ease-out}
+#head.jam{animation:jam .18s linear}
+@keyframes tap{40%{transform:translateY(-3px)}}
+@keyframes jam{25%{margin-left:-2px}75%{margin-left:2px}}
+
+/* ---------- keyboard deck: chassis, type basket, keys (drawn at a fixed design size, scaled to fit) ---------- */
+#chassis,#deck{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;display:none}
+/* the deck is a single plane hinged at the platen and tipped back, so the machine is seen from the typist's chair;
+   it has no body: frame, basket and spools are amber linework (#frame), the keys are rings */
+#deck{pointer-events:none;transform-style:preserve-3d}
+#desk{position:absolute;left:0;right:0;bottom:0;display:none;pointer-events:none;box-shadow:0 1px 0 rgba(255,220,170,.14) inset;
+  background:radial-gradient(ellipse 55% 60% at 50% 22%, rgba(255,200,130,.14) 0%, rgba(255,200,130,0) 70%), linear-gradient(#241c17 0%, #19130f 45%, #0f0c09 100%)}
+#plate{position:absolute;border-radius:40px 40px 14px 14px;background:rgba(10,9,8,.5)}
+#frame{position:absolute;left:0;top:0;overflow:visible;fill:none;stroke:var(--amber);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 0 6px rgba(242,160,61,.3))}
+#lip{position:absolute;display:none;box-sizing:border-box;pointer-events:none;border:1.5px solid var(--amber);border-top:0;background:rgba(10,9,8,.6)}
+#fan{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d;transition:margin-top .07s}
+#fan.shift{margin-top:5px}
+.tb{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0}
+.tb i{position:absolute;left:-.75px;top:0;width:1.5px;background:rgba(242,160,61,.75)}
+.tb i::after{content:"";position:absolute;left:-3.25px;bottom:-2px;width:8px;height:9px;border-radius:1.5px;
+  background:var(--amber);box-shadow:0 0 6px rgba(242,160,61,.5)}
+#keys{position:absolute;left:0;width:0;height:0}
+.key,.space{position:absolute;box-sizing:border-box;cursor:pointer;pointer-events:auto;border:1.5px solid var(--amber);background:#1a1918;color:#f6cf96;
+  transition:transform .05s, box-shadow .05s, background .05s, color .05s;
+  box-shadow:0 8px 0 -1px rgba(242,160,61,.3), 0 0 10px rgba(242,160,61,.16)}
+.key{width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;font-size:18px;line-height:37px;text-align:center}
+.key.sh{font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;border-style:dashed}
+.space{left:-165px;width:330px;height:28px;margin-top:-14px;border-radius:14px}
+.key.down,.space.down{transform:translateY(6px);background:var(--amber);color:#1b1408;box-shadow:0 0 20px 4px rgba(242,160,61,.6)}
+
+/* ---------- chrome ---------- */
+#top{position:absolute;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;padding:18px 22px;z-index:5;
+  background:linear-gradient(rgba(20,20,20,.9), rgba(20,20,20,0))}
+#top .grp{display:flex;align-items:center;gap:6px}
+button.ic{appearance:none;border:0;background:none;color:var(--ui);width:38px;height:38px;border-radius:50%;display:grid;place-items:center;cursor:pointer;transition:color .15s, background .15s}
+button.ic:hover{color:var(--ui-hi);background:rgba(255,255,255,.06)}
+button.ic.on{color:var(--amber)}
+button.ic svg,#bHome svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+/* the way back to the rest of the site */
+#bHome{display:inline-flex;align-items:center;gap:7px;height:38px;padding:1px 14px 0 9px;border-radius:19px;color:var(--ui);text-decoration:none;font-size:13.5px;letter-spacing:.04em;transition:color .15s, background .15s}
+#bHome:hover{color:var(--ui-hi);background:rgba(255,255,255,.06)}
+@media (max-width:700px){#bHome{padding:0 8px}#bHome span{display:none}}
+#hint{position:absolute;left:0;right:0;text-align:center;font-size:14px;letter-spacing:.08em;color:#6f6c67;transition:opacity .8s;pointer-events:none;padding:0 20px;line-height:1.9}
+#hint.gone{opacity:0}
+#hint.kb{display:none}
+#toast{position:absolute;left:50%;bottom:26px;transform:translate(-50%,20px);background:#2b2a28;color:var(--ui-hi);padding:10px 18px;border-radius:20px;font-size:14px;letter-spacing:.04em;opacity:0;transition:opacity .25s, transform .25s;pointer-events:none;z-index:9;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#veil{position:absolute;inset:0;background:rgba(10,10,10,.72);display:none;place-items:center;z-index:8;padding:20px;overflow-y:auto;touch-action:pan-y}
+#veil.open{display:grid}
+.dlg{background:#2b2a28;border-radius:14px;padding:26px 26px 20px;max-width:380px;color:var(--ui-hi);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.dlg[hidden]{display:none}
+.dlg h2{margin:0 0 10px;font-size:19px;font-weight:400;letter-spacing:.03em}
+.dlg p{margin:0 0 22px;font-size:14.5px;line-height:1.6;color:var(--ui)}
+.dlg .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.dlg button{font:inherit;font-size:14px;letter-spacing:.04em;padding:9px 14px 7px;border-radius:8px;border:1px solid #4a4845;background:none;color:var(--ui-hi);cursor:pointer}
+.dlg button:hover{background:rgba(255,255,255,.06)}
+.dlg button.pri{background:var(--amber);border-color:var(--amber);color:#1b1408}
+.dlg button.pri:hover{background:#ffb459}
+/* the sign-off card: who it is from, then send or send-and-pin */
+#dlgSend{width:100%;max-width:448px;padding:28px 28px 22px;display:flex;flex-direction:column;gap:14px}
+#dlgSend h2{margin:0;font-size:22px}
+#dlgSend p{margin:0;color:#a9a49b}
+.fld{display:flex;flex-direction:column;gap:7px;font:600 11px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#c9c3b8}
+.fld input{height:44px;padding:0 14px;border-radius:8px;border:1px solid #4a4845;background:#1f1e1c;color:#e6e0d2;outline:none;
+  font:16px "Special Elite","Courier New",monospace;letter-spacing:.02em;text-transform:none;user-select:text;-webkit-user-select:text}
+.fld input:focus{border-color:var(--amber)}
+.fld input::placeholder{color:#948f86}
+#fErr{font-size:13.5px;color:#ffab7d}
+#fErr:empty{display:none}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.dlg button.opt{display:flex;align-items:center;gap:14px;width:100%;min-height:64px;padding:10px 16px;border-radius:10px;border-width:1.5px;color:#e6e0d2;text-align:left;letter-spacing:0}
+.dlg button.opt:hover,.dlg button.opt:focus-visible{border-color:var(--amber);background:rgba(242,160,61,.08);outline:none}
+.opt svg{flex:none;width:26px;height:26px;fill:none;stroke:var(--amber);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.opt b{display:block;font-weight:400;font-size:16px;letter-spacing:.03em}
+.opt small{display:block;margin-top:4px;font-size:13px;color:#a9a49b}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#dlgSend .fine{font-size:12.5px;line-height:1.5}
+#bSend{appearance:none;display:flex;align-items:center;gap:9px;height:40px;margin-left:6px;padding:2px 18px 0;border:0;border-radius:20px;background:var(--amber);color:#1b1408;
+  font:inherit;font-size:15px;letter-spacing:.04em;cursor:pointer;transition:background .15s}
+#bSend:hover{background:#ffb459}
+#bSend svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#stage.busy #top{opacity:.35;pointer-events:none;transition:opacity .3s}
+
+/* ---------- pulling the sheet: fold & envelope, or pin to the board ---------- */
+#post{position:absolute;inset:0;z-index:7;pointer-events:none;overflow:hidden;display:none}
+#post.on{display:block}
+#post .grp{position:absolute;left:0;top:0;width:0;height:0}
+.face{position:absolute;left:0;top:0;overflow:hidden;isolation:isolate;border-radius:90px 90px 0 0 / 70px 70px 0 0;background:linear-gradient(var(--paper-dark), var(--paper) 150px)}
+.face.out{box-shadow:0 0 60px rgba(0,0,0,.45);will-change:transform}
+.rig{position:absolute;left:0;top:0;transform-origin:0 0;transform-style:preserve-3d;perspective:2400px;will-change:transform}
+.pn{position:absolute;left:0;transform-style:preserve-3d}
+.fr,.bk{position:absolute;inset:0;overflow:hidden;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.bk{transform:rotateX(180deg);background:linear-gradient(rgba(0,0,0,.22),rgba(0,0,0,0) 14%,rgba(0,0,0,0) 86%,rgba(0,0,0,.22)),linear-gradient(#4a4844,#403e3a)}
+.p0 .bk{border-radius:0 0 90px 90px / 0 0 70px 70px}
+.env-b{position:absolute;border-radius:4px;background:#3a3027;box-shadow:0 18px 40px rgba(0,0,0,.55)}
+.env-f,.env-p{position:absolute}
+.env-f svg,.env-p svg{display:block;width:100%;height:100%;overflow:visible}
+.env-f path{fill:#4b3e31;stroke:rgba(0,0,0,.4);stroke-width:1.2;vector-effect:non-scaling-stroke}
+.env-f.shut path{fill:#66543f}
+.env-p .body{fill:#574736}
+.env-p .crease{fill:none;stroke:rgba(0,0,0,.32);stroke-width:1.2}
+.env-p text{font-family:"Special Elite","Courier New",monospace;fill:#1d1813}
+.seal{position:absolute;border-radius:50%;opacity:0;background:radial-gradient(circle at 38% 35%, #ffd08a, var(--amber) 50%, #b8660f);
+  box-shadow:0 0 16px rgba(242,160,61,.55), inset 0 0 0 3px rgba(27,20,8,.22)}
+.board{position:absolute;box-sizing:border-box;border:12px solid #2a201a;border-radius:8px;overflow:hidden;background-color:#6a5236;
+  background-image:radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,220,170,.2), rgba(255,220,170,0)), radial-gradient(circle at 20% 30%, rgba(0,0,0,.28) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 70% 60%, rgba(255,230,190,.12) 0 1px, transparent 1.6px), radial-gradient(circle at 45% 80%, rgba(0,0,0,.22) 0 .8px, transparent 1.4px);
+  background-size:100% 100%, 9px 11px, 13px 7px, 7px 9px;box-shadow:0 24px 60px rgba(0,0,0,.6), inset 0 0 30px rgba(0,0,0,.35)}
+.ghost{position:absolute;box-sizing:border-box;box-shadow:0 4px 8px rgba(0,0,0,.4);
+  background:repeating-linear-gradient(transparent 0 9px, rgba(18,17,16,.26) 9px 10px) content-box, #b5ac9a}
+.ghost::before,.pin{content:"";position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 35%, #ffd08a, var(--amber) 55%, #a8641c);box-shadow:2px 4px 4px rgba(0,0,0,.45)}
+.ghost::before{left:calc(50% - 5px);top:5px;width:10px;height:10px}
+.pin{box-shadow:0 0 10px rgba(242,160,61,.6), 2px 4px 4px rgba(0,0,0,.45)}
+.stamp{position:absolute;padding:.45em .7em .3em;border:1.6px solid var(--amber);border-radius:4px;color:var(--amber);background:rgba(20,14,8,.55);white-space:nowrap;
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:700;line-height:1;letter-spacing:.16em}
+#trap{position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;border:0;padding:0;font-size:16px;resize:none;outline:none;background:transparent;color:transparent;caret-color:transparent}
+@media (prefers-reduced-motion:reduce){.ch.new,#head.hit .card,#head.jam{animation:none}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="desk"></div>
+  <div id="chassis"><div id="plate"></div><svg id="frame" width="1" height="1" aria-hidden="true"></svg></div>
+  <div id="lip"></div>
+  <div id="carriage">
+    <div id="paper">
+      <div id="lamp"></div>
+      <div id="glow"></div>
+      <div id="grain"></div>
+      <div id="ink"></div>
+    </div>
+    <div id="bar"></div>
+    <div id="scale"></div>
+    <div class="knob l"></div><div class="knob r"></div>
+    <svg id="lever" viewBox="0 0 150 130" aria-label="Carriage return">
+      <defs><linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aaa69d"/><stop offset=".45" stop-color="#615e59"/><stop offset="1" stop-color="#2b2a28"/></linearGradient></defs>
+      <g id="arm"><title>Carriage return (Enter)</title>
+        <path d="M122 104 L56 74 Q41 67 37 52 L32 31" fill="none" stroke="url(#chrome)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M38 56 L31.5 29" fill="none" stroke="url(#chrome)" stroke-width="12" stroke-linecap="round"/>
+        <path d="M116 98 L58 71.500" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M35 53 L30 31" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+      <circle cx="122" cy="104" r="8" fill="#33312f" stroke="#77736d" stroke-width="1.5"/>
+      <path d="M117.500 101.500 L126.500 106.500" stroke="#161514" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div id="housing"><span class="dot on" id="d1"></span><span class="dot dim" id="d2"></span><span class="dot" id="d3"></span></div>
+  <div id="head"><div class="card"></div><div class="stem"></div><div class="emit"></div></div>
+  <div id="deck">
+    <div id="fan"></div>
+    <div id="keys"></div>
+  </div>
+
+  <div id="top">
+    <div class="grp">
+      <a id="bHome" href="../" title="Back to samreynolds.org" aria-label="Back to samreynolds.org"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>samreynolds.org</span></a>
+      <button class="ic" id="bNew" title="New sheet" aria-label="New sheet"><svg viewBox="0 0 24 24"><path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/><path d="M14 3v4h4M12 11v6M9 14h6"/></svg></button>
+    </div>
+    <div class="grp">
+      <button class="ic" id="bKeys" title="Show/hide the keyboard" aria-label="Toggle keyboard"><svg viewBox="0 0 24 24"><rect x="3" y="6.5" width="18" height="11" rx="2"/><path d="M7 10.3h.01M10.3 10.3h.01M13.7 10.3h.01M17 10.3h.01M8.5 13.9h7"/></svg></button>
+      <button class="ic" id="bSnd" title="Sound on/off" aria-label="Toggle sound"><svg viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path id="sndOn" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.8 7.8 0 0 1 0 11"/><path id="sndOff" d="M16 9.5l5 5M21 9.5l-5 5" style="display:none"/></svg></button>
+      <button class="ic" id="bPdf" title="Export PDF (Ctrl/⌘ S)" aria-label="Export PDF"><svg viewBox="0 0 24 24"><path d="M12 4v11M7.5 11 12 15.5 16.5 11M5 20h14"/></svg></button>
+      <button id="bSend" title="Pull the sheet and send it"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1.5"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg>Send</button>
+    </div>
+  </div>
+
+  <div id="hint">just type &nbsp;·&nbsp; nothing can be erased &nbsp;·&nbsp; press enter to return the carriage</div>
+  <div id="post"></div>
+  <div id="veil"><div class="dlg" id="dlg" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+    <h2 id="dTitle">Feed a new sheet?</h2>
+    <p>The page in the machine will be pulled out and thrown away. There is no getting it back unless you export it first.</p>
+    <div class="row"><button id="dCancel">Keep typing</button><button id="dClear">Throw it away</button><button class="pri" id="dExport">Export, then new sheet</button></div>
+  </div><div class="dlg" id="dlgSend" role="dialog" aria-modal="true" aria-labelledby="sTitle" hidden>
+    <h2 id="sTitle">Pull the sheet</h2>
+    <p>Sign it, so I know who it is from. Both are optional.</p>
+    <label class="fld">Your name<input id="fName" autocomplete="name" maxlength="80" placeholder="e.g. Dana"></label>
+    <label class="fld">Your email, if you would like a reply<input id="fMail" type="email" inputmode="email" autocomplete="email" maxlength="200" placeholder="you@example.com"></label>
+    <div id="fErr" role="alert"></div>
+    <div class="opts">
+      <button class="opt" id="sMail"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1.5"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg><span><b>Send it</b><small>Folded into an envelope. Only I read it.</small></span></button>
+      <button class="opt" id="sPin"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.5" r="4"/><path d="M12 11.5v9"/></svg><span><b>Send it and pin it up</b><small>It goes on the message board once I have read it.</small></span></button>
+    </div>
+    <div class="foot"><p class="fine">Pinned notes are public.<br>Your email is never shown.</p><button id="sCancel">Keep typing</button></div>
+  </div></div>
+  <div id="toast"></div>
+  <textarea id="trap" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Typewriter input"></textarea>
+</div>
+
+<script src="vendor/jspdf.umd.min.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const stage=$('stage'), carriage=$('carriage'), paper=$('paper'), lamp=$('lamp'), glow=$('glow'), ink=$('ink'),
+      bar=$('bar'), scale=$('scale'), housing=$('housing'), lever=$('lever'), head=$('head'), trap=$('trap'), hint=$('hint'),
+      toastEl=$('toast'), veil=$('veil'), grain=$('grain'), post=$('post'), fName=$('fName'), fMail=$('fMail'), fErr=$('fErr'),
+      chassis=$('chassis'), plate=$('plate'), frame=$('frame'), desk=$('desk'), lip=$('lip'), deck=$('deck'), fan=$('fan'), keys=$('keys');
+const root=document.documentElement.style;
+
+const COLS = 60;          // characters per line
+const BELL_AT = COLS - 8; // the margin bell
+const TAB = 5;
+const SIDE = 5;           // side margin, in character cells
+const KEY = 'typewriter.sheet.v1';
+const rand = (a,b) => a + Math.random()*(b-a);
+const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
+
+/* ---------------- document state ---------------- */
+// a cell is 0 (blank), one strike [char, dx(em), dy(em), rot(deg), opacity], or — where the carriage was backed up and
+// typed over — a list of strikes, oldest first. Nothing is ever removed from the page.
+let lines = [[]], cur = 0;   // cur: the column under the printing point, on the last line
+let muted = false;
+try {
+  const s = JSON.parse(localStorage.getItem(KEY) || 'null');
+  if (s && Array.isArray(s.lines) && s.lines.length){ lines = s.lines; const end = lines[lines.length-1].length; cur = Number.isInteger(s.cur) ? clamp(s.cur, 0, end) : end; }
+  muted = localStorage.getItem(KEY+'.muted') === '1';
+} catch (e) {}
+const row = () => lines.length - 1;
+const col = () => cur;
+const strikes = cell => !cell ? [] : Array.isArray(cell[0]) ? cell : [cell];
+const reads = cell => { const s = strikes(cell); return s.length ? s[s.length-1][0] : ' '; };   // what a cell reads as: the last thing struck there
+const lineText = l => l.map(reads).join('').replace(/\s+$/,'');
+const allText = () => lines.map(lineText).join('\n');
+let saveT = 0;
+function save(){ clearTimeout(saveT); saveT = setTimeout(() => { try{ localStorage.setItem(KEY, JSON.stringify({v:1, cols:COLS, lines, cur})); }catch(e){} }, 250); }
+const WOBBLE = .25;   // how much of each strike's stored offset and tilt is shown, on screen and in the PDF: 0 is dead straight, 1 the full jitter
+
+// every key on an old machine sits a little off; keep that consistent per character
+function bias(ch){ let h = ch.codePointAt(0) * 2654435761 >>> 0; return ((h % 1000)/1000 - .5) * .07; }
+function strike(ch){
+  const weak = Math.random() < .06;
+  return [ch, +rand(-.025,.025).toFixed(3), +(bias(ch) + rand(-.03,.03)).toFixed(3), +rand(-1.8,1.8).toFixed(2), +(weak ? rand(.5,.68) : rand(.78,1)).toFixed(2)];
+}
+
+/* ---------------- geometry ---------------- */
+let G = {};
+let ADV = .6;
+const A = { sr: row(), hc: col(), view: 0, kb: 0 };   // animated: scroll row, head column, look-back offset, keyboard shown (0..1)
+const tweens = {};
+let raf = 0;
+
+function layout(){
+  const vv = window.visualViewport;
+  const vw = window.innerWidth, vh = vv ? vv.height : window.innerHeight;
+  const cells = COLS + SIDE*2;
+  // the printing point is fixed mid-screen, so a full line should (nearly) fit in half the window
+  const cw = vw < 700 ? 9.6 : clamp((vw/2 - 24)/(COLS + 2), 11.4, 13.4);
+  const fs = cw/ADV, lh = Math.round(fs*1.6);
+  const paperW = cw*cells, mx = cw*SIDE, tp = lh*4;
+  const gap = 26 + Math.max(30, lh*1.05);         // baseline of the line being typed → centre of the platen
+  let barY = Math.round(clamp(vh*.74, 150, vh-70));
+  if (kbOn || A.kb > 0){                          // keyboard out: the machine moves up to make room for it
+    deckGeom(gap, vw, vh);
+    barY = Math.round(barY + (Math.max(150, vh - D.s*D.ht) - barY)*A.kb);
+  }
+  const barTop = barY - 11, mountTop = barY - 26, typeY = barY - gap;
+  G = {vw,vh,cw,fs,lh,paperW,mx,tp,barY,barTop,mountTop,typeY};
+  root.setProperty('--cw',cw+'px'); root.setProperty('--fs',fs+'px'); root.setProperty('--lh',lh+'px');
+  root.setProperty('--mx',mx+'px'); root.setProperty('--tp',tp+'px'); root.setProperty('--stem',(mountTop-typeY-12)+'px');
+  carriage.style.width = paperW+'px';
+  bar.style.top = barTop+'px';
+  scale.style.top = (barTop+1)+'px'; scale.style.width = (COLS*cw)+'px';
+  scale.querySelectorAll('span').forEach((s, i) => { s.style.left = ((i+1)*10*cw)+'px'; });
+  document.querySelectorAll('.knob').forEach(k => { k.style.top = (barY-26)+'px'; });
+  lever.style.top = (barY-124)+'px';
+  housing.style.top = mountTop+'px';
+  hint.style.top = (barY+46)+'px';
+  // the deck hangs from the platen: hinge at barY, tipped back, its front edge (the lip) at the bottom of the window
+  const on = A.kb > 0, drop = (1-A.kb)*160, fade = Math.min(1, A.kb*1.5);
+  for (const el of [chassis, deck]){
+    el.style.display = on ? 'block' : 'none';
+    el.style.opacity = fade < 1 ? fade : '';      // (an opacity below 1 would flatten the typebars' 3D)
+    el.style.transform = `translate(${vw/2}px,${barY + drop}px) scale(${D.s}) perspective(${PERS}px) rotateX(${D.tilt || 58}deg)`;
+  }
+  if (on){
+    desk.style.cssText = `display:block;opacity:${fade};top:${barY - 46 + drop}px`;
+    lip.style.cssText = `display:block;opacity:${fade*.45};left:${vw/2 - D.s*D.nearW/2}px;top:${barY + D.s*D.edge + drop - 1}px;` +
+      `width:${D.s*D.nearW}px;height:${D.s*70}px;border-radius:0 0 ${D.s*28}px ${D.s*28}px`;
+  } else { desk.style.display = lip.style.display = 'none'; }
+  sizePaper(); apply();
+}
+function sizePaper(){ G.paperH = G.tp + lines.length*G.lh + G.vh + 200; paper.style.height = G.paperH+'px'; }
+let lastClip = '';
+
+// The type guide never moves. The carriage (paper, platen, knobs, lever) slides under it:
+// one cell left per keystroke, all the way back to the right on return.
+function apply(){
+  const {cw,lh,mx,tp,vw,mountTop,typeY,barY} = G;
+  const cx = Math.round(vw/2 - (mx + (A.hc+.5)*cw));           // carriage offset
+  const pt = Math.round(typeY - (tp + A.sr*lh + lh*.78) + A.view); // paper feed offset
+  G.cx = cx; G.pt = pt;
+  carriage.style.transform = `translate3d(${cx}px,0,0)`;
+  paper.style.transform = `translate3d(0,${pt}px,0)`;
+  // with the keyboard out there is a machine below the platen, so the paper stops at the roller
+  const clip = A.kb > 0 ? `inset(-100px -100px ${Math.max(0, G.paperH - (barY - pt))}px -100px)` : 'none';
+  if (clip !== lastClip){ paper.style.clipPath = lastClip = clip; }
+  const hx = vw/2 - cx, ly = mountTop - pt;                    // the lamp, in paper coordinates
+  lamp.style.transform = `translate(${hx-310}px,${ly-430}px) rotate(-15deg)`;
+  glow.style.transform = `translate(${hx-130}px,${ly-205}px)`;
+  head.style.transform = `translate3d(${vw/2}px,${typeY}px,0)`;
+}
+const ease = t => 1 - Math.pow(1-t, 3);
+const shove = t => t*(1.5 - .5*t);
+function tween(k, to, dur, fn = ease){
+  tweens[k] = {from:A[k], to, t0:performance.now(), dur, fn};
+  if (!raf) raf = requestAnimationFrame(tick);
+}
+function tick(now){
+  raf = 0; let live = false; const relayout = 'kb' in tweens;
+  for (const k in tweens){
+    const w = tweens[k], t = clamp((now-w.t0)/w.dur, 0, 1);
+    A[k] = w.from + (w.to-w.from)*w.fn(t);
+    if (t < 1) live = true; else delete tweens[k];
+  }
+  relayout ? layout() : apply();
+  if (live) raf = requestAnimationFrame(tick);
+}
+
+/* ---------------- ink ---------------- */
+let lineEl = null;
+function addLine(r){ const d = document.createElement('div'); d.className='ln'; d.style.setProperty('--r', r); ink.appendChild(d); lineEl = d; return d; }
+function addChar(el, c, cell, fresh){
+  const s = document.createElement('span');
+  s.className = 'ch' + (cell[4] > .96 ? ' hv' : '') + (fresh ? ' new' : '');
+  s.textContent = cell[0];
+  s.style.cssText = `--c:${c};--dx:${cell[1]*WOBBLE}em;--dy:${cell[2]*WOBBLE}em;--rt:${cell[3]*WOBBLE}deg;--op:${cell[4]}`;
+  el.appendChild(s);
+}
+function rebuild(){
+  ink.textContent = '';
+  lines.forEach((l, r) => { const el = addLine(r); l.forEach((cell, c) => { for (const s of strikes(cell)) addChar(el, c, s, false); }); });
+  A.sr = row(); A.hc = col(); A.view = 0;
+  sizePaper(); apply();
+  $('d3').classList.toggle('on', col() >= BELL_AT);
+  hint.classList.toggle('gone', lines.length > 1 || lines[0].length > 0);
+}
+
+/* ---------------- sound ---------------- */
+let ac = null, master = null, noiseBuf = null;
+function audio(){
+  if (ac){ if (ac.state === 'suspended') ac.resume().catch(() => {}); return true; }
+  const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return false;
+  ac = new AC(); chain(muted ? 0 : .9);
+  return true;
+}
+function chain(vol){
+  master = ac.createGain(); master.gain.value = vol;
+  const comp = ac.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 4;
+  master.connect(comp); comp.connect(ac.destination);
+  if (!noiseBuf){ noiseBuf = ac.createBuffer(1, ac.sampleRate, ac.sampleRate);
+    const d = noiseBuf.getChannelData(0); for (let i=0;i<d.length;i++) d[i] = Math.random()*2-1; }
+}
+// struck metal: inharmonic partials, each a slightly detuned pair so it shimmers like a real casting, dying fast
+function ring(t, f0, parts, g, dec){
+  for (const [ratio, amp, d] of parts) for (const det of [1, 1.0045]){
+    const o = ac.createOscillator(); o.frequency.value = f0*ratio*det;
+    const gn = ac.createGain(); gn.gain.setValueAtTime(g*amp*.5, t); gn.gain.exponentialRampToValueAtTime(.0001, t + dec*d);
+    o.connect(gn); gn.connect(master); o.start(t); o.stop(t + dec*d + .03);
+  }
+}
+function noise(t, dur, f, q, g, type='bandpass', f2){
+  const s = ac.createBufferSource(); s.buffer = noiseBuf;
+  const fl = ac.createBiquadFilter(); fl.type = type; fl.frequency.setValueAtTime(f, t); fl.Q.value = q;
+  if (f2) fl.frequency.exponentialRampToValueAtTime(f2, t+dur);
+  const gn = ac.createGain(); gn.gain.setValueAtTime(g, t); gn.gain.exponentialRampToValueAtTime(.0001, t+dur);
+  s.connect(fl); fl.connect(gn); gn.connect(master); s.start(t, Math.random()*Math.max(0, .96 - dur), dur+.02);
+}
+function thump(t, f1, f2, dur, g){
+  const o = ac.createOscillator(); o.type='sine'; o.frequency.setValueAtTime(f1, t); o.frequency.exponentialRampToValueAtTime(f2, t+dur);
+  const gn = ac.createGain(); gn.gain.setValueAtTime(g, t); gn.gain.exponentialRampToValueAtTime(.0001, t+dur);
+  o.connect(gn); gn.connect(master); o.start(t); o.stop(t+dur+.02);
+}
+const snd = {
+  key(){ if(!audio()) return; const t = ac.currentTime, v = rand(.75,1.1);
+    noise(t, .032, rand(2100,3500), .9, .6*v);              // slug meets platen
+    noise(t, .012, 5200, .7, .28*v, 'highpass');
+    thump(t, rand(180,230), 70, .07, .5*v);
+    noise(t+rand(.045,.07), .02, rand(1300,1900), 1.6, .13); // type bar falls back
+  },
+  space(){ if(!audio()) return; const t = ac.currentTime;
+    thump(t, 125, 55, .09, .5); noise(t, .04, 850, .8, .32); noise(t+.06, .02, 1700, 1.3, .1);
+  },
+  // margin warning: the carriage trips a little hammer off its catch and it strikes a steel cup
+  bell(){ if(!audio()) return; const t = ac.currentTime + .015, h = t + .03;
+    noise(t, .012, 1500, 2, .24); thump(t, 240, 120, .03, .2);          // the trip lets go
+    noise(h, .006, 6500, .8, .5, 'highpass'); noise(h, .02, 3300, 3, .3); // hammer on steel
+    ring(h, 2140, [[1,1,1],[2.32,.5,.62],[2.76,.45,.5],[4.07,.28,.36],[5.4,.2,.26],[6.9,.1,.18]], .22, 1.0);
+    thump(h, 180, 90, .05, .13);                                         // the frame takes the knock
+    noise(h + .05, .008, 2400, 3, .07);                                  // hammer drops back
+  },
+  ret(dur, cells = 20){ if(!audio()) return; returnSound(ac.currentTime, dur, cells); },
+  // backspace: the key goes down, the escapement lets the carriage back one tooth
+  back(){ if(!audio()) return; const t = ac.currentTime;
+    thump(t, 140, 60, .08, .42); noise(t, .03, 1000, .9, .28); noise(t+.04, .008, rand(3000,3600), 3, .7); noise(t+.04, .004, 6500, .7, .2, 'highpass');
+  },
+  jam(){ if(!audio()) return; const t = ac.currentTime; thump(t, 95, 50, .08, .4); noise(t, .02, 550, 1, .2); },
+  // pulling the sheet: the platen's ratchet ticks as the paper is drawn up past it, slowing as it comes free
+  pull(dur){ if(!audio()) return; const t = ac.currentTime, n = Math.round(dur*30);
+    for (let i = 0; i < n; i++){ const c = t + dur*Math.pow(i/n, .85); noise(c, .006, rand(2600,3400), 3, .15 + .45*(1 - i/n)); }
+    noise(t, Math.min(.9, dur), 900, .6, .12, 'bandpass', 2600); },
+  crease(){ if(!audio()) return; const t = ac.currentTime;
+    noise(t, .2, 3000, .7, .2, 'bandpass', 1000); noise(t+.17, .03, 1500, 1, .22); thump(t+.17, 160, 90, .04, .12); },
+  whoosh(d = .5){ if(!audio()) return; noise(ac.currentTime, d, 450, .8, .3, 'bandpass', 2400); },
+  slide(){ if(!audio()) return; noise(ac.currentTime, .4, 1800, .5, .12, 'bandpass', 700); },
+  flap(){ if(!audio()) return; const t = ac.currentTime; thump(t, 140, 70, .06, .28); noise(t, .025, 1300, 1.2, .2); },
+  seal(){ if(!audio()) return; const t = ac.currentTime; thump(t, 110, 50, .14, .55); noise(t, .04, 600, .9, .3); },
+  knock(){ if(!audio()) return; const t = ac.currentTime; thump(t, 170, 85, .12, .45); noise(t, .02, 900, 1, .25); thump(t+.09, 160, 80, .08, .2); },
+  pin(){ if(!audio()) return; const t = ac.currentTime; noise(t, .005, 5200, 1, .6, 'highpass'); thump(t, 320, 150, .05, .35); noise(t+.01, .02, 2200, 2, .25); },
+  stamp(){ if(!audio()) return; const t = ac.currentTime; thump(t, 95, 45, .1, .55); noise(t, .03, 700, 1, .35); noise(t+.005, .01, 3000, 1, .15); },
+  feed(){ if(!audio()) return; const t = ac.currentTime; lineFeed(t, 7); noise(t, .4, 1100, .6, .1, 'bandpass', 2400); }
+};
+
+/* ---------------- carriage-return sound ---------------- */
+// The lever walks the line-space ratchet, the carriage is shoved home with the escapement pawl chattering over every
+// tooth of the rack (one click per character passed) above the rumble of the rails, then it hits the margin stop.
+function lineFeed(t, n){
+  thump(t, 210, 110, .04, .25); noise(t, .01, 1800, 1.5, .25);
+  for (let i = 0; i < n; i++){ const c = t + .02 + i*.027 + rand(0,.004);
+    noise(c, .008, rand(3000,3800), 3, 1.1); noise(c, .004, 7000, .7, .3, 'highpass');
+    ring(c, rand(1650,1900), [[1,1,1],[2.6,.4,.6]], .1, .035); }
+}
+function rails(t, te, type, f, q, g0, g1){
+  const src = ac.createBufferSource(); src.buffer = noiseBuf; src.loop = true;
+  const fl = ac.createBiquadFilter(); fl.type = type; fl.frequency.value = f; fl.Q.value = q;
+  const gn = ac.createGain(); gn.gain.setValueAtTime(.0001, t); gn.gain.linearRampToValueAtTime(g0, t + .03);
+  gn.gain.linearRampToValueAtTime(g1, te); gn.gain.linearRampToValueAtTime(.0001, te + .012);
+  src.connect(fl); fl.connect(gn); gn.connect(master); src.start(t, Math.random()*.5); src.stop(te + .03);
+}
+// when the carriage has covered fraction x of its run: the inverse of shove(), so the clicks line up with the picture
+const runAt = (t, dur, x) => t + dur*(1.5 - Math.sqrt(2.25 - 2*x));
+function returnSound(t, dur, cells){
+  lineFeed(t, 3);
+  if (dur <= .08){ noise(t + .11, .012, 1300, 2, .18); thump(t + .11, 150, 80, .05, .2); return; }   // already at the margin
+  const n = Math.max(2, Math.round(cells)), v = clamp(cells/30, .4, 1), te = t + dur;
+  for (let k = 1; k < n; k++){ const c = runAt(t, dur, k/n), g = rand(.5,.85);
+    noise(c, .005, rand(3400,4700), 2.5, g); noise(c, .008, rand(1300,1700), 2.5, g*.6); }
+  rails(t, te, 'lowpass', 420, .7, .42, .16); rails(t, te, 'bandpass', 2300, 1.2, .05, .018);
+  thump(te, 130, 42, .14, .55*v); noise(te, .03, 900, .9, .5*v); noise(te, .008, 5000, .7, .28*v, 'highpass');  // the stop
+  ring(te, 410, [[1,1,1],[2.3,.5,.7],[3.9,.35,.5],[6.1,.2,.3]], .1*v, .24);                                      // …rings the frame
+  noise(te + .032, .006, 2600, 3, .13*v); noise(te + .058, .005, 3000, 3, .07*v);                               // loose bits settle
+}
+
+/* ---------------- keyboard & type basket ---------------- */
+const K = 50, KBW = 12.5*K, RAD = Math.PI/180, FAN = 54*RAD, PERS = 1400, PIV = 100, REST = 8, LIP = 44;
+const ROWS = [
+  ['Digit1','Digit2','Digit3','Digit4','Digit5','Digit6','Digit7','Digit8','Digit9','Digit0','Minus','Equal'],
+  ['KeyQ','KeyW','KeyE','KeyR','KeyT','KeyY','KeyU','KeyI','KeyO','KeyP','BracketLeft','BracketRight'],
+  ['KeyA','KeyS','KeyD','KeyF','KeyG','KeyH','KeyJ','KeyK','KeyL','Semicolon','Quote'],
+  ['KeyZ','KeyX','KeyC','KeyV','KeyB','KeyN','KeyM','Comma','Period','Slash']];
+const STAGGER = [0, .5, .75, 1.25];
+const US = {Digit1:'1!',Digit2:'2@',Digit3:'3#',Digit4:'4$',Digit5:'5%',Digit6:'6^',Digit7:'7&',Digit8:'8*',Digit9:'9(',Digit0:'0)',
+  Minus:'-_',Equal:'=+',BracketLeft:'[{',BracketRight:']}',Semicolon:';:',Quote:'\'"',Comma:',<',Period:'.>',Slash:'/?'};
+const keyEls = {}, keyDef = {}, barOf = {}, bars = [];
+let charMap = {}, D = {s:1, L:0, ht:0}, kbOn = false, shiftLatch = false;
+
+function mkKey(code, label, x, y, cls){
+  const el = document.createElement('div'); el.className = cls || 'key'; el.dataset.code = code; el.textContent = label;
+  el.style.left = x+'px'; el.style.top = y+'px'; keys.appendChild(el); keyEls[code] = el;
+}
+function remap(){
+  charMap = {};
+  for (const code in keyDef){ const c = keyDef[code].ch; charMap[c] = charMap[c.toUpperCase()] = code; }
+  for (const code in US) if (!(US[code][1] in charMap)) charMap[US[code][1]] = code;
+}
+function buildDeck(){
+  const order = [];
+  ROWS.forEach((r, ri) => r.forEach((code, i) => {
+    const ch = code.startsWith('Key') ? code[3].toLowerCase() : US[code][0];
+    keyDef[code] = {ch, x: -KBW/2 + (STAGGER[ri] + i + .5)*K, y: K/2 + ri*K}; order.push(code);
+    mkKey(code, ch.toUpperCase(), keyDef[code].x, keyDef[code].y);
+  }));
+  mkKey('ShiftLeft', 'shift', -KBW/2 + .75*K, 3.5*K, 'key sh'); mkKey('ShiftRight', 'shift', -KBW/2 + 11.75*K, 3.5*K, 'key sh');
+  mkKey('Backspace', 'back', KBW/2, K/2, 'key sh');     // at the right-hand end of the top row
+  mkKey('Space', '', 0, 3.5*K + 46, 'space'); keyEls.Space.style.left = '';
+  // one typebar per key, fanned left-to-right in the same order as the keys they belong to
+  order.sort((a, b) => keyDef[a].x - keyDef[b].x);
+  order.forEach((code, i) => { const el = document.createElement('div'); el.className = 'tb'; el.appendChild(document.createElement('i')); fan.appendChild(el); bars.push(el); barOf[code] = i; });
+  remap();
+  // label the keys from the real keyboard layout where the browser can tell us
+  if (navigator.keyboard && navigator.keyboard.getLayoutMap) navigator.keyboard.getLayoutMap().then(m => {
+    for (const code in keyDef){ const c = m.get(code); if (c && [...c].length === 1 && c.trim()){ keyDef[code].ch = c; keyEls[code].textContent = c.toUpperCase(); } }
+    remap();
+  }).catch(() => {});
+}
+// Deck coordinates: origin at the middle of the hinge (the platen), x across, y down the plane towards the typist.
+// A typebar pivots on the segment (radius PIV from the origin) and swings up off the plane. h is the height above
+// the plane that appears, on screen, exactly at the printing point on the paper, so every bar is hypot(PIV, h) long
+// and they all land on that one spot. The gap to the printing point is in real pixels, so the lengths depend on scale.
+function deckGeom(gap, vw, vh){
+  const tilt = vw < 700 ? 44 : 58, st = Math.sin(tilt*RAD), ct = Math.cos(tilt*RAD);   // narrow windows: flatter, so keys stay tappable
+  const calc = s => { const g = gap/s, h = PERS*g/(PERS*st + ct*g), L = Math.hypot(PIV, h);
+    const headR = PIV + L*Math.cos(REST*RAD), ky0 = headR + 42, depth = ky0 + 3*K + 78;      // ky0: the top row of keys
+    const spx = Math.max(270, headR*.81 + 64), W2 = Math.max(370, spx + 70), k = PERS/(PERS - depth*st);
+    return {s, tilt, L, headR, ky0, depth, spx, W2, hit: 180 - Math.atan2(h, PIV)/RAD,
+      nearW: 2*W2*k, edge: depth*ct*k, ht: depth*ct*k + LIP,                                  // as projected: front-edge width, its drop below the hinge
+      fit: Math.max(620*PERS/(PERS - (ky0 + 3*K + 20)*st), 665*PERS/(PERS - (ky0 + 20)*st))}; };   // …and the widest row of keys (bottom, or top with its backspace)
+  let s = Math.max(1, vh*.46/415), g = calc(s);
+  for (let i = 0; i < 6; i++){ const over = Math.max(s*g.ht/(vh*.6), s*g.fit/(vw - 8)); if (over <= 1.01) break; s = Math.max(.35, s/over); g = calc(s); }
+  const moved = g.L !== D.L || g.tilt !== D.tilt; D = g; if (moved) placeDeck();
+}
+function placeDeck(){
+  const {L, headR, ky0, depth, spx, W2} = D, n = bars.length, step = 2*FAN/(n-1), f = v => (+v).toFixed(1);
+  plate.style.cssText = `left:${-W2}px;top:0;width:${2*W2}px;height:${f(depth)}px`;
+  bars.forEach((el, i) => {
+    el._pre = `rotate(${((FAN - i*step)/RAD).toFixed(2)}deg) translateY(${PIV}px)`;
+    el.style.transform = `${el._pre} rotateX(${REST}deg)`; el.firstChild.style.height = f(L)+'px';
+  });
+  // the linework: frame, basket (well, rest pad, segment), ribbon spools, a rail under each row of keys, screws
+  const arc = (r, a) => `M${f(r*Math.sin(a))} ${f(r*Math.cos(a))}A${f(r)} ${f(r)} 0 0 1 ${f(-r*Math.sin(a))} ${f(r*Math.cos(a))}`;
+  const P = (d, o) => `<path d="${d}" stroke-opacity="${o}"/>`, pad = 3*RAD, e = W2 - 30, sy = f(ky0 + 3*K + 46);
+  const spool = (x, r) => `<circle cx="${f(x)}" cy="132" r="50" stroke-opacity=".55"/><circle cx="${f(x)}" cy="132" r="${r}" stroke-opacity=".3" stroke-dasharray="3 5"/><circle cx="${f(x)}" cy="132" r="13" stroke-opacity=".7"/>`;
+  frame.innerHTML =
+    P(`M${f(40-W2)} 0H${f(W2-40)}A40 40 0 0 1 ${f(W2)} 40V${f(depth-14)}A14 14 0 0 1 ${f(W2-14)} ${f(depth)}H${f(14-W2)}A14 14 0 0 1 ${f(-W2)} ${f(depth-14)}V40A40 40 0 0 1 ${f(40-W2)} 0Z`, .6) +
+    `<rect x="${f(14-W2)}" y="14" width="${f(2*W2-28)}" height="${f(depth-28)}" rx="28" stroke-opacity=".28"/>` +
+    P(arc(headR + 12, Math.PI/2), .35) + P(arc(headR + 4, FAN + pad*1.4), .5) + P(arc(PIV, FAN + pad), .9) + P(arc(PIV - 12, FAN + pad), .45) +
+    spool(-spx, 34) + spool(spx, 24) + P(`M${f(36-spx)} 98L-58 22M${f(spx-36)} 98L58 22`, .4) +
+    P([0,1,2,3].map(r => `M${f(-e)} ${f(ky0 + r*K)}H${f(e)}`).join(''), .28) + P(`M${f(-e)} ${sy}H-185M185 ${sy}H${f(e)}`, .28) +
+    [[34-W2, 34], [W2-34, 34], [30-W2, depth-28], [W2-30, depth-28]].map(([x, y]) => `<circle cx="${f(x)}" cy="${f(y)}" r="3.5" stroke-opacity=".6"/>`).join('');
+  keys.style.top = f(ky0 - K/2)+'px';
+}
+function strikeBar(i){
+  if (A.kb <= 0 || !bars[i]) return;
+  const el = bars[i], T = a => `${el._pre} rotateX(${a}deg)`;
+  if (el._an) el._an.cancel();
+  el.style.zIndex = 2;
+  el._an = el.animate([
+    {transform: T(REST), easing: 'cubic-bezier(.45,0,1,.7)'},
+    {transform: T(D.hit), offset: .18, easing: 'linear'},
+    {transform: T(D.hit), offset: .32, easing: 'cubic-bezier(.15,.5,.4,1)'},
+    {transform: T(REST)}], {duration: 220});
+  el._an.onfinish = () => { el.style.zIndex = ''; };
+}
+const anyShift = () => shiftLatch || keyEls.ShiftLeft._held || keyEls.ShiftRight._held;
+function keyDown(code){ const el = keyEls[code]; if (!el) return; el._held = true; el.classList.add('down'); if (code.startsWith('Shift')) fan.classList.add('shift'); }
+function keyUp(code){ const el = keyEls[code]; if (!el) return; el._held = false;
+  if (code.startsWith('Shift')){ fan.classList.toggle('shift', !!anyShift()); if (shiftLatch) return; }
+  el.classList.remove('down'); }
+function tap(code){ keyDown(code); setTimeout(() => keyUp(code), 110); }
+function setLatch(on){ shiftLatch = on; for (const c of ['ShiftLeft','ShiftRight']) keyEls[c].classList.toggle('down', on || !!keyEls[c]._held); fan.classList.toggle('shift', !!anyShift()); }
+function setKeys(on, instant){
+  kbOn = on; stage.classList.toggle('kbon', on); $('bKeys').classList.toggle('on', on); hint.classList.toggle('kb', on);
+  trap.inputMode = on && matchMedia('(pointer:coarse)').matches ? 'none' : 'text';   // touch: our keys replace the soft keyboard
+  if (instant) A.kb = on ? 1 : 0; else tween('kb', on ? 1 : 0, 460);
+}
+// the on-screen keys can be pressed directly too
+keys.addEventListener('mousedown', e => e.preventDefault());
+keys.addEventListener('pointerdown', e => {
+  const k = e.target.closest('[data-code]'); if (!k) return;
+  e.preventDefault(); e.stopPropagation(); audio();
+  if (busy) return;
+  const code = k.dataset.code;
+  if (code.startsWith('Shift')){ setLatch(!shiftLatch); return; }
+  if (code === 'Backspace'){ backspace(); return; }
+  tap(code);
+  if (code === 'Space') type(' ', code);
+  else type(shiftLatch ? (US[code] ? US[code][1] : keyDef[code].ch.toUpperCase()) : keyDef[code].ch, code);
+  if (shiftLatch) setLatch(false);
+});
+window.addEventListener('keyup', e => keyUp(e.code));
+window.addEventListener('blur', () => { for (const c in keyEls){ keyEls[c]._held = false; if (!shiftLatch || !c.startsWith('Shift')) keyEls[c].classList.remove('down'); } fan.classList.toggle('shift', shiftLatch); });
+
+/* ---------------- the machine ---------------- */
+let hitT = 0, flashT = 0, stepT = 0;
+let busy = false;   // the sheet is out of the machine (being sent): nothing types
+function wake(){ if (A.view || tweens.view) tween('view', 0, 180); hint.classList.add('gone'); }
+function type(ch, code){
+  if (busy) return;
+  if (ch === '\n' || ch === '\r') return carriageReturn();
+  if (ch === '\t'){ const n = TAB - (col() % TAB); for (let i=0;i<n && col()<COLS;i++) type(' '); return; }
+  wake();
+  if (col() >= COLS){                       // margin lock: the carriage will go no further
+    snd.jam(); head.classList.remove('jam'); void head.offsetWidth; head.classList.add('jam'); return;
+  }
+  const c = col(), line = lines[row()];
+  if (ch === ' ' || ch === '\u00a0'){ if (c === line.length) line.push(0); snd.space(); if (!code) tap('Space'); }   // a space marks nothing, so it leaves what is there
+  else { const cell = strike(ch), was = line[c];
+    if (c === line.length) line.push(cell);
+    else line[c] = !was ? cell : Array.isArray(was[0]) ? [...was, cell] : [was, cell];    // typed over: the new mark lands on top of the old one
+    addChar(lineEl, c, cell, true); snd.key();
+    const kc = code in barOf ? code : charMap[ch];                 // which key (and so which typebar) made this mark
+    if (kc && kc !== code) tap(kc);
+    strikeBar(kc ? barOf[kc] : ch.codePointAt(0) % bars.length);
+    head.classList.remove('hit'); void head.offsetWidth; head.classList.add('hit'); }
+  cur++;
+  const d2 = $('d2'); d2.classList.add('flash'); clearTimeout(flashT); flashT = setTimeout(() => d2.classList.remove('flash'), 70);
+  if (col() === BELL_AT){ snd.bell(); $('d3').classList.add('on'); }
+  // with the keyboard out the typebar takes ~40ms to arrive: the mark lands, then the carriage steps on
+  clearTimeout(stepT);
+  if (A.kb > 0) stepT = setTimeout(() => tween('hc', col(), 60), 40); else tween('hc', col(), 60);
+  save();
+}
+// Backspace steps the carriage back one space and erases nothing: whatever is typed next is struck over what is there.
+function backspace(viaKey){
+  if (busy) return;
+  wake(); clearTimeout(stepT);
+  if (!viaKey) tap('Backspace');
+  if (cur <= 0){ snd.jam(); tween('hc', 0, 60); return; }   // already against the left margin
+  cur--; snd.back();
+  tween('hc', cur, 70);
+  $('d3').classList.toggle('on', cur >= BELL_AT);
+  save();
+}
+function carriageReturn(){
+  if (busy) return;
+  wake(); clearTimeout(stepT);
+  const from = A.hc, dur = from < .5 ? 0 : clamp(.16 + from*.007, .18, .56);
+  lines.push([]); cur = 0; addLine(row()); sizePaper();
+  snd.ret(dur, from);
+  tween('sr', row(), 170);                       // line feed first, as the lever is pushed…
+  tween('hc', 0, Math.max(60, dur*1000), dur ? shove : ease);        // …then the carriage runs back to the right
+  $('d3').classList.remove('on');
+  lever.classList.add('pull'); clearTimeout(hitT); hitT = setTimeout(() => lever.classList.remove('pull'), Math.max(190, dur*1000 - 40));
+  save();
+}
+
+/* ---------------- input ---------------- */
+const dialogOpen = () => veil.classList.contains('open');
+function focusTrap(){ if (!dialogOpen() && document.activeElement !== trap) trap.focus({preventScroll:true}); }
+
+window.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){ e.preventDefault(); exportPDF(); return; }
+  if (dialogOpen()){ if (e.key === 'Escape') closeDlg(); return; }
+  if (busy){ if (!e.ctrlKey && !e.metaKey) e.preventDefault(); return; }
+  if (!e.ctrlKey && !e.metaKey) keyDown(e.code);
+  if (e.ctrlKey || e.metaKey || e.altKey && !e.getModifierState('AltGraph') && e.key.length !== 1) return;
+  if (e.isComposing || e.key === 'Dead' || e.key === 'Process' || e.key === 'Unidentified'){ focusTrap(); return; }
+  const k = e.key;
+  if (k === 'Backspace'){ e.preventDefault(); if (!e.repeat) backspace(true); return; }
+  if (k === 'Delete' || k.startsWith('Arrow') || k === 'Home' || k === 'End' || k === 'PageUp' || k === 'PageDown'){ e.preventDefault(); return; }
+  if (k === 'Enter'){ e.preventDefault(); if (!e.repeat) carriageReturn(); return; }
+  if (k === 'Tab'){ e.preventDefault(); if (!e.repeat) type('\t'); return; }
+  if (k.length === 1 || [...k].length === 1){
+    e.preventDefault();
+    if (e.repeat) return;                   // no key auto-repeats on a manual machine: one press, one step
+    type(k, e.code);
+  }
+});
+// soft keyboards, dead keys and IMEs arrive here instead
+trap.addEventListener('beforeinput', e => { const t = e.inputType || '';
+  if (t === 'deleteContentBackward') backspace();   // a soft keyboard's backspace (a real key is handled, and stopped, in keydown)
+  if (t.startsWith('delete') || t.startsWith('history') || t === 'insertFromPaste' || t === 'insertFromDrop') e.preventDefault(); });
+function drain(){ const v = trap.value; trap.value = ''; for (const ch of v) type(ch); }
+trap.addEventListener('input', e => { if (!e.isComposing) drain(); });
+trap.addEventListener('compositionend', drain);
+trap.addEventListener('paste', e => e.preventDefault());
+trap.addEventListener('blur', () => setTimeout(focusTrap, 0));
+
+// roll the platen back to re-read (wheel / drag); the next keystroke snaps back
+function look(d){ if (busy) return; delete tweens.view; A.view = clamp(A.view + d, 0, row()*G.lh + G.lh*2); apply(); }
+stage.addEventListener('wheel', e => { e.preventDefault(); if (!dialogOpen()) look(-e.deltaY); }, {passive:false});
+let dragY = null;
+stage.addEventListener('pointerdown', e => { if (e.target.closest('button,#lever,#veil,#keys')) return; dragY = e.clientY; audio(); focusTrap(); });
+stage.addEventListener('pointermove', e => { if (dragY === null || !e.buttons && e.pointerType === 'mouse') return; look(e.clientY - dragY); dragY = e.clientY; });
+window.addEventListener('pointerup', () => { dragY = null; });
+lever.addEventListener('click', () => { carriageReturn(); focusTrap(); });
+
+/* ---------------- chrome ---------------- */
+let toastT = 0;
+function toast(m){ toastEl.textContent = m; toastEl.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 2600); }
+function setMuted(m){ muted = m; $('sndOn').style.display = m ? 'none' : ''; $('sndOff').style.display = m ? '' : 'none';
+  if (master) master.gain.value = m ? 0 : .9; try{ localStorage.setItem(KEY+'.muted', m ? '1' : '0'); }catch(e){} }
+$('bSnd').addEventListener('click', () => { setMuted(!muted); if (!muted) snd.key(); focusTrap(); });
+$('bPdf').addEventListener('click', () => { exportPDF(); focusTrap(); });
+$('bKeys').addEventListener('click', () => { setKeys(!kbOn); try{ localStorage.setItem(KEY+'.kb', kbOn ? '1' : '0'); }catch(e){} focusTrap(); });   // only a choice made with the button is remembered
+const hasText = () => /\S/.test(allText());
+function openDlg(id){ for (const d of document.querySelectorAll('.dlg')) d.hidden = d.id !== id; veil.classList.add('open'); }
+$('bNew').addEventListener('click', () => { if (!hasText()){ newSheet(); focusTrap(); return; } openDlg('dlg'); $('dCancel').focus(); });
+function closeDlg(){ veil.classList.remove('open'); focusTrap(); }
+function newSheet(){ lines = [[]]; cur = 0; rebuild(); save(); if (audio()) snd.ret(.25, 18); }
+$('dCancel').addEventListener('click', closeDlg);
+$('dClear').addEventListener('click', () => { newSheet(); closeDlg(); });
+$('dExport').addEventListener('click', async () => { if (await exportPDF()) newSheet(); closeDlg(); });
+veil.addEventListener('pointerdown', e => { if (e.target === veil) closeDlg(); });
+
+/* ---------------- PDF ---------------- */
+async function exportPDF(){
+  if (!hasText()){ toast('Nothing on the page yet'); return false; }
+  if (!window.jspdf){ toast('PDF library failed to load'); return false; }
+  try { const { pdf, name } = await makePDF(); pdf.save(name); toast('Saved ' + name); return true; }
+  catch (err){ console.error(err); toast('Export failed — see console'); return false; }
+}
+async function makePDF(){
+  if (!window.jspdf) throw new Error('PDF library failed to load');
+  {
+    await document.fonts.load('30px "Special Elite"');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({unit:'pt', format:'a4', compress:true});
+    const W = pdf.internal.pageSize.getWidth(), H = pdf.internal.pageSize.getHeight();
+    const S = 2.5;                                   // canvas pixels per point
+    const cw = W/(COLS + SIDE*2), fs = cw/ADV, lh = fs*1.6, mx = cw*SIDE, top = 76;
+    const perPage = Math.floor((H - top*2)/lh);
+    const body = lines.slice(); while (body.length > 1 && !lineText(body[body.length-1])) body.pop();
+    const cv = document.createElement('canvas'); cv.width = Math.round(W*S); cv.height = Math.round(H*S);
+    const g = cv.getContext('2d');
+    for (let p = 0; p*perPage < body.length; p++){
+      if (p) pdf.addPage();
+      g.setTransform(1,0,0,1,0,0); g.globalAlpha = 1; g.fillStyle = '#f5f0e4'; g.fillRect(0,0,cv.width,cv.height);
+      for (let i=0;i<9000;i++){ g.fillStyle = `rgba(${Math.random()<.5?'90,70,40':'255,255,255'},${rand(.02,.07)})`; g.fillRect(Math.random()*cv.width, Math.random()*cv.height, rand(1,2.4), rand(1,2.4)); }
+      for (let i=0;i<26;i++){ g.fillStyle = `rgba(60,45,30,${rand(.12,.3)})`; g.beginPath(); g.arc(Math.random()*cv.width, Math.random()*cv.height, rand(.6,1.5), 0, 7); g.fill(); }
+      g.setTransform(S,0,0,S,0,0);
+      g.font = `${fs}px "Special Elite","Courier New",monospace`; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+      g.fillStyle = '#17150f'; g.shadowColor = 'rgba(23,21,15,.5)'; g.shadowBlur = .5*S;
+      pdf.setFont('courier','normal'); pdf.setFontSize(cw/.6);
+      body.slice(p*perPage, (p+1)*perPage).forEach((l, i) => {
+        const y = top + i*lh + lh*.78;
+        l.forEach((stack, c) => { for (const cell of strikes(stack)){
+          g.save(); g.translate(mx + (c+.5)*cw + cell[1]*WOBBLE*fs, y + cell[2]*WOBBLE*fs); g.rotate(cell[3]*WOBBLE*Math.PI/180); g.globalAlpha = cell[4];
+          g.fillText(cell[0], 0, 0); if (cell[4] > .96) g.fillText(cell[0], .25, 0); g.restore(); } });
+        const t = lineText(l).replace(/[^\x20-\x7e\xa0-\xff]/g, '?');   // invisible, selectable text layer
+        if (t) pdf.text(t, mx, y, {renderingMode:'invisible'});
+      });
+      g.shadowBlur = 0;
+      pdf.addImage(cv.toDataURL('image/jpeg', .9), 'JPEG', 0, 0, W, H, undefined, 'FAST');
+    }
+    const d = new Date(), z = n => String(n).padStart(2,'0');
+    const name = `typewriter-${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}-${z(d.getHours())}${z(d.getMinutes())}.pdf`;
+    return { pdf, name };
+  }
+}
+
+/* ---------------- sending ---------------- */
+// The sheet goes to a small server function (see README) that emails it, and for "pin it up" queues it for approval.
+// Opened over the home page (in a frame), the back link asks that page to put the typewriter away instead of loading the site again.
+if (window.parent !== window) $('bHome').addEventListener('click', e => { e.preventDefault(); try{ window.parent.postMessage({typewriter: 'close'}, location.origin); }catch(err){ window.top.location.href = '../'; } });
+
+// With no ENDPOINT the page runs in demo mode: the whole flow plays, but nothing leaves the browser.
+// On localhost, ?api=http://localhost:8787 points it at a local copy of the Worker instead (?api=demo for demo mode).
+let ENDPOINT = 'https://typewriter-notes.jmjuggernaut.workers.dev/notes';
+if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)){ const o = new URLSearchParams(location.search).get('api'); if (o) ENDPOINT = o === 'demo' ? '' : o + '/notes'; }
+let failNext = false;
+const wait = ms => new Promise(r => setTimeout(r, ms));
+async function deliver(payload){
+  if (!ENDPOINT){
+    await wait(1100);
+    console.info('[typewriter] demo mode, nothing was sent:', {...payload, pdf: payload.pdf ? `(${Math.round(payload.pdf.length*.75/1024)} KB PDF)` : null});
+    if (failNext){ failNext = false; throw new Error('demo: simulated failure'); }
+    return;
+  }
+  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 25000);
+  try {
+    const r = await fetch(ENDPOINT, {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(payload), signal: ctl.signal});
+    if (!r.ok){ const e = new Error('HTTP ' + r.status); e.status = r.status; throw e; }
+  } finally { clearTimeout(to); }
+}
+
+$('bSend').addEventListener('click', () => {
+  if (busy) return;
+  if (!hasText()){ toast('Nothing on the page yet'); focusTrap(); return; }
+  fErr.textContent = '';
+  try { const f = JSON.parse(localStorage.getItem(KEY+'.from') || '{}'); fName.value = f.name || ''; fMail.value = f.email || ''; } catch (e) {}
+  openDlg('dlgSend'); fName.focus();
+});
+function choose(mode){
+  const name = fName.value.trim().replace(/\s+/g, ' ').slice(0, 80), email = fMail.value.trim();
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ fErr.textContent = 'That email does not look right. Fix it, or leave it blank.'; fMail.focus(); return; }
+  try { localStorage.setItem(KEY+'.from', JSON.stringify({name, email})); } catch (e) {}
+  if (document.activeElement) document.activeElement.blur();
+  veil.classList.remove('open');
+  pullSheet(mode, {name, email});
+}
+$('sMail').addEventListener('click', () => choose('email'));
+$('sPin').addEventListener('click', () => choose('pin'));
+$('sCancel').addEventListener('click', closeDlg);
+fName.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); fMail.focus(); } });
+fMail.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); choose('email'); } });
+
+const lerp = (a, b, t) => a + (b - a)*t;
+const inOut = t => t < .5 ? 4*t*t*t : 1 - Math.pow(2 - 2*t, 3)/2;
+const backOut = t => 1 + 2.2*Math.pow(t - 1, 3) + 1.2*Math.pow(t - 1, 2);
+const accel = t => t*t;
+function run(dur, fn, fe = ease){
+  return new Promise(res => { const t0 = performance.now();
+    const f = now => { const t = clamp((now - t0)/dur, 0, 1); fn(fe(t), t); if (t < 1) requestAnimationFrame(f); else res(); };
+    requestAnimationFrame(f); });
+}
+function div(cls, parent, css){ const d = document.createElement('div'); d.className = cls; if (css) d.style.cssText = css; if (parent) parent.appendChild(d); return d; }
+// a copy of the sheet as it is: paper, grain and every strike (optionally the lamp light on it too)
+function face(W, H, lit){
+  const f = div('face', null, `width:${W}px;height:${H}px`);
+  if (lit) for (const src of [lamp, glow]){ const c = src.cloneNode(); c.removeAttribute('id'); c.className = src.id; f.appendChild(c); }
+  const g = grain.cloneNode(); g.removeAttribute('id'); g.className = 'grain';
+  const k = ink.cloneNode(true); k.removeAttribute('id'); k.className = 'ink'; k.querySelectorAll('.new').forEach(n => n.classList.remove('new'));
+  f.append(g, k); return f;
+}
+// the sheet cut into three hinged panels, so it can be folded like a letter
+function rig(W, H){
+  const el = div('rig', null, `width:${W}px;height:${H}px`), h = H/3, pans = [];
+  for (let i = 0; i < 3; i++){
+    const p = div('pn p' + i, el, `top:${i*h}px;width:${W}px;height:${h}px;transform-origin:50% ${i ? 0 : '100%'};transform:translateZ(${[2,0,1][i]}px)`);
+    const fr = div('fr', p), fc = face(W, H, false); fc.style.top = -i*h + 'px'; fr.appendChild(fc);
+    if (i !== 1) div('bk', p);
+    pans.push(p);
+  }
+  return { el, pans };
+}
+// top-left at (x, y), scaled by s and turned r degrees about its centre
+function place(el, W, H, x, y, s, r = 0){
+  el.style.transform = `translate(${x}px,${y}px) translate(${W*s/2}px,${H*s/2}px) rotate(${r}deg) scale(${s}) translate(${-W/2}px,${-H/2}px)`;
+}
+
+// Shared opening: the sheet is drawn up out of the platen, then held up in the middle of the window.
+async function pullOut(){
+  const { vw, vh, barY, barTop, lh, tp, paperW: W, cx: x0, pt: y0 } = G, kb = A.kb > 0;
+  const H = Math.round(Math.max(tp + lines.length*lh + lh*3, W*1.294, kb ? 0 : vh - y0 + 40));
+  const sh = face(W, H, true); sh.classList.add('out');
+  carriage.insertBefore(sh, bar);                       // behind the platen, so it comes up out of the machine
+  paper.style.visibility = 'hidden';
+  const d = (y0 + H) - (barTop - 14), dur = clamp(d*.9, 520, 950), lit = sh.querySelectorAll('.lamp,.glow');
+  snd.pull(dur/1000);
+  await run(dur, (e, t) => {
+    const y = y0 - d*e; sh.style.transform = `translateY(${y}px)`;
+    if (kb) sh.style.clipPath = `inset(-100px -100px ${Math.max(0, H - (barY - y))}px -100px)`;   // still inside the machine below the roller
+    lit.forEach(l => { l.style.opacity = 1 - t; });
+  }, inOut);
+  sh.remove();
+  post.className = 'on'; post.style.opacity = '';
+  const grp = div('grp', post), R = rig(W, H); grp.appendChild(R.el);
+  const s = Math.min(vw*.84/W, vh*.62/H, 1), x = vw/2 - W*s/2, y = vh*.46 - H*s/2, y1 = y0 - d;
+  place(R.el, W, H, x0, y1, 1);
+  await run(560, e => place(R.el, W, H, lerp(x0, x, e), lerp(y1, y, e), lerp(1, s, e)));
+  return { grp, R, W, H, s, x, y };
+}
+async function fadeOut(){ await run(260, e => { post.style.opacity = 1 - e; }); }
+
+// Send it: fold in thirds, into an envelope, seal, and away
+async function envelopeAnim(sent, from){
+  const { grp, R, W, H, s, x, y } = await pullOut(), { vw, vh } = G, [p0, , p2] = R.pans;
+  await wait(120);
+  snd.crease(); await run(430, e => { p2.style.transform = `translateZ(1px) rotateX(${180*e}deg)`; }, inOut);    // bottom third up…
+  await wait(70);
+  snd.crease(); await run(430, e => { p0.style.transform = `translateZ(2px) rotateX(${-180*e}deg)`; }, inOut);   // …top third down over it
+  await wait(140);
+
+  // the envelope comes up from below the packet (the packet is the sheet's middle third now)
+  const pw = W*s, ph = H*s/3, EW = pw*1.08, EH = ph*1.3, fh = EH*.6, ex = vw/2 - EW/2, ey = y + 2*ph + 18;
+  const at = (cls, z, h) => div(cls, grp, `left:${ex}px;top:${ey}px;width:${EW}px;height:${h}px;z-index:${z}`);
+  const back = at('env-b', 1, EH), flap = at('env-f', 1, fh), pocket = at('env-p', 3, EH);
+  R.el.style.zIndex = 2;
+  flap.style.transformOrigin = '50% 0';
+  flap.innerHTML = '<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H100L50 100Z"/></svg>';
+  const f = v => v.toFixed(1);
+  pocket.innerHTML = `<svg viewBox="0 0 ${f(EW)} ${f(EH)}" aria-hidden="true"><path class="body" d="M0 0L${f(EW/2)} ${f(EH*.57)}L${f(EW)} 0V${f(EH)}H0Z"/>` +
+    `<path class="crease" d="M0 ${f(EH)}L${f(EW*.44)} ${f(EH*.64)}M${f(EW)} ${f(EH)}L${f(EW*.56)} ${f(EH*.64)}"/>` +
+    `<text x="${f(EW*.05)}" y="${f(EH*.9)}" font-size="${f(clamp(EH*.1, 10, 20))}"></text></svg>`;
+  pocket.querySelector('text').textContent = 'from ' + (from.name ? from.name.slice(0, 40) : 'a friend');
+  const sd = clamp(EW*.09, 22, 46), seal = div('seal', grp, `left:${ex + EW/2 - sd/2}px;top:${ey + fh - sd/2}px;width:${sd}px;height:${sd}px;z-index:5`);
+  const setFlap = a => { flap.style.transform = `perspective(1200px) rotateX(${a}deg)`;
+    const shut = a < 90; flap.classList.toggle('shut', shut); flap.style.zIndex = shut ? 4 : 1; };
+  const rise = vh - ey + 30, lift = v => { for (const p of [back, flap, pocket]) p.style.translate = `0 ${v}px`; };
+  setFlap(180); lift(rise);
+  snd.whoosh(.4); await run(520, e => lift(rise*(1 - e)));
+
+  const dy = (ey + EH*.1) - (y + ph);   // the packet slides down into the pocket
+  snd.slide(); await run(460, e => place(R.el, W, H, x, y + dy*e, s), inOut);
+  await run(380, e => setFlap(180*(1 - e)), inOut); snd.flap();
+  snd.seal(); await run(240, e => { seal.style.opacity = Math.min(1, e*2); seal.style.transform = `scale(${lerp(1.8, 1, e)})`; }, accel);
+
+  const [ok] = await Promise.all([sent, wait(450)]);   // it only flies once the server has it
+  if (!ok){ await fadeOut(); return false; }
+  const cx = vw/2, cy = ey + EH/2;
+  snd.whoosh(.6);
+  await run(720, e => { grp.style.transform = `translate(${vw*.75*e}px,${-vh*.95*e}px) translate(${cx}px,${cy}px) rotate(${-16*e}deg) scale(${lerp(1, .35, e)}) translate(${-cx}px,${-cy}px)`; }, accel);
+  return true;
+}
+
+// Send it and pin it up: the board drops in, the sheet goes up on it, pinned and stamped "to be read"
+async function pinAnim(sent){
+  const { grp, R, W, H, s, x, y } = await pullOut(), { vw, vh } = G;
+  const BW = Math.min(vw*.92, 1000), BH = Math.min(vh*.72, BW*.64), bx = (vw - BW)/2, by = Math.max(70, vh*.47 - BH/2);
+  const board = div('board', grp, `left:${bx}px;top:${by}px;width:${BW}px;height:${BH}px;z-index:1`), gw = BW*.13;
+  for (const [fx, fy, r] of [[.05,.08,-4], [.27,.62,2], [.8,.07,3], [.82,.57,-3], [.06,.6,1.5], [.63,.64,-2]])
+    div('ghost', board, `left:${fx*BW}px;top:${fy*BH}px;width:${gw}px;height:${gw*1.29}px;padding:${gw*.2}px ${gw*.12}px;transform:rotate(${r}deg)`);
+  R.el.style.zIndex = 2;
+  const up = by + BH + 40;
+  board.style.translate = `0 ${-up}px`;
+  snd.whoosh(.4); await run(620, e => { board.style.translate = `0 ${-up*(1 - e)}px`; }, backOut);
+  snd.knock(); await wait(140);
+
+  const sn = Math.min(BW*.2/W, BH*.62/H), nw = W*sn, nh = H*sn, nx = bx + BW/2 - nw/2, ny = by + BH*.46 - nh/2;
+  await run(640, e => { place(R.el, W, H, lerp(x, nx, e), lerp(y, ny, e) - Math.sin(e*Math.PI)*40, lerp(s, sn, e), -3*e);
+    R.el.style.filter = `brightness(${lerp(1, 2.8, e)}) sepia(${lerp(0, .3, e)})`; }, inOut);   // out of the dark and under the board's light
+  const pd = Math.max(12, nw*.09), pin = div('pin', grp, `left:${nx + nw/2 - pd/2}px;top:${ny + pd*.5}px;width:${pd}px;height:${pd}px;z-index:3;opacity:0`);
+  await run(200, e => { pin.style.opacity = Math.min(1, e*3); pin.style.transform = `translateY(${-30*(1 - e)}px) scale(${lerp(2.4, 1, e)})`; }, accel);
+  snd.pin(); await wait(240);
+  const st = div('stamp', grp, `left:${nx + nw*.42}px;top:${ny + nh*.72}px;z-index:3;font-size:${clamp(nw*.075, 10, 16)}px;opacity:0`);
+  st.textContent = 'TO BE READ';
+  await run(180, e => { st.style.opacity = Math.min(1, e*2); st.style.transform = `rotate(-9deg) scale(${lerp(2.2, 1, e)})`; }, accel);
+  snd.stamp();
+
+  const [ok] = await Promise.all([sent, wait(800)]);
+  if (!ok){ await fadeOut(); return false; }
+  snd.whoosh(.5); await run(560, e => { grp.style.translate = `0 ${-up*e}px`; }, accel);
+  return true;
+}
+
+// a fresh sheet rolls up into the machine
+function feedNew(){
+  lines = [[]]; cur = 0; rebuild(); save();
+  paper.style.visibility = '';
+  A.view = G.vh*.7; apply(); tween('view', 0, 700);
+  snd.feed();
+}
+
+async function pullSheet(mode, from){
+  if (busy) return;
+  busy = true; stage.classList.add('busy');
+  let pdf = null;
+  try { pdf = (await makePDF()).pdf.output('datauristring').split(',')[1]; } catch (e) { console.warn('PDF not attached:', e); }
+  const payload = { v: 1, mode, name: from.name || '', email: from.email || '', text: allText(), sheet: { cols: COLS, lines }, pdf, sentAt: new Date().toISOString() };
+  let why = 0;
+  const sent = deliver(JSON.parse(JSON.stringify(payload))).then(() => true, err => { console.error('[typewriter] send failed:', err); why = err.status || 0; return false; });
+  let ok;
+  try { ok = matchMedia('(prefers-reduced-motion: reduce)').matches ? await sent : await (mode === 'pin' ? pinAnim(sent) : envelopeAnim(sent, from)); }
+  catch (e){ console.error(e); ok = await sent; }
+  post.textContent = ''; post.className = ''; post.style.opacity = '';
+  if (ok){ feedNew(); toast(mode === 'pin' ? 'Pinned. It goes up once I have read it.' : 'Sent. Thank you.'); }
+  else { paper.style.visibility = ''; toast(why === 429 ? 'Lots of notes just now. Try again in a little while. Your note is still in the machine.' : 'That did not go through. Your note is still in the machine.'); }
+  busy = false; stage.classList.remove('busy'); focusTrap();
+}
+
+
+/* ---------------- boot ---------------- */
+function measure(){ const g = document.createElement('canvas').getContext('2d'); g.font = '100px "Special Elite"'; const w = g.measureText('M').width/100; ADV = clamp(w || .6, .5, .68); }
+window.addEventListener('resize', layout);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', layout);
+for (let n = 10; n <= COLS; n += 10){ const s = document.createElement('span'); s.textContent = n; scale.appendChild(s); }
+setMuted(muted);
+try{ localStorage.removeItem(KEY+'.ret'); }catch(e){}
+buildDeck();
+// The keyboard is shown by default on a desktop and hidden by default on phones and tablets (touch screens, or a window
+// under 700px wide). Once a visitor uses the keyboard button, their choice wins on later visits.
+let keysPref = !(matchMedia('(pointer:coarse)').matches || innerWidth < 700);
+try{ localStorage.removeItem(KEY+'.keys'); const k = localStorage.getItem(KEY+'.kb'); if (k !== null) keysPref = k === '1'; }catch(e){}
+setKeys(keysPref, true);
+layout(); rebuild(); focusTrap();
+(document.fonts ? document.fonts.load('20px "Special Elite"') : Promise.resolve()).then(() => { measure(); layout(); }).catch(() => {});
+window.__tw = { type, backspace, carriageReturn, exportPDF, text: allText, setKeys, bars,
+  send: (mode = 'email', from = {}) => pullSheet(mode, from), failNextSend(){ failNext = true; }, get busy(){ return busy; },
+  // render one sound offline (no speakers needed) so its level and timing can be checked
+  async render(name, ...args){ const live = [ac, master]; ac = new OfflineAudioContext(1, 72000, 48000); chain(.9);
+    snd[name](...args); const buf = await ac.startRendering(); [ac, master] = live; return Array.from(buf.getChannelData(0)); } };
+})();
+</script>
+</body>
+</html>

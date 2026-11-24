@@ -80,7 +80,7 @@ img, video { display: block; max-width: 100%; }
   border-bottom: 1px solid transparent; transition: background 0.4s, border-color 0.4s;
 }
 .nav.stuck { background: color-mix(in srgb, var(--paper) 86%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-color: var(--rule); }
-.nav .mark { font-family: var(--grot); font-size: 1.08rem; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); text-decoration: none; margin-right: auto; }
+.nav .mark { font-family: var(--grot); font-size: 1.08rem; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); text-decoration: none; margin-right: auto; white-space: nowrap; }
 .nav .mark span, .hero h1 span, footer .giant span { color: var(--mark); }
 .nav ul { display: flex; gap: 1.5rem; list-style: none; }
 .nav ul a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
@@ -150,6 +150,8 @@ img, video { display: block; max-width: 100%; }
 .seg button:hover { border-color: var(--ink); }
 .seg button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 @media (min-width: 1380px) { .nav { padding-right: calc(clamp(1.2rem, 3.4vw, 3rem) + 32rem); } .nav ul { gap: 1.1rem; } }
+@media (min-width: 1380px) and (max-width: 1439px) { .nav ul { gap: 0.85rem; } }   /* ten links beside the appearance controls */
+@media (max-width: 1099px) { .nav { gap: 1.2rem; } .nav ul { gap: 0.8rem; } }
 @media (max-width: 1379px) {
   .look-btn { display: flex; }
   .look {
@@ -384,11 +386,61 @@ footer .top { display: flex; justify-content: space-between; flex-wrap: wrap; ga
 footer .top a { color: var(--ink); }
 footer .giant { font-family: var(--grot); font-weight: 700; font-size: clamp(3rem, 12.6vw, 13.6rem); line-height: 0.86; letter-spacing: -0.05em; color: var(--ink); white-space: nowrap; margin: 2.5rem 0 0 -0.04em; padding-bottom: 0.2em; }
 
+/* ---------- typewriter: a strip on the Latest panel, the "Write to me" section, and the machine opened over the page ---------- */
+@font-face { font-family: "Special Elite"; src: url("/typewriter/vendor/special-elite-latin.woff2") format("woff2"); font-display: swap; }
+:root { --tw: "Special Elite", "Courier New", monospace; --tw-amber: #f2a03d; --tw-bg: #1a1a1a; --tw-ink: #17130e; }
+.tw-cur { display: inline-block; width: 0.6em; height: 2px; background: var(--tw-amber); animation: tw-blink 1.1s steps(1) infinite; }
+@keyframes tw-blink { 50% { opacity: 0; } }
+/* a slip of typing paper tucked into the bottom edge of the Latest panel */
+.latest { --lp: 1.25rem; }
+.l-strip {
+  position: relative; overflow: hidden; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+  margin: 0 calc(-1 * var(--lp)) calc(-1 * var(--lp)); padding: 1.1rem var(--lp) 0.85rem; border-radius: 0 0 15px 15px;
+  font-family: var(--tw); color: var(--tw-ink); text-decoration: none; white-space: nowrap;
+  background: linear-gradient(#f1e8cf, #e6dbbd); box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.7);
+}
+.l-strip::before {
+  content: ""; position: absolute; inset: 0; opacity: 0.5; mix-blend-mode: multiply; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.l-strip .t { font-size: 1.02rem; }
+.l-strip .go { font-size: 0.86rem; border-bottom: 1px solid #8b7f66; transition: transform 0.3s var(--ease); }
+.l-strip:hover .go { transform: translateX(4px); }
+.l-strip:focus-visible { outline-offset: -4px; outline-color: var(--tw-ink); }
+/* the section */
+.invite { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; }
+.invite .say p { max-width: 44ch; }
+.invite .say p + p { margin-top: 0.9rem; }
+.invite .say .lede { font-family: var(--serif); font-weight: 300; font-size: clamp(1.3rem, 2vw, 1.7rem); line-height: 1.3; letter-spacing: -0.01em; color: var(--ink); }
+.invite .acts { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 1.6rem; margin-top: 1.8rem; }
+.invite .acts .more { margin-top: 0; }
+.sit { font-family: var(--tw); font-size: 1rem; text-decoration: none; background: var(--tw-amber); color: #1a1408; border-radius: 99px; padding: 0.7rem 1.3rem 0.6rem; transition: transform 0.25s var(--ease), box-shadow 0.25s; }
+.sit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -10px var(--tw-amber); }
+.desk { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: 14px; overflow: hidden; text-decoration: none; background: radial-gradient(120% 90% at 50% 0%, #232323, var(--tw-bg) 60%); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6); }
+.desk .sheet { position: absolute; left: 3%; right: -6%; top: 20%; bottom: -10%; border-radius: 46px 46px 0 0; background: linear-gradient(#2b2a28, #3b3a37 150px); transition: transform 0.6s var(--ease); }
+.desk:hover .sheet { transform: translateY(-10px); }
+.desk .glow { position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(60% 75% at 34% 24%, rgba(246, 226, 180, 0.95), rgba(226, 196, 140, 0.55) 38%, transparent 72%); }
+.desk .typed { position: absolute; left: 10%; top: 30%; right: 8%; font-family: var(--tw); font-size: clamp(1rem, 1.9vw, 1.55rem); line-height: 1.9; color: var(--tw-ink); white-space: pre-wrap; }
+.desk .hint { position: absolute; left: 0; right: 0; bottom: 1rem; text-align: center; font-family: var(--tw); font-size: 0.8rem; letter-spacing: 0.04em; color: #8d8a82; }
+/* the newest notes pinned to the board */
+.pins-lbl { display: block; margin-top: 2.8rem; }
+.pins[hidden], .pins-lbl[hidden] { display: none; }
+.pins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; margin-top: 1.1rem; }
+.pin { position: relative; display: block; text-decoration: none; background: linear-gradient(#f1e8cf, #e6dbbd); color: #2a251c; font-family: var(--tw); font-size: 0.86rem; line-height: 1.7; padding: 1.6rem 1.2rem 1.1rem; border-radius: 2px; box-shadow: 0 14px 26px -16px rgba(0, 0, 0, 0.7); transform: rotate(var(--rot, 0deg)); transition: transform 0.3s var(--ease), box-shadow 0.3s; }
+.pin:hover { transform: rotate(var(--rot, 0deg)) translateY(-3px); box-shadow: 0 20px 30px -16px rgba(0, 0, 0, 0.75); }
+.pin::before { content: ""; position: absolute; top: 0.5rem; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffd08a, var(--tw-amber) 55%, #a8641c); box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.4); }
+.pin p { white-space: pre-wrap; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+.pin b { display: block; margin-top: 0.6rem; font-weight: 400; opacity: 0.6; }
+/* the machine itself, opened over the page: typewriter/index.html in a frame */
+.tw-over { position: fixed; inset: 0; z-index: 400; background: var(--tw-bg); opacity: 0; visibility: hidden; transform: translateY(3vh); transition: opacity 0.45s, transform 0.6s var(--ease), visibility 0s 0.6s; }
+.tw-over.open { opacity: 1; visibility: visible; transform: none; transition: opacity 0.45s, transform 0.6s var(--ease); }
+.tw-over iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--tw-bg); }
+
 @media (max-width: 960px) {
   .nav ul { display: none; }
   .hero-main { grid-template-columns: 1fr; gap: 0; align-items: start; }
   .hero::before { background: linear-gradient(0deg, var(--paper), transparent 20%), linear-gradient(color-mix(in srgb, var(--paper) 58%, transparent), color-mix(in srgb, var(--paper) 58%, transparent)); }
-  .latest { margin: 0.4rem 0 2rem; padding: 0.9rem; gap: 0.8rem; }
+  .latest { margin: 0.4rem 0 2rem; padding: 0.9rem; gap: 0.8rem; --lp: 0.9rem; }
   .l-video { grid-template-columns: 44% 1fr; column-gap: 0.9rem; align-items: center; }
   .l-video .l-frame { grid-row: span 2; }
   .l-video:not(.playing) .l-play::after { width: 34px; height: 34px; left: 0.5rem; bottom: 0.5rem; background-size: 16px; }
@@ -417,6 +469,8 @@ footer .giant { font-family: var(--grot); font-weight: 700; font-size: clamp(3re
   .all-list { columns: 1; }
   .role { grid-template-columns: 1fr; gap: 0.2rem; }
   .screen { box-shadow: 8px 8px 0 0 var(--mark); }
+  .invite, .pins { grid-template-columns: 1fr; }
+  .pin { --rot: 0deg !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001s !important; animation-delay: 0s !important; transition-duration: 0.001s !important; transition-delay: 0s !important; }
@@ -439,6 +493,7 @@ footer .giant { font-family: var(--grot); font-weight: 700; font-size: clamp(3re
     <li><a href="#roles">Roles</a></li>
     <li><a href="#media">Media</a></li>
     <li><a href="#notes">Notes</a></li>
+    <li><a href="#write">Write</a></li>
   </ul>
   <button class="look-btn" id="look-btn" type="button" aria-expanded="false" aria-controls="look"><i aria-hidden="true"></i>Appearance</button>
 </nav>
@@ -594,6 +649,29 @@ footer .giant { font-family: var(--grot); font-weight: 700; font-size: clamp(3re
   </div>
 </section>
 
+<section id="write">
+  <div class="wrap">
+    <div class="head rv"><span class="mono">10</span><h2>Write to me</h2><p class="sub">There is a typewriter on this site. Nothing can be erased, so say what you mean.</p></div>
+    <div class="invite rv">
+      <div class="say">
+        <p class="lede">Sit down, type a note, and it lands in my inbox as a typed sheet.</p>
+        <p>If you like, pin it to the public board once I have read it. No account, and your email address is optional.</p>
+        <div class="acts">
+          <a class="sit" data-tw href="typewriter/index.html">Sit down at the typewriter →</a>
+          <a class="more" href="typewriter/board.html">See the board →</a>
+        </div>
+      </div>
+      <a class="desk" data-tw href="typewriter/index.html" aria-label="Open the typewriter">
+        <span class="sheet"><span class="glow"></span></span>
+        <span class="typed" id="tw-typed" aria-hidden="true"></span>
+        <span class="hint" aria-hidden="true">just type · nothing can be erased</span>
+      </a>
+    </div>
+    <span class="mono pins-lbl" id="pins-lbl" hidden>Pinned to the board</span>
+    <div class="pins" id="pins" hidden></div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div class="top">
@@ -603,6 +681,8 @@ footer .giant { font-family: var(--grot); font-weight: 700; font-size: clamp(3re
     <p class="giant" aria-hidden="true">Sam Reynolds<span>.</span></p>
   </div>
 </footer>
+
+<div class="tw-over" id="tw-over" role="dialog" aria-modal="true" aria-label="Typewriter"></div>
 
 <script type="module">
 const $ = id => document.getElementById(id);
@@ -846,6 +926,9 @@ const day = d => new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "n
 const today = new Date().toISOString().slice(0, 10);
 /* data files use absolute /images/... paths; serve them relative so the site works under any base path */
 const rel = p => typeof p === "string" ? p.replace(/^\//, "") : p;
+/* the typewriter page. On a local copy of the site it runs in demo mode, so testing never sends a real note */
+const twLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+const twUrl = "typewriter/index.html" + (twLocal ? "?api=demo" : "");
 
 $("stat-pubs").dataset.count = pubs.publications.length;
 $("stat-talks").dataset.count = talks.talks.length;
@@ -980,7 +1063,8 @@ try {
         <div><span class="mono">Note · ${day(note.date)}</span><h3>${note.title}</h3>${note.excerpt ? `<p>${note.excerpt}</p>` : ""}</div>
       </a>` : ""}
       <div class="sep"></div>
-      <div class="foot"><a class="more" href="notes.html">All notes →</a><a class="more" href="#media">All media →</a></div>`;
+      <div class="foot"><a class="more" href="notes.html">All notes →</a><a class="more" href="#media">All media →</a></div>
+      <a class="l-strip" data-tw href="${twUrl}"><span class="t"><span data-type="Dear Sam,"></span><i class="tw-cur"></i></span><span class="go">type me a note →</span></a>`;
     /* The video autoplays muted (browsers only allow autoplay without sound): a self-hosted clip if the entry has one,
        otherwise the YouTube player from its no-cookie domain. Visitors who ask for reduced motion or data saving get
        the thumbnail and a play button instead. */
@@ -1039,6 +1123,79 @@ const sio = new IntersectionObserver(es => {
   for (const e of es) if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle("on", a.hash === `#${e.target.id}`));
 }, { rootMargin: "-45% 0px -50% 0px" });
 document.querySelectorAll("section[id]").forEach(s => sio.observe(s));
+
+/* ============ typewriter ============ */
+if (twLocal) document.querySelectorAll("a[data-tw]").forEach(a => a.href = twUrl);
+
+/* typed lines: the strip on the Latest panel and the sheet in the "Write to me" section type themselves once they are in view */
+const typeOut = (el, text) => {
+  const set = n => { el.textContent = text.slice(0, n); if (el.id === "tw-typed") el.insertAdjacentHTML("beforeend", `<i class="tw-cur"></i>`); };
+  if (reduced) return set(text.length);
+  set(0);
+  new IntersectionObserver(([e], ob) => {
+    if (!e.isIntersecting) return;
+    ob.disconnect();
+    let i = 0;
+    (function step() { set(i); if (i++ < text.length) setTimeout(step, text[i - 2] === "\n" ? 520 : 70 + Math.random() * 110); })();
+  }, { threshold: 0.6 }).observe(el.closest("a"));
+};
+document.querySelectorAll("[data-type]").forEach(el => setTimeout(() => typeOut(el, el.dataset.type), 1400));
+typeOut($("tw-typed"), "Dear Sam,\nI was reading your notes and ");
+
+/* On a desktop the machine opens over the page, in a frame, so the visitor never leaves. The frame is only loaded when asked for.
+   On phones and tablets the links simply go to the typewriter page, where its own on-screen keyboard works best. */
+const twOver = $("tw-over");
+let twFrame, twFrom, twGone;
+const twOpen = from => {
+  twFrom = from; clearTimeout(twGone);
+  if (!twFrame) {
+    twFrame = Object.assign(document.createElement("iframe"), { title: "Typewriter", src: twUrl });
+    twFrame.addEventListener("load", () => { if (twOver.classList.contains("open")) twFrame.contentWindow.focus(); });
+    twOver.append(twFrame);
+  }
+  twOver.classList.add("open");
+  root.style.overflow = "hidden";
+  history.pushState({ typewriter: true }, "");   /* so the browser's Back button puts the typewriter away */
+  setTimeout(() => twFrame.contentWindow?.focus(), 350);
+};
+const twClose = () => {
+  twOver.classList.remove("open");
+  root.style.overflow = "";
+  /* once it has slid away the frame is removed: the typewriter holds on to the keyboard for as long as it exists.
+     Nothing is lost, the sheet is saved in the visitor's browser and is back in the machine next time. */
+  twGone = setTimeout(() => { twFrame?.remove(); twFrame = null; window.focus(); twFrom?.focus({ preventScroll: true }); }, 650);
+};
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[data-tw]");
+  if (!a || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  if (!matchMedia("(hover: hover) and (pointer: fine) and (min-width: 761px)").matches) return;
+  e.preventDefault();
+  twOpen(a);
+});
+addEventListener("popstate", () => { if (twOver.classList.contains("open")) twClose(); });
+/* the typewriter's own "back to the site" link, when it is in the frame, asks to be closed */
+addEventListener("message", e => {
+  if (e.origin !== location.origin || e.data?.typewriter !== "close" || !twOver.classList.contains("open")) return;
+  if (history.state?.typewriter) history.back(); else twClose();
+});
+
+/* the newest three notes pinned to the public board. The list stays hidden while the board is empty or cannot be reached
+   (the server only answers the live site, so it is always hidden on a local copy). */
+try {
+  const { notes: pinned } = await (await fetch("https://typewriter-notes.jmjuggernaut.workers.dev/board")).json();
+  const strikes = c => !c ? [] : Array.isArray(c[0]) ? c : [c];
+  const lineText = l => l.map(c => strikes(c).at(-1)?.[0] ?? " ").join("").replace(/\s+$/, "");
+  /* as on the board: a line typed out to the margin runs on into the next, a line ended early keeps its break */
+  const noteText = sheet => { let out = "", prev = -1; for (const l of sheet.lines) { const t = lineText(l); if (prev >= 0) out += t && prev >= sheet.cols - 12 ? " " : "\n"; out += t; prev = t.length; } return out.trim(); };
+  const tilt = id => { let h = 0; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return (h % 1000) / 1000 * 3 - 1.5; };
+  for (const n of pinned.slice(0, 3)) {
+    const a = Object.assign(document.createElement("a"), { className: "pin", href: "typewriter/board.html" });
+    a.style.setProperty("--rot", `${tilt(String(n.id)).toFixed(2)}deg`);
+    a.append(Object.assign(document.createElement("p"), { textContent: noteText(n.sheet) }), Object.assign(document.createElement("b"), { textContent: `from ${n.name || "a friend"}` }));
+    $("pins").append(a);
+  }
+  if ($("pins").children.length) $("pins").hidden = $("pins-lbl").hidden = false;
+} catch {}
 </script>
 </body>
 </html>

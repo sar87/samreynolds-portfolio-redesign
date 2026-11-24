@@ -1,0 +1,22 @@
+name = "typewriter-notes"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+[vars]
+# Pages allowed to send notes and read the board. Requests from anywhere else are refused.
+ALLOWED_ORIGINS = "https://www.samreynolds.org,https://samreynolds.org,http://localhost:8765,http://127.0.0.1:8765"
+# Resend's shared test sender only delivers to the address on your Resend account.
+# After verifying samreynolds.org in Resend this can be e.g. "Typewriter <notes@samreynolds.org>".
+FROM_EMAIL = "Typewriter <onboarding@resend.dev>"
+# Where the public board lives, linked from the approval page. Optional.
+BOARD_URL = "https://www.samreynolds.org/typewriter/board.html"
+
+# Secrets, set with `wrangler secret put NAME` and never stored in this repo:
+#   RESEND_API_KEY  the Resend API key
+#   TO_EMAIL        where notes are delivered
+
+[[d1_databases]]
+binding = "DB"
+database_name = "typewriter-notes"
+database_id = "efe305ee-0b25-4e7f-a1b2-363bda250980"
