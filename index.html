@@ -689,6 +689,21 @@ const $ = id => document.getElementById(id);
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const root = document.documentElement;
 
+/* ============ deep links (#write etc.) ============
+   The sections are filled in from data after load, so the browser's jump to the hash lands short once they grow.
+   Keep the target aligned while the page settles; let go as soon as the visitor scrolls, or after a few seconds. */
+{
+  const target = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (target) {
+    const align = () => target.scrollIntoView({ behavior: "instant", block: "start" });
+    const ro = new ResizeObserver(align);
+    const release = () => { ro.disconnect(); ["wheel", "touchstart", "keydown", "pointerdown"].forEach(e => removeEventListener(e, release)); };
+    ["wheel", "touchstart", "keydown", "pointerdown"].forEach(e => addEventListener(e, release, { passive: true }));
+    ro.observe(document.body);
+    setTimeout(release, 4000);
+  }
+}
+
 /* ============ hero backgrounds: three full-bleed animations sharing one palette ============ */
 const hero = document.querySelector(".hero"), glc = $("bg-gl"), c2d = $("bg-2d");
 const cssCol = v => { const h = getComputedStyle(root).getPropertyValue(v).trim().slice(1); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16) / 255); };
